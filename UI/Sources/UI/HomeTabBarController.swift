@@ -48,15 +48,11 @@ public class HomeTabBarController: UITabBarController {
             }
         }
 
-        observeDarkModeChanges()
+        updateAppearance()
         observeAppSettingChanges()
     }
 
-    // MARK: - Dark Mode
-
-    private func observeDarkModeChanges() {
-        updateAppearance()
-    }
+    // MARK: - Appearance
 
     private func observeAppSettingChanges() {
         NotificationCenter.default.addObserver(

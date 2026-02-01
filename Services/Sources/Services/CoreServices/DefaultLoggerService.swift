@@ -11,10 +11,7 @@ import FunModel
 @MainActor
 public final class DefaultLoggerService: LoggerService {
 
-    private static let dateFormatter: ISO8601DateFormatter = {
-        let formatter = ISO8601DateFormatter()
-        return formatter
-    }()
+    private static let dateFormatter = ISO8601DateFormatter()
 
     public init() {}
 

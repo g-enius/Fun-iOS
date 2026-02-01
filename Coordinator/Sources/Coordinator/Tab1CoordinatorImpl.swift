@@ -57,10 +57,7 @@ public final class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
 
     public func showProfile() {
         let profileNavController = UINavigationController()
-        let coordinator = ProfileCoordinatorImpl(
-            navigationController: profileNavController,
-            tabBarViewModel: tabBarViewModel
-        )
+        let coordinator = ProfileCoordinatorImpl(navigationController: profileNavController)
         profileCoordinator = coordinator
 
         let viewModel = ProfileViewModel(coordinator: coordinator)
@@ -71,10 +68,7 @@ public final class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
 
     public func showSettings() {
         let settingsNavController = UINavigationController()
-        let coordinator = SettingsCoordinatorImpl(
-            navigationController: settingsNavController,
-            tabBarViewModel: tabBarViewModel
-        )
+        let coordinator = SettingsCoordinatorImpl(navigationController: settingsNavController)
         settingsCoordinator = coordinator
 
         let viewModel = SettingsViewModel(coordinator: coordinator)

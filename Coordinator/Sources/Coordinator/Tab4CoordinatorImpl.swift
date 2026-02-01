@@ -12,14 +12,9 @@ import FunUI
 
 public final class Tab4CoordinatorImpl: BaseCoordinator, Tab4Coordinator {
 
-    // MARK: - Tab Bar
-
-    private weak var tabBarViewModel: HomeTabBarViewModel?
-
     // MARK: - Initialization
 
-    public init(navigationController: UINavigationController, tabBarViewModel: HomeTabBarViewModel?) {
-        self.tabBarViewModel = tabBarViewModel
+    public init(navigationController: UINavigationController) {
         super.init(navigationController: navigationController)
     }
 

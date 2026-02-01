@@ -13,7 +13,7 @@ public final class ProfileCoordinatorImpl: BaseCoordinator, ProfileCoordinator {
 
     // MARK: - Initialization
 
-    public init(navigationController: UINavigationController, tabBarViewModel _: HomeTabBarViewModel? = nil) {
+    public init(navigationController: UINavigationController) {
         super.init(navigationController: navigationController)
     }
 
