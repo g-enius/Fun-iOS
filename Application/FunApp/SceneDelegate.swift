@@ -59,8 +59,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             for: .featureToggles
         )
 
-        print("✅ Services registered successfully")
-
         // MARK: - Setup Window
 
         let window = UIWindow(windowScene: windowScene)

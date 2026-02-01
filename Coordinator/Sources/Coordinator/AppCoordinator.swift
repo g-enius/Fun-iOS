@@ -19,7 +19,7 @@ public final class AppCoordinator: BaseCoordinator {
     private var tab1Coordinator: Tab1CoordinatorImpl?
     private var tab2Coordinator: Tab2CoordinatorImpl?
     private var tab3Coordinator: Tab3CoordinatorImpl?
-    private var tab4Coordinator: Tab5CoordinatorImpl? // Tab 4 is Settings (was Tab 5)
+    private var settingsCoordinator: Tab5CoordinatorImpl?
 
     // Store tab bar view model for tab switching
     private var tabBarViewModel: HomeTabBarViewModel?
@@ -73,7 +73,7 @@ public final class AppCoordinator: BaseCoordinator {
             navigationController: tab3NavController,
             tabBarViewModel: tabBarViewModel
         )
-        let tab4Coordinator = Tab5CoordinatorImpl(
+        let settingsCoordinator = Tab5CoordinatorImpl(
             navigationController: tab4NavController
         )
 
@@ -81,13 +81,13 @@ public final class AppCoordinator: BaseCoordinator {
         self.tab1Coordinator = tab1Coordinator
         self.tab2Coordinator = tab2Coordinator
         self.tab3Coordinator = tab3Coordinator
-        self.tab4Coordinator = tab4Coordinator
+        self.settingsCoordinator = settingsCoordinator
 
         // Start each coordinator's flow
         tab1Coordinator.start()
         tab2Coordinator.start()
         tab3Coordinator.start()
-        tab4Coordinator.start()
+        settingsCoordinator.start()
 
         // Create tab bar with view model and navigation controllers
         let tabBarController = HomeTabBarController(

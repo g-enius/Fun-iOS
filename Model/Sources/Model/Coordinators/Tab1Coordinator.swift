@@ -2,8 +2,7 @@
 //  Tab1Coordinator.swift
 //  Model
 //
-//  Coordinator protocol for Tab1 navigation
-//  Coordinator protocols in Model package
+//  Coordinator protocol for Tab1 (Home) navigation
 //
 
 import Foundation

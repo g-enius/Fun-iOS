@@ -62,7 +62,7 @@ public class HomeTabBarController: UITabBarController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(updateAppearance),
-            name: NSNotification.Name("AppSettingsChanged"),
+            name: .appSettingsDidChange,
             object: nil
         )
     }

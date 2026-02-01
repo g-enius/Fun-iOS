@@ -19,7 +19,6 @@ public enum ServiceKey {
     case favorites
     case toast
     case featureToggles
-    // Add more services as needed
 }
 
 // MARK: - Service Locator
@@ -79,7 +78,6 @@ public class ServiceLocator {
 
 // MARK: - @Service Property Wrapper
 
-/// Property wrapper for dependency injection
 /// Property wrapper for convenient service access
 ///
 /// Usage:
@@ -101,21 +99,5 @@ public struct Service<T> {
 
     public var wrappedValue: T {
         ServiceLocator.shared.resolve(for: key)
-    }
-}
-
-// MARK: - Service Provider Protocol
-
-/// Protocol for types that can provide a service locator
-/// ViewModels can conform to this to get access to services
-@MainActor
-public protocol ServiceProvider {
-    var serviceLocator: ServiceLocator { get }
-}
-
-extension ServiceProvider {
-    /// Default implementation uses shared instance
-    public var serviceLocator: ServiceLocator {
-        ServiceLocator.shared
     }
 }

@@ -62,7 +62,7 @@ public class Tab1ViewModel: ObservableObject {
 
     private func observeFeatureToggleChanges() {
         NotificationCenter.default.addObserver(
-            forName: Notification.Name("featureTogglesDidChange"),
+            forName: .featureTogglesDidChange,
             object: nil,
             queue: .main
         ) { [weak self] _ in

@@ -8,11 +8,6 @@
 import Foundation
 import FunModel
 
-/// Notification posted when feature toggles change
-public extension Notification.Name {
-    static let featureTogglesDidChange = Notification.Name("featureTogglesDidChange")
-}
-
 @MainActor
 public final class DefaultFeatureToggleService: FeatureToggleServiceProtocol {
 

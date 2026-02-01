@@ -13,3 +13,10 @@ public protocol FeatureToggleServiceProtocol: AnyObject {
     var featureAnalytics: Bool { get set }
     var featureDebugMode: Bool { get set }
 }
+
+// MARK: - Notification Names
+
+public extension Notification.Name {
+    static let featureTogglesDidChange = Notification.Name("featureTogglesDidChange")
+    static let appSettingsDidChange = Notification.Name("AppSettingsChanged")
+}

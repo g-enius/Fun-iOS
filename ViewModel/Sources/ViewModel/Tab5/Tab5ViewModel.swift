@@ -31,29 +31,24 @@ public class Tab5ViewModel: ObservableObject {
     @Published public var isDarkModeEnabled: Bool = false {
         didSet {
             UserDefaults.standard.set(isDarkModeEnabled, forKey: "app.darkModeEnabled")
-            NotificationCenter.default.post(name: NSNotification.Name("AppSettingsChanged"), object: nil)
+            NotificationCenter.default.post(name: .appSettingsDidChange, object: nil)
         }
     }
 
     @Published public var featuredCarouselEnabled: Bool = false {
-        didSet {
-            let service = featureToggleService
-            service.featuredCarousel = featuredCarouselEnabled
-        }
+        didSet { featureToggleService.featuredCarousel = featuredCarouselEnabled }
     }
 
     @Published public var analyticsEnabled: Bool = false {
         didSet {
-            let service = featureToggleService
-            service.featureAnalytics = analyticsEnabled
+            featureToggleService.featureAnalytics = analyticsEnabled
             logger.log("Analytics \(analyticsEnabled ? "enabled" : "disabled")")
         }
     }
 
     @Published public var debugModeEnabled: Bool = false {
         didSet {
-            let service = featureToggleService
-            service.featureDebugMode = debugModeEnabled
+            featureToggleService.featureDebugMode = debugModeEnabled
             logger.log("Debug mode \(debugModeEnabled ? "enabled" : "disabled")")
         }
     }
