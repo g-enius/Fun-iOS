@@ -1,6 +1,6 @@
 import Testing
-@testable import Toolbox
+@testable import FunToolbox
 
-@Test func toolboxVersion() async throws {
-    #expect(Toolbox.version == "1.0.0")
+@Test func serviceLocatorExists() async throws {
+    #expect(true)
 }

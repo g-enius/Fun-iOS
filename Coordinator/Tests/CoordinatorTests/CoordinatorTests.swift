@@ -1,6 +1,6 @@
 import Testing
-@testable import Coordinator
+@testable import FunCoordinator
 
-@Test func coordinatorExists() async throws {
+@Test func coordinatorModuleLoads() async throws {
     #expect(true)
 }

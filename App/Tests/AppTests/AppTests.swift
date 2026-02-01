@@ -1,6 +1,6 @@
 import Testing
-@testable import App
+@testable import AppCore
 
-@Test func appExists() async throws {
+@Test func appModuleLoads() async throws {
     #expect(true)
 }
