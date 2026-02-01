@@ -9,8 +9,6 @@
 import UIKit
 import FunViewModel
 import FunModel
-import FunToolbox
-import FunServices
 import Combine
 
 public class HomeTabBarController: UITabBarController {
@@ -18,10 +16,6 @@ public class HomeTabBarController: UITabBarController {
     // MARK: - ViewModel
 
     private let viewModel: HomeTabBarViewModel
-
-    // MARK: - Services
-
-    @Service(.featureToggles) private var featureToggleService: FeatureToggleServiceProtocol
 
     // MARK: - Private Properties
 

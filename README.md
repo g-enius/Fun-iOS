@@ -9,7 +9,7 @@ The workspace contains the following sub-projects:
 | Project | Provides |
 |---------|----------|
 | Application | FunApp.app (iOS application entry point) |
-| App | FunApp.framework |
+| App | AppCore.framework |
 | UI | FunUI.framework |
 | Coordinator | FunCoordinator.framework |
 | Services | FunServices.framework |
