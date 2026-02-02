@@ -246,6 +246,10 @@ featureToggleService.featuredCarousel = false  // Instantly hides carousel
 | Minimum iOS | iOS 15.0 |
 | Testing | Swift Testing, XCTest |
 | Snapshot Testing | swift-snapshot-testing |
+| Logging | OSLog |
+| Localization | SwiftGen |
+| Linting | SwiftLint |
+| CI/CD | GitHub Actions |
 
 ## Testing Strategy
 
@@ -328,6 +332,54 @@ xcodebuild test -workspace Fun.xcworkspace -scheme FunApp -destination 'platform
 - **Consistent naming** conventions throughout
 - **Comprehensive documentation** for public APIs
 - **SOLID principles** adherence
+
+### SwiftLint
+
+Strict linting with custom rules:
+```bash
+swiftlint lint
+```
+
+Key rules enabled:
+- `force_unwrapping` - No force unwraps allowed
+- `implicitly_unwrapped_optional` - Explicit optionals only
+- Custom `no_print` rule - Use Logger instead of print()
+
+### GitHub Actions CI
+
+Automated pipeline on every push/PR:
+- SwiftLint check
+- Build all SPM packages
+- Run unit tests
+- Build iOS app for simulator
+
+### OSLog Structured Logging
+
+```swift
+// Inject logger service
+@Service(.logger) var logger: LoggerService
+
+// Log with levels and categories
+logger.log("User logged in", level: .info, category: "auth")
+logger.log("Network error", level: .error, category: "network")
+```
+
+Log levels: `.debug`, `.info`, `.warning`, `.error`, `.fault`
+
+### Localization with SwiftGen
+
+Type-safe localized strings:
+```swift
+// Instead of: NSLocalizedString("settings.title", comment: "")
+// Use generated:
+L10n.Settings.title
+L10n.Tab1.welcome("John")  // With parameters
+```
+
+Regenerate after editing `.strings` files:
+```bash
+cd UI && ./Scripts/generate-strings.sh
+```
 
 ## License
 
