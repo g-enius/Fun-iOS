@@ -2,20 +2,35 @@
 //  LoggerService.swift
 //  Model
 //
-//  Protocol for logging service
+//  Protocol for logging service using OSLog
 //
 
 import Foundation
+import OSLog
 
-@MainActor
-public protocol LoggerService {
-    func log(_ message: String)
-    func log(_ message: String, level: LogLevel)
-}
-
-public enum LogLevel: String {
+/// Log levels matching OSLog types
+public enum LogLevel {
     case debug
     case info
     case warning
     case error
+    case fault
+
+    var osLogType: OSLogType {
+        switch self {
+        case .debug: return .debug
+        case .info: return .info
+        case .warning: return .default
+        case .error: return .error
+        case .fault: return .fault
+        }
+    }
+}
+
+/// Protocol for structured logging
+@MainActor
+public protocol LoggerService {
+    func log(_ message: String)
+    func log(_ message: String, level: LogLevel)
+    func log(_ message: String, level: LogLevel, category: String)
 }

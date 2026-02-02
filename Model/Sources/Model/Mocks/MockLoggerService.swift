@@ -9,15 +9,19 @@ import Foundation
 
 @MainActor
 public final class MockLoggerService: LoggerService {
-    public var loggedMessages: [String] = []
+    public var loggedMessages: [(message: String, level: LogLevel, category: String)] = []
 
     public init() {}
 
     public func log(_ message: String) {
-        loggedMessages.append(message)
+        loggedMessages.append((message, .info, "general"))
     }
 
     public func log(_ message: String, level: LogLevel) {
-        loggedMessages.append("[\(level.rawValue)] \(message)")
+        loggedMessages.append((message, level, "general"))
+    }
+
+    public func log(_ message: String, level: LogLevel, category: String) {
+        loggedMessages.append((message, level, category))
     }
 }
