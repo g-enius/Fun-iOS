@@ -23,7 +23,7 @@ jobs:
       - name: Run SwiftLint
         run: swiftlint lint --reporter github-actions-logging
 
-  build:
+  build-and-test:
     name: Build & Test
     runs-on: macos-latest
     steps:
@@ -35,63 +35,18 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
-      - name: Build Toolbox
-        run: |
-          cd Toolbox
-          swift build
-
-      - name: Build Model
-        run: |
-          cd Model
-          swift build
-
-      - name: Build Services
-        run: |
-          cd Services
-          swift build
-
-      - name: Build ViewModel
-        run: |
-          cd ViewModel
-          swift build
-
-      - name: Build Coordinator
-        run: |
-          cd Coordinator
-          swift build
-
-      - name: Build UI
-        run: |
-          cd UI
-          swift build
-
-      - name: Test Model
-        run: |
-          cd Model
-          swift test
-
-      - name: Test Services
-        run: |
-          cd Services
-          swift test
-
-      - name: Test ViewModel
-        run: |
-          cd ViewModel
-          swift test
-
-  build-app:
-    name: Build iOS App
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_16.2.app
-
-      - name: Build for iOS Simulator
+      - name: Build iOS App
         run: |
           xcodebuild build \
+            -project Application/FunApp.xcodeproj \
+            -scheme FunApp \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Run Tests
+        run: |
+          xcodebuild test \
             -project Application/FunApp.xcodeproj \
             -scheme FunApp \
             -destination 'platform=iOS Simulator,name=iPhone 16' \

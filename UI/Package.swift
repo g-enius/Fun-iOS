@@ -5,7 +5,6 @@ let package = Package(
     name: "UI",
     platforms: [
         .iOS(.v15),
-        .macOS(.v11),
         .macCatalyst(.v15),
     ],
     products: [

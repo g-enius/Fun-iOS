@@ -5,7 +5,6 @@ let package = Package(
     name: "Model",
     platforms: [
         .iOS(.v15),
-        .macOS(.v11),
         .macCatalyst(.v15),
     ],
     products: [
