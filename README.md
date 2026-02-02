@@ -218,6 +218,8 @@ class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
 
 This project demonstrates **end-to-end AI-assisted iOS development** using Claude Code with MCP (Model Context Protocol) integration.
 
+![Claude Code Demo](assets/claude-code-demo.gif)
+
 ### Workflow
 
 ```
