@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 import FunModel
-import FunToolbox
+import FunCore
 
 @MainActor
 public class Tab1ViewModel: ObservableObject {

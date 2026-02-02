@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import FunUI
 import FunViewModel
-import FunToolbox
+import FunCore
 import FunModel
 import FunServices
 import FunCoordinator

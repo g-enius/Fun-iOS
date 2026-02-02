@@ -14,7 +14,7 @@ let package = Package(
     dependencies: [
         .package(name: "ViewModel", path: "../ViewModel"),
         .package(name: "Model", path: "../Model"),
-        .package(name: "Toolbox", path: "../Toolbox"),
+        .package(name: "Core", path: "../Core"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.15.0"),
     ],
     targets: [
@@ -23,7 +23,7 @@ let package = Package(
             dependencies: [
                 .product(name: "FunViewModel", package: "ViewModel"),
                 .product(name: "FunModel", package: "Model"),
-                .product(name: "FunToolbox", package: "Toolbox"),
+                .product(name: "FunCore", package: "Core"),
             ],
             path: "Sources/UI",
             resources: [

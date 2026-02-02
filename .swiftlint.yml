@@ -8,7 +8,7 @@ included:
   - Coordinator
   - Model
   - Services
-  - Toolbox
+  - Core
   - UI
   - ViewModel
 

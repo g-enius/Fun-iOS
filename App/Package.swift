@@ -15,7 +15,7 @@ let package = Package(
         .package(name: "UI", path: "../UI"),
         .package(name: "Model", path: "../Model"),
         .package(name: "Services", path: "../Services"),
-        .package(name: "Toolbox", path: "../Toolbox"),
+        .package(name: "Core", path: "../Core"),
         .package(name: "Coordinator", path: "../Coordinator"),
     ],
     targets: [
@@ -26,7 +26,7 @@ let package = Package(
                 .product(name: "FunUI", package: "UI"),
                 .product(name: "FunModel", package: "Model"),
                 .product(name: "FunServices", package: "Services"),
-                .product(name: "FunToolbox", package: "Toolbox"),
+                .product(name: "FunCore", package: "Core"),
                 .product(name: "FunCoordinator", package: "Coordinator"),
             ],
             path: "Sources/App"

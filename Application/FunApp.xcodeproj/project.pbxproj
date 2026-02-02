@@ -118,6 +118,7 @@
 			buildConfigurationList = 5F3C373C2F2CD551005C8ADE /* Build configuration list for PBXNativeTarget "FunApp" */;
 			buildPhases = (
 				5F3C37512F2CD600005C8ADE /* SwiftLint */,
+				5F3C37522F2CD600005C8ADE /* SwiftGen */,
 				5F3C370F2F2CD54F005C8ADE /* Sources */,
 				5F3C37102F2CD54F005C8ADE /* Frameworks */,
 				5F3C37112F2CD54F005C8ADE /* Resources */,
@@ -273,6 +274,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint lint --config \"${SRCROOT}/../.swiftlint.yml\"\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		5F3C37522F2CD600005C8ADE /* SwiftGen */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftGen;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftgen >/dev/null; then\n  cd \"${SRCROOT}/../UI\"\n  swiftgen config run --config swiftgen.yml\nelse\n  echo \"warning: SwiftGen not installed, download from https://github.com/SwiftGen/SwiftGen\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

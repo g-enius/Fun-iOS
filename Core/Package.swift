@@ -2,22 +2,22 @@
 import PackageDescription
 
 let package = Package(
-    name: "Toolbox",
+    name: "Core",
     platforms: [
         .iOS(.v15),
         .macCatalyst(.v15),
     ],
     products: [
-        .library(name: "FunToolbox", targets: ["FunToolbox"]),
+        .library(name: "FunCore", targets: ["FunCore"]),
     ],
     targets: [
         .target(
-            name: "FunToolbox",
-            path: "Sources/Toolbox"
+            name: "FunCore",
+            path: "Sources/Core"
         ),
         .testTarget(
-            name: "ToolboxTests",
-            dependencies: ["FunToolbox"]
+            name: "CoreTests",
+            dependencies: ["FunCore"]
         ),
     ]
 )

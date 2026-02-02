@@ -12,14 +12,14 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "Model", path: "../Model"),
-        .package(name: "Toolbox", path: "../Toolbox"),
+        .package(name: "Core", path: "../Core"),
     ],
     targets: [
         .target(
             name: "FunServices",
             dependencies: [
                 .product(name: "FunModel", package: "Model"),
-                .product(name: "FunToolbox", package: "Toolbox"),
+                .product(name: "FunCore", package: "Core"),
             ],
             path: "Sources/Services"
         ),

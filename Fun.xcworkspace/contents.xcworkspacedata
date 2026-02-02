@@ -23,7 +23,7 @@
       location = "group:Model">
    </FileRef>
    <FileRef
-      location = "group:Toolbox">
+      location = "group:Core">
    </FileRef>
    <FileRef
       location = "group:Documentation">

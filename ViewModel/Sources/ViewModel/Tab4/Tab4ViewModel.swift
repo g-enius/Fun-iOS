@@ -7,7 +7,7 @@
 
 import Foundation
 import FunModel
-import FunToolbox
+import FunCore
 
 @MainActor
 public class Tab4ViewModel: ObservableObject {

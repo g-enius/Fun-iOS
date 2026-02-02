@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-import FunToolbox
+import FunCore
 import FunModel
 
 @MainActor

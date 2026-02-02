@@ -11,13 +11,13 @@ let package = Package(
         .library(name: "FunModel", targets: ["FunModel"]),
     ],
     dependencies: [
-        .package(name: "Toolbox", path: "../Toolbox"),
+        .package(name: "Core", path: "../Core"),
     ],
     targets: [
         .target(
             name: "FunModel",
             dependencies: [
-                .product(name: "FunToolbox", package: "Toolbox"),
+                .product(name: "FunCore", package: "Core"),
             ],
             path: "Sources/Model"
         ),

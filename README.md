@@ -15,7 +15,7 @@ The workspace contains the following sub-projects:
 | Services | FunServices.framework |
 | ViewModel | FunViewModel.framework |
 | Model | FunModel.framework |
-| Toolbox | FunToolbox.framework |
+| Core | FunCore.framework |
 
 Each project (except for Application) defines a single `.framework` (and accompanying unit tests). These modules/frameworks are designed to fit together in a particular structure.
 
@@ -26,32 +26,47 @@ Each project (except for Application) defines a single `.framework` (and accompa
                     │     FunApplication      │
                     └─────────────────────────┘
                                 │
-    ┌───────────────────┬───────┴───────┬───────────────────┐
-    ▼                   ▼               ▼                   ▼
-┌───────┐       ┌─────────────┐   ┌───────────┐     ┌─────────────┐
-│  UI   │       │ Coordinator │   │ ViewModel │     │  Services   │
-└───────┘       └─────────────┘   └───────────┘     └─────────────┘
-    │                   │               │                   │
-    └───────────────────┴───────┬───────┴───────────────────┘
-                                ▼                        ▲
-                    ┌─────────────────────────┐          │
-                    │         Model           │      Imports
-                    └─────────────────────────┘          │
-                                │                    Modules higher
-                                ▼                    in the stack
-                    ┌─────────────────────────┐      should only
-                    │        Toolbox          │      import from
-                    └─────────────────────────┘      modules below.
-                                │                        │
-                                ▼                        ▼
-                    ┌─────────────────────────┐
-                    │     Apple Platform      │
-                    │   (Foundation, UIKit,   │
-                    │    SwiftUI, Combine)    │
-                    └─────────────────────────┘
+                    ┌───────────┴───────────┐
+                    ▼                       ▼
+            ┌─────────────┐         ┌─────────────┐
+            │ Coordinator │         │  Services   │
+            └─────────────┘         └─────────────┘
+                    │                       │
+                    ▼                       │
+            ┌─────────────┐                 │
+            │     UI      │                 │
+            └─────────────┘                 │
+                    │                       │
+                    ▼                       │
+            ┌─────────────┐                 │
+            │  ViewModel  │◄────────────────┘
+            └─────────────┘
+                    │
+                    ▼
+            ┌─────────────┐
+            │    Model    │
+            └─────────────┘
+                    │
+                    ▼
+            ┌─────────────┐
+            │    Core     │
+            └─────────────┘
+                    │
+                    ▼
+            ┌─────────────┐
+            │   Apple     │
+            │  Platform   │
+            └─────────────┘
 ```
 
-Modules higher in this stack should only `import` (and link with) modules lower in the stack. For example, code in the `FunServices` can, and should, import `FunModel` & `FunToolbox` in addition to any appropriate frameworks provided by the platform.
+**Dependency Summary:**
+- Coordinator → UI, ViewModel, Model, Core
+- UI → ViewModel, Model, Core
+- Services → Model, Core
+- ViewModel → Model, Core
+- Model → Core
+
+Modules higher in this stack should only `import` (and link with) modules lower in the stack. For example, code in the `FunServices` can, and should, import `FunModel` & `FunCore` in addition to any appropriate frameworks provided by the platform.
 
 ## Directory Structure
 
@@ -71,8 +86,8 @@ Fun/
 ├── Services/             # Concrete service implementations
 │   └── Sources/Services/
 │       └── CoreServices/ # Default implementations
-├── Toolbox/              # Utilities & DI container
-│   └── Sources/Toolbox/
+├── Core/              # Utilities & DI container
+│   └── Sources/Core/
 ├── UI/                   # SwiftUI views & UIKit controllers
 │   └── Sources/UI/
 │       ├── Tab1-5/       # Tab-specific views
@@ -191,7 +206,7 @@ class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                             Toolbox Layer                                    │
+│                             Core Layer                                    │
 │                                                                              │
 │   • ServiceLocator (Dependency injection container)                         │
 │   • @Service property wrapper                                               │

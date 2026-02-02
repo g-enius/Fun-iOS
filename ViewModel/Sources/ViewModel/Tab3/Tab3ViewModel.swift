@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 import FunModel
-import FunToolbox
+import FunCore
 
 @MainActor
 public class Tab3ViewModel: ObservableObject {

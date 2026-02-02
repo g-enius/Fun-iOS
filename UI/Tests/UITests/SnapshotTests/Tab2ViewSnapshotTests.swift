@@ -11,7 +11,7 @@ import SnapshotTesting
 @testable import FunUI
 @testable import FunViewModel
 @testable import FunModel
-@testable import FunToolbox
+@testable import FunCore
 
 final class Tab2ViewSnapshotTests: XCTestCase {
 

@@ -7,7 +7,7 @@
 
 import UIKit
 import FunModel
-import FunToolbox
+import FunCore
 
 // MARK: - Coordinator Protocol
 
