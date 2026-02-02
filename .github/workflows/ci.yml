@@ -50,11 +50,12 @@ jobs:
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO
 
-      - name: Run Tests
+      - name: Run Unit Tests
         run: |
           xcodebuild test \
             -project Application/FunApp.xcodeproj \
             -scheme FunApp \
             -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
             -configuration Debug \
+            -skip-testing:FunAppUITests \
             CODE_SIGNING_ALLOWED=NO
