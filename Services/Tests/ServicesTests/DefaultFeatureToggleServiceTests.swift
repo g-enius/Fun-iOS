@@ -7,6 +7,7 @@
 
 import Testing
 import Foundation
+import Combine
 @testable import FunServices
 @testable import FunModel
 
@@ -85,53 +86,43 @@ struct DefaultFeatureToggleServiceTests {
         #expect(UserDefaults.standard.bool(forKey: "feature.debugMode") == false)
     }
 
-    // MARK: - Notification Tests
+    // MARK: - Combine Publisher Tests
 
-    @Test("Setting featured carousel posts notification")
-    func testFeaturedCarouselPostsNotification() async {
+    @Test("Setting featured carousel emits via Combine publisher")
+    func testFeaturedCarouselEmitsViaCombine() async {
         clearUserDefaults()
         let service = DefaultFeatureToggleService()
-        var notificationReceived = false
+        var eventReceived = false
+        var cancellables = Set<AnyCancellable>()
 
-        let observer = NotificationCenter.default.addObserver(
-            forName: .featureTogglesDidChange,
-            object: nil,
-            queue: .main
-        ) { _ in
-            notificationReceived = true
-        }
+        service.featureTogglesDidChange
+            .sink { eventReceived = true }
+            .store(in: &cancellables)
 
         service.featuredCarousel = false
 
-        // Wait a moment for notification
+        // Wait a moment for publisher
         try? await Task.sleep(nanoseconds: 100_000_000)
 
-        #expect(notificationReceived == true)
-
-        NotificationCenter.default.removeObserver(observer)
+        #expect(eventReceived == true)
     }
 
-    @Test("Setting analytics posts notification")
-    func testAnalyticsPostsNotification() async {
+    @Test("Setting analytics emits via Combine publisher")
+    func testAnalyticsEmitsViaCombine() async {
         clearUserDefaults()
         let service = DefaultFeatureToggleService()
-        var notificationReceived = false
+        var eventReceived = false
+        var cancellables = Set<AnyCancellable>()
 
-        let observer = NotificationCenter.default.addObserver(
-            forName: .featureTogglesDidChange,
-            object: nil,
-            queue: .main
-        ) { _ in
-            notificationReceived = true
-        }
+        service.featureTogglesDidChange
+            .sink { eventReceived = true }
+            .store(in: &cancellables)
 
         service.featureAnalytics = true
 
         try? await Task.sleep(nanoseconds: 100_000_000)
 
-        #expect(notificationReceived == true)
-
-        NotificationCenter.default.removeObserver(observer)
+        #expect(eventReceived == true)
     }
 
     // MARK: - State Restoration Tests

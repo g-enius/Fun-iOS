@@ -6,16 +6,27 @@
 //
 
 import Foundation
+import Combine
 import FunModel
 
 @MainActor
 public final class DefaultFeatureToggleService: FeatureToggleServiceProtocol {
 
+    // MARK: - Combine Publisher
+
+    private let togglesChangedSubject = PassthroughSubject<Void, Never>()
+
+    public var featureTogglesDidChange: AnyPublisher<Void, Never> {
+        togglesChangedSubject.eraseToAnyPublisher()
+    }
+
+    // MARK: - Feature Toggles
+
     public var featuredCarousel: Bool {
         get { UserDefaults.standard.bool(forKey: .featureCarousel) }
         set {
             UserDefaults.standard.set(newValue, forKey: .featureCarousel)
-            NotificationCenter.default.post(name: .featureTogglesDidChange, object: nil)
+            togglesChangedSubject.send()
         }
     }
 
@@ -23,7 +34,7 @@ public final class DefaultFeatureToggleService: FeatureToggleServiceProtocol {
         get { UserDefaults.standard.bool(forKey: .featureAnalytics) }
         set {
             UserDefaults.standard.set(newValue, forKey: .featureAnalytics)
-            NotificationCenter.default.post(name: .featureTogglesDidChange, object: nil)
+            togglesChangedSubject.send()
         }
     }
 
@@ -31,9 +42,11 @@ public final class DefaultFeatureToggleService: FeatureToggleServiceProtocol {
         get { UserDefaults.standard.bool(forKey: .featureDebugMode) }
         set {
             UserDefaults.standard.set(newValue, forKey: .featureDebugMode)
-            NotificationCenter.default.post(name: .featureTogglesDidChange, object: nil)
+            togglesChangedSubject.send()
         }
     }
+
+    // MARK: - Initialization
 
     public init() {
         if UserDefaults.standard.object(forKey: .featureCarousel) == nil {

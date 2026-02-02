@@ -31,7 +31,7 @@ public class Tab5ViewModel: ObservableObject {
     @Published public var isDarkModeEnabled: Bool = false {
         didSet {
             UserDefaults.standard.set(isDarkModeEnabled, forKey: .darkModeEnabled)
-            NotificationCenter.default.post(name: .appSettingsDidChange, object: nil)
+            AppSettingsPublisher.shared.notifySettingsChanged()
         }
     }
 

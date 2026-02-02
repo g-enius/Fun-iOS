@@ -39,9 +39,6 @@ public class Tab1ViewModel: ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
     private var hasLoadedInitialData: Bool = false
-    nonisolated(unsafe) private var featureToggleObserver: NSObjectProtocol?
-    nonisolated(unsafe) private var backgroundObserver: NSObjectProtocol?
-    nonisolated(unsafe) private var foregroundObserver: NSObjectProtocol?
     private var carouselTimerCancellable: AnyCancellable?
 
     // MARK: - Initialization
@@ -63,54 +60,35 @@ public class Tab1ViewModel: ObservableObject {
         }
     }
 
-    deinit {
-        if let observer = featureToggleObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
-        if let observer = backgroundObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
-        if let observer = foregroundObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
-    }
-
-    // MARK: - Feature Toggle Observation
+    // MARK: - Feature Toggle Observation (Combine)
 
     private func observeFeatureToggleChanges() {
-        featureToggleObserver = NotificationCenter.default.addObserver(
-            forName: .featureTogglesDidChange,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            Task { @MainActor [weak self] in
+        featureToggleService.featureTogglesDidChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
                 self?.refreshFeatureToggles()
             }
-        }
+            .store(in: &cancellables)
     }
 
-    // MARK: - Scene Lifecycle
+    // MARK: - Scene Lifecycle (Combine)
 
     private func observeSceneLifecycle() {
-        backgroundObserver = NotificationCenter.default.addObserver(
-            forName: UIApplication.didEnterBackgroundNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            Task { @MainActor [weak self] in
+        NotificationCenter.default
+            .publisher(for: UIApplication.didEnterBackgroundNotification)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
                 self?.pauseCarouselTimer()
             }
-        }
+            .store(in: &cancellables)
 
-        foregroundObserver = NotificationCenter.default.addObserver(
-            forName: UIApplication.willEnterForegroundNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            Task { @MainActor [weak self] in
+        NotificationCenter.default
+            .publisher(for: UIApplication.willEnterForegroundNotification)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
                 self?.resumeCarouselTimer()
             }
-        }
+            .store(in: &cancellables)
     }
 
     private func pauseCarouselTimer() {

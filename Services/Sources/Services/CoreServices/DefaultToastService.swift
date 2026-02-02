@@ -6,22 +6,27 @@
 //
 
 import Foundation
+import Combine
 import FunModel
 
 @MainActor
 public final class DefaultToastService: ToastServiceProtocol {
 
+    // MARK: - Combine Publisher
+
+    private let toastSubject = PassthroughSubject<ToastEvent, Never>()
+
+    public var toastPublisher: AnyPublisher<ToastEvent, Never> {
+        toastSubject.eraseToAnyPublisher()
+    }
+
+    // MARK: - Initialization
+
     public init() {}
 
+    // MARK: - ToastServiceProtocol
+
     public func showToast(message: String, type: ToastType) {
-        // Post notification for toast display
-        NotificationCenter.default.post(
-            name: NSNotification.Name("ShowToast"),
-            object: nil,
-            userInfo: [
-                "message": message,
-                "type": type
-            ]
-        )
+        toastSubject.send(ToastEvent(message: message, type: type))
     }
 }

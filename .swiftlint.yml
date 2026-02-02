@@ -140,3 +140,19 @@ custom_rules:
     severity: warning
     match_kinds:
       - identifier
+
+  # Coordinator references in ViewModels should be weak to prevent retain cycles
+  # Note: Parent coordinators storing child coordinators is intentionally strong
+  weak_coordinator_in_viewmodel:
+    name: "Coordinator in ViewModel Must Be Weak"
+    regex: "^\\s+(private|internal|public|fileprivate)?\\s*var\\s+coordinator\\s*:"
+    message: "Coordinator property in ViewModel should be 'weak var coordinator' to prevent retain cycles"
+    severity: warning
+    included: ".*ViewModel\\.swift$"
+
+  # Delegate properties should always be weak
+  weak_delegate:
+    name: "Delegate Must Be Weak"
+    regex: "^\\s+(private|internal|public|fileprivate)?\\s*var\\s+delegate\\s*:"
+    message: "Delegate properties should be 'weak var delegate' to prevent retain cycles"
+    severity: warning

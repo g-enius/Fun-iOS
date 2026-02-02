@@ -6,17 +6,36 @@
 //
 
 import Foundation
+import Combine
 
 @MainActor
 public protocol FeatureToggleServiceProtocol: AnyObject {
     var featuredCarousel: Bool { get set }
     var featureAnalytics: Bool { get set }
     var featureDebugMode: Bool { get set }
+
+    /// Publisher that emits when any feature toggle changes
+    var featureTogglesDidChange: AnyPublisher<Void, Never> { get }
 }
 
-// MARK: - Notification Names
+// MARK: - App Settings Publisher
 
-public extension Notification.Name {
-    static let featureTogglesDidChange = Notification.Name("featureTogglesDidChange")
-    static let appSettingsDidChange = Notification.Name("AppSettingsChanged")
+/// Singleton publisher for app-wide settings changes (dark mode, etc.)
+@MainActor
+public final class AppSettingsPublisher {
+    public static let shared = AppSettingsPublisher()
+
+    private let subject = PassthroughSubject<Void, Never>()
+
+    private init() {}
+
+    /// Publisher for settings changes
+    public var settingsDidChange: AnyPublisher<Void, Never> {
+        subject.eraseToAnyPublisher()
+    }
+
+    /// Call when settings change
+    public func notifySettingsChanged() {
+        subject.send()
+    }
 }

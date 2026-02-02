@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 import FunViewModel
 import FunModel
 
@@ -15,6 +16,10 @@ public class HomeTabBarController: UITabBarController {
     // MARK: - ViewModel
 
     private let viewModel: HomeTabBarViewModel
+
+    // MARK: - Combine
+
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialization
 
@@ -50,18 +55,18 @@ public class HomeTabBarController: UITabBarController {
         observeAppSettingChanges()
     }
 
-    // MARK: - Appearance
+    // MARK: - Appearance (Combine)
 
     private func observeAppSettingChanges() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(updateAppearance),
-            name: .appSettingsDidChange,
-            object: nil
-        )
+        AppSettingsPublisher.shared.settingsDidChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.updateAppearance()
+            }
+            .store(in: &cancellables)
     }
 
-    @objc private func updateAppearance() {
+    private func updateAppearance() {
         let isDarkModeEnabled = UserDefaults.standard.bool(forKey: .darkModeEnabled)
         let style: UIUserInterfaceStyle = isDarkModeEnabled ? .dark : .light
         overrideUserInterfaceStyle = style
