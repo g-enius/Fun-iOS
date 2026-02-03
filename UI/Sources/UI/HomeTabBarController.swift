@@ -80,8 +80,7 @@ public class HomeTabBarController: UITabBarController {
 
     private func showToast(message: String, type: ToastType) {
         // Remove existing toast if any
-        toastHostingController?.view.removeFromSuperview()
-        toastHostingController = nil
+        dismissToast()
 
         let toastView = ToastView(message: message, type: type) { [weak self] in
             self?.dismissToast()
@@ -91,7 +90,10 @@ public class HomeTabBarController: UITabBarController {
         hostingController.view.backgroundColor = .clear
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
 
+        // Proper child view controller management
+        addChild(hostingController)
         view.addSubview(hostingController.view)
+        hostingController.didMove(toParent: self)
 
         NSLayoutConstraint.activate([
             hostingController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -104,7 +106,10 @@ public class HomeTabBarController: UITabBarController {
     }
 
     private func dismissToast() {
-        toastHostingController?.view.removeFromSuperview()
+        guard let hostingController = toastHostingController else { return }
+        hostingController.willMove(toParent: nil)
+        hostingController.view.removeFromSuperview()
+        hostingController.removeFromParent()
         toastHostingController = nil
     }
 

@@ -131,7 +131,7 @@ private struct ItemRowView: View {
                     .font(.system(size: 20))
                     .foregroundColor(.white)
                     .frame(width: 40, height: 40)
-                    .background(iconColor(for: item.iconColor))
+                    .background(Color.named(item.iconColor))
                     .cornerRadius(8)
 
                 VStack(alignment: .leading, spacing: 4) {
@@ -176,24 +176,6 @@ private struct ItemRowView: View {
                 )
             }
             .tint(.yellow)
-        }
-    }
-
-    private func iconColor(for colorName: String) -> Color {
-        switch colorName {
-        case "green": return .green
-        case "orange": return .orange
-        case "blue": return .blue
-        case "purple": return .purple
-        case "indigo": return .indigo
-        case "brown": return .brown
-        case "teal": return .teal
-        case "mint": return .mint
-        case "cyan": return .cyan
-        case "gray": return .gray
-        case "red": return .red
-        case "pink": return .pink
-        default: return .gray
         }
     }
 }

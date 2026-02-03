@@ -452,6 +452,9 @@ xcodebuild test -workspace Fun.xcworkspace -scheme FunApp -destination 'platform
 - **Consistent naming** conventions throughout
 - **Comprehensive documentation** for public APIs
 - **SOLID principles** adherence
+- **Centralized constants** - AccessibilityID enum for UI testing identifiers
+- **DRY utilities** - Shared extensions (e.g., `Color.named()`) to avoid duplication
+- **Proper UIKit lifecycle** - Child view controller management for hosted SwiftUI views
 
 ### SwiftLint
 

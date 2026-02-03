@@ -75,8 +75,4 @@ public class DetailViewModel: ObservableObject {
         favoritesService.toggleFavorite(forKey: itemId)
         logger.log("Favorite toggled for \(itemTitle): \(isFavorited)")
     }
-
-    public func didTapSwitchToTab2() {
-        tabBarViewModel?.switchToTab(1)
-    }
 }

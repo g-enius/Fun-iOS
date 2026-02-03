@@ -192,7 +192,7 @@ struct FeaturedCardView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
                 .padding()
-                .background(cardColor(for: item.color))
+                .background(Color.named(item.color))
                 .cornerRadius(12)
                 .contentShape(Rectangle())
             }
@@ -214,23 +214,5 @@ struct FeaturedCardView: View {
         .accessibilityIdentifier("featured_card_\(item.id)")
         .accessibilityLabel("\(item.title), \(item.subtitle)")
         .accessibilityHint(L10n.Accessibility.doubleTapToViewDetails)
-    }
-
-    private func cardColor(for colorName: String) -> Color {
-        switch colorName {
-        case "green": return .green
-        case "orange": return .orange
-        case "blue": return .blue
-        case "purple": return .purple
-        case "indigo": return .indigo
-        case "brown": return .brown
-        case "teal": return .teal
-        case "mint": return .mint
-        case "cyan": return .cyan
-        case "gray": return .gray
-        case "red": return .red
-        case "pink": return .pink
-        default: return .gray
-        }
     }
 }
