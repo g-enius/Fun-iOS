@@ -63,6 +63,10 @@ public class ItemsViewModel: ObservableObject {
         setupSearchBinding()
     }
 
+    deinit {
+        searchTask?.cancel()
+    }
+
     // MARK: - Setup
 
     private func setupSearchBinding() {

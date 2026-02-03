@@ -86,7 +86,7 @@ public struct HomeView: View {
 
 // MARK: - Error State View
 
-struct ErrorStateView: View {
+private struct ErrorStateView: View {
     let onRetry: () -> Void
 
     var body: some View {
@@ -128,7 +128,7 @@ struct ErrorStateView: View {
 
 // MARK: - Empty State View
 
-struct CarouselDisabledView: View {
+private struct CarouselDisabledView: View {
     var body: some View {
         VStack(spacing: 20) {
             Spacer()
@@ -155,7 +155,7 @@ struct CarouselDisabledView: View {
 
 // MARK: - Page Indicator View
 
-struct PageIndicatorView: View {
+private struct PageIndicatorView: View {
     let currentIndex: Int
     let pageCount: Int
 
@@ -173,7 +173,7 @@ struct PageIndicatorView: View {
 
 // MARK: - Featured Card View
 
-struct FeaturedCardView: View {
+private struct FeaturedCardView: View {
     let item: FeaturedItem
     let isFavorited: Bool
     let onTap: () -> Void

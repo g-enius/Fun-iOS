@@ -78,7 +78,7 @@ public struct ProfileView: View {
     }
 }
 
-struct StatView: View {
+private struct StatView: View {
     let title: String
     let value: String
 

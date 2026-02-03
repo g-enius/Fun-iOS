@@ -180,7 +180,7 @@ private struct ItemRowView: View {
     }
 }
 
-// MARK: - Legacy Search Bar View (iOS 15-17)
+// MARK: - Search Bar View
 
 private struct SearchBarView: View {
     @Binding var text: String
