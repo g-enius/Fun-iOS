@@ -56,5 +56,8 @@ public final class DefaultFeatureToggleService: FeatureToggleServiceProtocol {
         if UserDefaults.standard.object(forKey: .simulateErrors) == nil {
             UserDefaults.standard.set(false, forKey: .simulateErrors)
         }
+        if UserDefaults.standard.object(forKey: .darkModeEnabled) == nil {
+            UserDefaults.standard.set(false, forKey: .darkModeEnabled)
+        }
     }
 }
