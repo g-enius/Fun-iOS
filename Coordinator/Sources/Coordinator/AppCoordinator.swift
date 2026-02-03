@@ -30,6 +30,8 @@ public final class AppCoordinator: BaseCoordinator {
         let settingsNavController = UINavigationController()
 
         // Configure tab bar items with icons and titles
+        // Note: Using hardcoded strings here since L10n is in the UI module.
+        // For a production app, consider a shared Localization module.
         homeNavController.tabBarItem = UITabBarItem(
             title: "Home",
             image: UIImage(systemName: "house"),

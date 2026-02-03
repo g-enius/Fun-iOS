@@ -39,7 +39,7 @@ public struct DetailView: View {
                 Divider()
 
                 // Description
-                Text("How it's used in this demo")
+                Text(L10n.Detail.howUsed)
                     .font(.headline)
 
                 DescriptionContentView(text: viewModel.itemDescription)

@@ -36,6 +36,8 @@ public enum L10n {
     public static let addToFavorites = L10n.tr("Localizable", "detail.addToFavorites", fallback: "Add to Favorites")
     /// Description
     public static let description = L10n.tr("Localizable", "detail.description", fallback: "Description")
+    /// How it's used in this demo
+    public static let howUsed = L10n.tr("Localizable", "detail.howUsed", fallback: "How it's used in this demo")
     /// This is a detailed description of %@. It showcases the coordinator pattern for navigation in iOS apps.
     public static func itemDescription(_ p1: Any) -> String {
       return L10n.tr("Localizable", "detail.itemDescription", String(describing: p1), fallback: "This is a detailed description of %@. It showcases the coordinator pattern for navigation in iOS apps.")

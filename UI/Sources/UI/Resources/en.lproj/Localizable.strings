@@ -63,6 +63,7 @@
 
 // MARK: - Detail
 
+"detail.howUsed" = "How it's used in this demo";
 "detail.description" = "Description";
 "detail.justNow" = "Just now";
 "detail.addToFavorites" = "Add to Favorites";
