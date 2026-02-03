@@ -85,6 +85,15 @@ public class Tab2ViewModel: ObservableObject {
         // Cancel any existing search task
         searchTask?.cancel()
 
+        let trimmedSearch = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        // If search is empty, just filter immediately without loading state
+        if trimmedSearch.isEmpty {
+            isSearching = false
+            filterResults()
+            return
+        }
+
         searchTask = Task { [weak self] in
             guard let self else { return }
 

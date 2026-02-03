@@ -58,17 +58,21 @@ public struct Tab2View: View {
             } else {
                 List(viewModel.searchResults) { item in
                     Button(action: { viewModel.didSelectItem(item) }) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(item.title)
-                                .font(.headline)
-                            Text(item.subtitle)
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                            Text(item.category)
-                                .font(.caption)
-                                .foregroundColor(.blue)
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(item.title)
+                                    .font(.headline)
+                                Text(item.subtitle)
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                                Text(item.category)
+                                    .font(.caption)
+                                    .foregroundColor(.blue)
+                            }
+                            Spacer()
                         }
-                        .padding(.vertical, 4)
+                        .padding(.vertical, 8)
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                     .accessibilityIdentifier("search_result_\(item.id)")
