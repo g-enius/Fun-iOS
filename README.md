@@ -90,15 +90,17 @@ Fun/
 ├── Services/             # Concrete service implementations
 │   └── Sources/Services/
 │       └── CoreServices/ # Default implementations
-├── Core/              # Utilities & DI container
+├── Core/                 # Utilities, DI container & L10n
 │   └── Sources/Core/
+│       ├── Generated/    # SwiftGen generated strings
+│       └── Resources/    # Localizable.strings
 ├── UI/                   # SwiftUI views & UIKit controllers
 │   └── Sources/UI/
 │       ├── Home/         # Home tab (carousel)
 │       ├── Items/        # Items tab (search + list)
 │       ├── Settings/     # Settings tab
 │       ├── Detail/       # Detail screens
-│       ├── Settings/     # Settings screens
+│       ├── Profile/      # Profile modal
 │       └── Extensions/   # UIKit extensions
 ├── ViewModel/            # Business logic (MVVM)
 │   └── Sources/ViewModel/
@@ -214,6 +216,7 @@ class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
 │                                                                             │
 │   • ServiceLocator (Dependency injection container)                         │
 │   • @Service property wrapper                                               │
+│   • L10n (Type-safe localized strings via SwiftGen)                         │
 │   • ObjectIdentityEquatable/Hashable utilities                              │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -397,7 +400,7 @@ L10n.Home.featured  // Type-safe strings
 
 Regenerate after editing `.strings` files:
 ```bash
-cd UI && ./Scripts/generate-strings.sh
+cd Core && swiftgen config run --config swiftgen.yml
 ```
 
 ## AI-Assisted Development
