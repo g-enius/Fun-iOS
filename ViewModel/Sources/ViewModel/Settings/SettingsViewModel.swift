@@ -1,8 +1,8 @@
 //
-//  Tab5ViewModel.swift
+//  SettingsViewModel.swift
 //  ViewModel
 //
-//  ViewModel for Tab5 (Settings) screen
+//  ViewModel for Settings screen
 //
 
 import Foundation
@@ -11,11 +11,11 @@ import FunModel
 import FunCore
 
 @MainActor
-public class Tab5ViewModel: ObservableObject {
+public class SettingsViewModel: ObservableObject {
 
     // MARK: - Coordinator
 
-    private weak var coordinator: Tab5Coordinator?
+    private weak var coordinator: SettingsCoordinator?
 
     // MARK: - Services
 
@@ -41,7 +41,7 @@ public class Tab5ViewModel: ObservableObject {
 
     // MARK: - Initialization
 
-    public init(coordinator: Tab5Coordinator?) {
+    public init(coordinator: SettingsCoordinator?) {
         self.coordinator = coordinator
         self.isDarkModeEnabled = UserDefaults.standard.bool(forKey: .darkModeEnabled)
         self.featuredCarouselEnabled = featureToggleService.featuredCarousel

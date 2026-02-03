@@ -1,8 +1,8 @@
 //
-//  Tab1ViewSnapshotTests.swift
+//  HomeViewSnapshotTests.swift
 //  UI
 //
-//  Snapshot tests for Tab1View (Home screen)
+//  Snapshot tests for HomeView (Home screen)
 //
 
 import XCTest
@@ -15,7 +15,7 @@ import Combine
 @testable import FunCore
 
 @MainActor
-final class Tab1ViewSnapshotTests: XCTestCase {
+final class HomeViewSnapshotTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
@@ -24,33 +24,33 @@ final class Tab1ViewSnapshotTests: XCTestCase {
         ServiceLocator.shared.register(MockFavoritesService(), for: .favorites)
     }
 
-    func testTab1View_withCarouselEnabled() {
-        let viewModel = Tab1ViewModel(coordinator: nil, tabBarViewModel: nil)
+    func testHomeView_withCarouselEnabled() {
+        let viewModel = HomeViewModel(coordinator: nil)
         viewModel.isCarouselEnabled = true
 
-        let view = Tab1View(viewModel: viewModel)
+        let view = HomeView(viewModel: viewModel)
         let hostingController = UIHostingController(rootView: view)
         hostingController.view.frame = CGRect(x: 0, y: 0, width: 390, height: 844)
 
         assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro))
     }
 
-    func testTab1View_withCarouselDisabled() {
-        let viewModel = Tab1ViewModel(coordinator: nil, tabBarViewModel: nil)
+    func testHomeView_withCarouselDisabled() {
+        let viewModel = HomeViewModel(coordinator: nil)
         viewModel.isCarouselEnabled = false
 
-        let view = Tab1View(viewModel: viewModel)
+        let view = HomeView(viewModel: viewModel)
         let hostingController = UIHostingController(rootView: view)
         hostingController.view.frame = CGRect(x: 0, y: 0, width: 390, height: 844)
 
         assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro))
     }
 
-    func testTab1View_darkMode() {
-        let viewModel = Tab1ViewModel(coordinator: nil, tabBarViewModel: nil)
+    func testHomeView_darkMode() {
+        let viewModel = HomeViewModel(coordinator: nil)
         viewModel.isCarouselEnabled = true
 
-        let view = Tab1View(viewModel: viewModel)
+        let view = HomeView(viewModel: viewModel)
         let hostingController = UIHostingController(rootView: view)
         hostingController.overrideUserInterfaceStyle = .dark
         hostingController.view.frame = CGRect(x: 0, y: 0, width: 390, height: 844)

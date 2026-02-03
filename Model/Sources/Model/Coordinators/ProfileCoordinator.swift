@@ -10,4 +10,6 @@ import Foundation
 @MainActor
 public protocol ProfileCoordinator: AnyObject {
     func dismiss()
+    func showSettings()
+    func dismissAndSwitchToItems()
 }

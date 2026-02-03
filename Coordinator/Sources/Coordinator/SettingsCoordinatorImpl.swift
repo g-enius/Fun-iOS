@@ -1,8 +1,8 @@
 //
-//  Tab5CoordinatorImpl.swift
+//  SettingsCoordinatorImpl.swift
 //  Coordinator
 //
-//  Coordinator implementation for Tab5 (Settings tab)
+//  Coordinator implementation for Settings tab
 //
 
 import UIKit
@@ -10,7 +10,7 @@ import FunViewModel
 import FunModel
 import FunUI
 
-public final class Tab5CoordinatorImpl: BaseCoordinator, Tab5Coordinator {
+public final class SettingsCoordinatorImpl: BaseCoordinator, SettingsCoordinator {
 
     // MARK: - Initialization
 
@@ -19,12 +19,12 @@ public final class Tab5CoordinatorImpl: BaseCoordinator, Tab5Coordinator {
     }
 
     override public func start() {
-        let viewModel = Tab5ViewModel(coordinator: self)
-        let viewController = Tab5ViewController(viewModel: viewModel)
+        let viewModel = SettingsViewModel(coordinator: self)
+        let viewController = SettingsViewController(viewModel: viewModel)
         navigationController.setViewControllers([viewController], animated: false)
     }
 
-    // MARK: - Tab5Coordinator
+    // MARK: - SettingsCoordinator
 
     public func dismiss() {
         safePop()

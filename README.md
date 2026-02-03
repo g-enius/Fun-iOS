@@ -94,7 +94,9 @@ Fun/
 │   └── Sources/Core/
 ├── UI/                   # SwiftUI views & UIKit controllers
 │   └── Sources/UI/
-│       ├── Tab1-5/       # Tab-specific views
+│       ├── Home/         # Home tab (carousel)
+│       ├── Items/        # Items tab (search + list)
+│       ├── Settings/     # Settings tab
 │       ├── Detail/       # Detail screens
 │       ├── Settings/     # Settings screens
 │       └── Extensions/   # UIKit extensions
@@ -140,13 +142,12 @@ class MockNetworkService: NetworkService { ... }
 
 ### 4. Coordinator Pattern
 ```swift
-protocol Tab1Coordinator: AnyObject {
+protocol HomeCoordinator: AnyObject {
     func showDetail(for item: FeaturedItem)
     func showProfile()
-    func showSettings()
 }
 
-class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
+class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
     func showDetail(for item: FeaturedItem) {
         let coordinator = DetailCoordinatorImpl(...)
         let viewModel = DetailViewModel(item: item, coordinator: coordinator)
@@ -168,11 +169,9 @@ class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
 │                                 UI Layer                                    │
 │                   (SwiftUI Views, UIKit ViewControllers)                    │
 │                                                                             │
-│   • Tab1View (Home) - Featured carousel with 14 technology items            │
-│   • Tab2View (Search) - Bottom search bar, debounced input                  │
-│   • Tab3View (Items) - Full technology list with favorites support          │
-│   • Tab4View (Profile) - User profile display                               │
-│   • Tab5View (Settings) - Feature toggles, app configuration                │
+│   • HomeView - Featured carousel with 14 technology items                   │
+│   • ItemsView - Search bar, category filter, items list with favorites      │
+│   • SettingsView - Feature toggles, app configuration                       │
 └─────────────────────────────────────────────────────────────────────────────┘
                                       │
                          ┌────────────┴────────────┐
@@ -205,7 +204,7 @@ class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
 │                                                                             │
 │   • FeaturedItem (14 technology showcase items with descriptions)           │
 │   • Service protocols (NetworkService, FavoritesService, etc.)              │
-│   • Coordinator protocols (Tab1Coordinator, DetailCoordinator, etc.)        │
+│   • Coordinator protocols (HomeCoordinator, ItemsCoordinator, etc.)         │
 │   • Mock implementations for testing                                        │
 └─────────────────────────────────────────────────────────────────────────────┘
                          │
@@ -280,11 +279,11 @@ featureToggleService.featureTogglesDidChange
 
 ```swift
 @Test func searchFiltersResultsByText() async {
-    let viewModel = Tab2ViewModel(coordinator: nil, tabBarViewModel: nil)
+    let viewModel = ItemsViewModel(coordinator: nil)
     viewModel.searchText = "swift"
 
-    #expect(viewModel.searchResults.count == 1)
-    #expect(viewModel.searchResults.first?.title == "Swift Concurrency")
+    #expect(viewModel.items.count == 1)
+    #expect(viewModel.items.first?.title == "Swift Concurrency")
 }
 ```
 
@@ -393,7 +392,7 @@ Type-safe localized strings:
 // Instead of: NSLocalizedString("settings.title", comment: "")
 // Use generated:
 L10n.Settings.title
-L10n.Tab1.welcome("John")  // With parameters
+L10n.Home.featured  // Type-safe strings
 ```
 
 Regenerate after editing `.strings` files:

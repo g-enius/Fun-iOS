@@ -1,8 +1,8 @@
 //
-//  Tab5ViewController.swift
+//  ItemsViewController.swift
 //  UI
 //
-//  View controller for Tab5 (Settings) screen
+//  View controller for Items screen
 //
 
 import UIKit
@@ -10,11 +10,11 @@ import SwiftUI
 import FunViewModel
 import FunModel
 
-public final class Tab5ViewController: UIViewController {
+public final class ItemsViewController: UIViewController {
 
-    private let viewModel: Tab5ViewModel
+    private let viewModel: ItemsViewModel
 
-    public init(viewModel: Tab5ViewModel) {
+    public init(viewModel: ItemsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -26,7 +26,7 @@ public final class Tab5ViewController: UIViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.Tabs.settings
-        embedSwiftUIView(Tab5View(viewModel: viewModel))
+        title = L10n.Tabs.items
+        embedSwiftUIView(ItemsView(viewModel: viewModel))
     }
 }

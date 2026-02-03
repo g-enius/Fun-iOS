@@ -1,8 +1,8 @@
 //
-//  Tab2CoordinatorImpl.swift
+//  HomeCoordinatorImpl.swift
 //  Coordinator
 //
-//  Coordinator implementation for Tab2 (Search)
+//  Coordinator implementation for Home tab
 //
 
 import UIKit
@@ -10,11 +10,13 @@ import FunViewModel
 import FunModel
 import FunUI
 
-public final class Tab2CoordinatorImpl: BaseCoordinator, Tab2Coordinator {
+public final class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
 
     // MARK: - Child Coordinators
 
+    // Store to prevent deallocation, ViewModels hold weak refs
     private var detailCoordinator: DetailCoordinatorImpl?
+    private var profileCoordinator: ProfileCoordinatorImpl?
 
     // MARK: - Tab Bar
 
@@ -28,12 +30,12 @@ public final class Tab2CoordinatorImpl: BaseCoordinator, Tab2Coordinator {
     }
 
     override public func start() {
-        let viewModel = Tab2ViewModel(coordinator: self, tabBarViewModel: tabBarViewModel)
-        let viewController = Tab2ViewController(viewModel: viewModel)
+        let viewModel = HomeViewModel(coordinator: self)
+        let viewController = HomeViewController(viewModel: viewModel)
         navigationController.setViewControllers([viewController], animated: false)
     }
 
-    // MARK: - Tab2Coordinator
+    // MARK: - HomeCoordinator
 
     public func showDetail(for item: FeaturedItem) {
         let coordinator = DetailCoordinatorImpl(
@@ -51,7 +53,17 @@ public final class Tab2CoordinatorImpl: BaseCoordinator, Tab2Coordinator {
         safePush(viewController)
     }
 
-    public func switchToTab(_ index: Int) {
-        tabBarViewModel?.switchToTab(index)
+    public func showProfile() {
+        let profileNavController = UINavigationController()
+        let coordinator = ProfileCoordinatorImpl(
+            navigationController: profileNavController,
+            tabBarViewModel: tabBarViewModel
+        )
+        profileCoordinator = coordinator
+
+        let viewModel = ProfileViewModel(coordinator: coordinator)
+        let viewController = ProfileViewController(viewModel: viewModel)
+        profileNavController.setViewControllers([viewController], animated: false)
+        safePresent(profileNavController)
     }
 }

@@ -14,6 +14,10 @@
 "common.version" = "Version";
 "common.build" = "Build";
 
+// MARK: - Accessibility
+
+"accessibility.doubleTapToViewDetails" = "Double tap to view details";
+
 // MARK: - Tabs
 
 "tabs.home" = "Home";
@@ -24,12 +28,14 @@
 // MARK: - Home
 
 "home.featured" = "Featured";
-"home.switchToTab2" = "Switch to Tab 2";
+"home.carouselDisabled" = "Carousel Disabled";
+"home.enableFromSettings" = "Enable the Featured Carousel from the Settings tab to see featured items here.";
 
 // MARK: - Search
 
 "search.noResults" = "No Results";
 "search.searching" = "Searching...";
+"search.keepTyping" = "Keep Typing...";
 "search.minCharacters" = "Search (min %d chars)...";
 "search.typeMinCharacters" = "Type at least %d characters to search";
 "search.tryDifferentTerm" = "Try a different search term or category";
@@ -68,7 +74,7 @@
 // MARK: - Profile
 
 "profile.title" = "Profile";
-"profile.editProfile" = "Edit Profile";
+"profile.searchItems" = "Search for Items?";
 "profile.views" = "Views";
 "profile.favorites" = "Favorites";
 "profile.days" = "Days";

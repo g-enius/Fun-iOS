@@ -1,8 +1,8 @@
 //
-//  Tab1ViewModel.swift
+//  HomeViewModel.swift
 //  ViewModel
 //
-//  ViewModel for Tab1 (Home) screen
+//  ViewModel for Home screen
 //
 
 import Foundation
@@ -11,12 +11,11 @@ import FunModel
 import FunCore
 
 @MainActor
-public class Tab1ViewModel: ObservableObject {
+public class HomeViewModel: ObservableObject {
 
     // MARK: - Coordinator
 
-    private weak var coordinator: Tab1Coordinator?
-    private weak var tabBarViewModel: HomeTabBarViewModel?
+    private weak var coordinator: HomeCoordinator?
 
     // MARK: - Services
 
@@ -44,9 +43,8 @@ public class Tab1ViewModel: ObservableObject {
 
     // MARK: - Initialization
 
-    public init(coordinator: Tab1Coordinator?, tabBarViewModel: HomeTabBarViewModel?) {
+    public init(coordinator: HomeCoordinator?) {
         self.coordinator = coordinator
-        self.tabBarViewModel = tabBarViewModel
 
         // Load initial carousel state from feature toggle
         isCarouselEnabled = featureToggleService.featuredCarousel
@@ -149,17 +147,8 @@ public class Tab1ViewModel: ObservableObject {
         coordinator?.showDetail(for: item)
     }
 
-    public func didTapSettings() {
-        logger.log("Settings tapped")
-        coordinator?.showSettings()
-    }
-
     public func didTapProfile() {
         logger.log("Profile tapped")
         coordinator?.showProfile()
-    }
-
-    public func didTapSwitchToTab2() {
-        tabBarViewModel?.switchToTab(1)
     }
 }

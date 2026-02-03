@@ -1,8 +1,8 @@
 //
-//  Tab1ViewController.swift
+//  HomeViewController.swift
 //  UI
 //
-//  View controller for Tab1 (Home) screen
+//  View controller for Home screen
 //
 
 import UIKit
@@ -10,11 +10,11 @@ import SwiftUI
 import FunViewModel
 import FunModel
 
-public final class Tab1ViewController: UIViewController {
+public final class HomeViewController: UIViewController {
 
-    private let viewModel: Tab1ViewModel
+    private let viewModel: HomeViewModel
 
-    public init(viewModel: Tab1ViewModel) {
+    public init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -33,9 +33,9 @@ public final class Tab1ViewController: UIViewController {
             target: self,
             action: #selector(profileTapped)
         )
-        navigationItem.rightBarButtonItem?.accessibilityIdentifier = AccessibilityID.Tab1.profileButton
-        navigationItem.rightBarButtonItem?.accessibilityLabel = "Profile"
-        embedSwiftUIView(Tab1View(viewModel: viewModel))
+        navigationItem.rightBarButtonItem?.accessibilityIdentifier = AccessibilityID.Home.profileButton
+        navigationItem.rightBarButtonItem?.accessibilityLabel = L10n.Profile.title
+        embedSwiftUIView(HomeView(viewModel: viewModel))
     }
 
     @objc private func profileTapped() {

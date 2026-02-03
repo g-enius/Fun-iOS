@@ -1,18 +1,18 @@
 //
-//  Tab5View.swift
+//  SettingsView.swift
 //  UI
 //
-//  SwiftUI view for Tab5 (Settings) screen
+//  SwiftUI view for Settings screen
 //
 
 import SwiftUI
 import FunViewModel
 import FunModel
 
-public struct Tab5View: View {
-    @ObservedObject var viewModel: Tab5ViewModel
+public struct SettingsView: View {
+    @ObservedObject var viewModel: SettingsViewModel
 
-    public init(viewModel: Tab5ViewModel) {
+    public init(viewModel: SettingsViewModel) {
         self.viewModel = viewModel
     }
 
@@ -20,7 +20,7 @@ public struct Tab5View: View {
         Form {
             Section(header: Text(L10n.Settings.appearance)) {
                 Toggle(L10n.Settings.darkMode, isOn: $viewModel.isDarkModeEnabled)
-                    .accessibilityIdentifier(AccessibilityID.Tab5.darkModeToggle)
+                    .accessibilityIdentifier(AccessibilityID.Settings.darkModeToggle)
             }
 
             Section(header: Text(L10n.Settings.featureToggles)) {
@@ -55,6 +55,6 @@ public struct Tab5View: View {
                 }
             }
         }
-        .accessibilityIdentifier(AccessibilityID.Tab5.settingsList)
+        .accessibilityIdentifier(AccessibilityID.Settings.settingsList)
     }
 }

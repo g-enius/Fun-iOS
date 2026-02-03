@@ -8,33 +8,21 @@
 import Foundation
 
 @MainActor
-public final class MockTabCoordinator: Tab1Coordinator, Tab2Coordinator, Tab3Coordinator {
+public final class MockTabCoordinator: HomeCoordinator, ItemsCoordinator {
     public var showDetailCalled = false
     public var showDetailFeaturedItem: FeaturedItem?
     public var showProfileCalled = false
-    public var showSettingsCalled = false
-    public var switchToTabCalled = false
-    public var switchToTabIndex: Int?
 
     public init() {}
 
-    // Tab1Coordinator, Tab2Coordinator & Tab3Coordinator (FeaturedItem)
+    // HomeCoordinator & ItemsCoordinator (FeaturedItem)
     public func showDetail(for item: FeaturedItem) {
         showDetailCalled = true
         showDetailFeaturedItem = item
     }
 
+    // HomeCoordinator
     public func showProfile() {
         showProfileCalled = true
-    }
-
-    public func showSettings() {
-        showSettingsCalled = true
-    }
-
-    // Tab2Coordinator
-    public func switchToTab(_ index: Int) {
-        switchToTabCalled = true
-        switchToTabIndex = index
     }
 }

@@ -1,8 +1,8 @@
 //
-//  Tab3CoordinatorImpl.swift
+//  ItemsCoordinatorImpl.swift
 //  Coordinator
 //
-//  Coordinator implementation for Tab3 (Items)
+//  Coordinator implementation for Items tab
 //
 
 import UIKit
@@ -10,7 +10,7 @@ import FunViewModel
 import FunModel
 import FunUI
 
-public final class Tab3CoordinatorImpl: BaseCoordinator, Tab3Coordinator {
+public final class ItemsCoordinatorImpl: BaseCoordinator, ItemsCoordinator {
 
     // MARK: - Child Coordinators
 
@@ -28,12 +28,12 @@ public final class Tab3CoordinatorImpl: BaseCoordinator, Tab3Coordinator {
     }
 
     override public func start() {
-        let viewModel = Tab3ViewModel(coordinator: self)
-        let viewController = Tab3ViewController(viewModel: viewModel)
+        let viewModel = ItemsViewModel(coordinator: self)
+        let viewController = ItemsViewController(viewModel: viewModel)
         navigationController.setViewControllers([viewController], animated: false)
     }
 
-    // MARK: - Tab3Coordinator
+    // MARK: - ItemsCoordinator
 
     public func showDetail(for item: FeaturedItem) {
         let coordinator = DetailCoordinatorImpl(

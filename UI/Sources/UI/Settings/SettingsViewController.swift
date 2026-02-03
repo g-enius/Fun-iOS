@@ -1,8 +1,8 @@
 //
-//  Tab2ViewController.swift
+//  SettingsViewController.swift
 //  UI
 //
-//  View controller for Tab2 (Search) screen
+//  View controller for Settings screen
 //
 
 import UIKit
@@ -10,11 +10,11 @@ import SwiftUI
 import FunViewModel
 import FunModel
 
-public final class Tab2ViewController: UIViewController {
+public final class SettingsViewController: UIViewController {
 
-    private let viewModel: Tab2ViewModel
+    private let viewModel: SettingsViewModel
 
-    public init(viewModel: Tab2ViewModel) {
+    public init(viewModel: SettingsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -26,7 +26,7 @@ public final class Tab2ViewController: UIViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        title = L10n.Tabs.search
-        embedSwiftUIView(Tab2View(viewModel: viewModel))
+        title = L10n.Tabs.settings
+        embedSwiftUIView(SettingsView(viewModel: viewModel))
     }
 }

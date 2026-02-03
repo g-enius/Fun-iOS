@@ -43,7 +43,7 @@ public enum TechnologyDescriptions {
         • Task-based initialization in ViewModels
         • Structured concurrency with Task { } blocks
 
-        Example from Tab1ViewModel:
+        Example from HomeViewModel:
         ```swift
         public func loadFeaturedItems() async {
             try? await Task.sleep(nanoseconds: delay)
@@ -56,12 +56,12 @@ public enum TechnologyDescriptions {
         Combine framework powers the reactive data flow throughout the app:
 
         • @Published properties for automatic UI updates
-        • Debounced search input (400ms) in Tab2
+        • Debounced search input (400ms) in Items screen
         • Feature toggle change notifications
         • Favorites state synchronization across views
         • Scene lifecycle observation
 
-        Example from Tab2ViewModel:
+        Example from ItemsViewModel:
         ```swift
         $searchText
             .debounce(for: .milliseconds(400), scheduler: RunLoop.main)
@@ -73,7 +73,7 @@ public enum TechnologyDescriptions {
     private static let swiftUIDescription = """
         SwiftUI provides the declarative UI layer:
 
-        • All tab views built with SwiftUI (Tab1View, Tab2View, etc.)
+        • All tab views built with SwiftUI (HomeView, ItemsView, etc.)
         • Embedded in UIKit via UIHostingController
         • @ObservedObject for ViewModel binding
         • Modern modifiers: .refreshable, .swipeActions, .searchable
@@ -98,14 +98,12 @@ public enum TechnologyDescriptions {
 
         Structure:
         AppCoordinator
-        ├── Tab1CoordinatorImpl
+        ├── HomeCoordinatorImpl
         │   ├── DetailCoordinatorImpl
         │   └── ProfileCoordinatorImpl
-        ├── Tab2CoordinatorImpl
+        ├── ItemsCoordinatorImpl
         │   └── DetailCoordinatorImpl
-        ├── Tab3CoordinatorImpl
-        │   └── DetailCoordinatorImpl
-        └── Tab5CoordinatorImpl
+        └── SettingsCoordinatorImpl
         """
 
     private static let mvvmDescription = """
@@ -116,9 +114,9 @@ public enum TechnologyDescriptions {
         • Model: Data structures and protocols
 
         Each screen follows this pattern:
-        Tab1View (@ObservedObject viewModel)
+        HomeView (@ObservedObject viewModel)
             ↓ binds to
-        Tab1ViewModel (@Published state)
+        HomeViewModel (@Published state)
             ↓ uses
         Services (Network, Favorites, etc.)
 
@@ -229,7 +227,7 @@ public enum TechnologyDescriptions {
         Example:
         ```swift
         @MainActor
-        public class Tab1ViewModel: ObservableObject {
+        public class HomeViewModel: ObservableObject {
             // All UI-related code is main-thread safe
         }
 
@@ -263,8 +261,8 @@ public enum TechnologyDescriptions {
         Visual regression testing with swift-snapshot-testing:
 
         ```swift
-        @Test func tab1ViewSnapshot() {
-            let view = Tab1View(viewModel: mockViewModel)
+        @Test func homeViewSnapshot() {
+            let view = HomeView(viewModel: mockViewModel)
             assertSnapshot(of: view, as: .image)
         }
         ```

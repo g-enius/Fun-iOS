@@ -1,8 +1,8 @@
 //
-//  Tab2ViewModel.swift
+//  ItemsViewModel.swift
 //  ViewModel
 //
-//  ViewModel for Tab2 (Search) screen
+//  ViewModel for Items screen - combines search, filter, and items list
 //
 
 import Foundation
@@ -11,23 +11,27 @@ import FunModel
 import FunCore
 
 @MainActor
-public class Tab2ViewModel: ObservableObject {
+public class ItemsViewModel: ObservableObject {
 
     // MARK: - Coordinator
 
-    private weak var coordinator: Tab2Coordinator?
-    private weak var tabBarViewModel: HomeTabBarViewModel?
+    private weak var coordinator: ItemsCoordinator?
 
     // MARK: - Services
 
     @Service(.logger) private var logger: LoggerService
+    @Service(.favorites) private var favoritesService: FavoritesServiceProtocol
 
     // MARK: - Published State
 
+    @Published public var items: [FeaturedItem] = []
+    @Published public private(set) var favoriteIds: Set<String> = []
+
+    // Search & Filter State
     @Published public var searchText: String = ""
     @Published public var selectedCategory: String = "All"
-    @Published public var searchResults: [FeaturedItem] = []
     @Published public var isSearching: Bool = false
+    @Published public var needsMoreCharacters: Bool = false
 
     // MARK: - Configuration
 
@@ -45,10 +49,10 @@ public class Tab2ViewModel: ObservableObject {
 
     // MARK: - Initialization
 
-    public init(coordinator: Tab2Coordinator?, tabBarViewModel: HomeTabBarViewModel?) {
+    public init(coordinator: ItemsCoordinator?) {
         self.coordinator = coordinator
-        self.tabBarViewModel = tabBarViewModel
         loadItems()
+        observeFavoritesChanges()
         setupSearchBinding()
     }
 
@@ -64,10 +68,33 @@ public class Tab2ViewModel: ObservableObject {
                 guard let self else { return }
                 let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
 
-                // Only search if empty (show all) or meets minimum character requirement
-                if trimmed.isEmpty || trimmed.count >= self.minimumSearchCharacters {
+                if trimmed.isEmpty {
+                    // Empty search - show all items
+                    self.needsMoreCharacters = false
+                    self.performSearch()
+                } else if trimmed.count < self.minimumSearchCharacters {
+                    // Below minimum - clear results and show "keep typing"
+                    self.needsMoreCharacters = true
+                    self.items = []
+                    self.isSearching = false
+                } else {
+                    // Meets minimum - perform search
+                    self.needsMoreCharacters = false
                     self.performSearch()
                 }
+            }
+            .store(in: &cancellables)
+    }
+
+    private func observeFavoritesChanges() {
+        // Initialize with current favorites
+        favoriteIds = favoritesService.favorites
+
+        // Observe future changes
+        favoritesService.favoritesDidChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] newFavorites in
+                self?.favoriteIds = newFavorites
             }
             .store(in: &cancellables)
     }
@@ -75,7 +102,7 @@ public class Tab2ViewModel: ObservableObject {
     // MARK: - Data Loading
 
     public func loadItems() {
-        // Use the same items as the carousel and list for consistency
+        // Use the same items as the carousel for consistency
         allItems = FeaturedItem.allCarouselSets.flatMap { $0 }
         filterResults()
     }
@@ -130,11 +157,11 @@ public class Tab2ViewModel: ObservableObject {
             }
         }
 
-        searchResults = results
+        items = results
         logger.log("Filtered to \(results.count) results for: '\(searchText)' in category: '\(selectedCategory)'")
     }
 
-    // MARK: - Actions
+    // MARK: - Search Actions
 
     public func clearSearch() {
         searchText = ""
@@ -149,12 +176,20 @@ public class Tab2ViewModel: ObservableObject {
         performSearch()
     }
 
-    public func didSelectItem(_ item: FeaturedItem) {
-        logger.log("Search result selected: \(item.title)")
-        coordinator?.showDetail(for: item)
+    // MARK: - Favorites
+
+    public func isFavorited(_ itemId: String) -> Bool {
+        favoriteIds.contains(itemId)
     }
 
-    public func didTapSwitchToTab1() {
-        tabBarViewModel?.switchToTab(0)
+    public func toggleFavorite(for itemId: String) {
+        favoritesService.toggleFavorite(forKey: itemId)
+    }
+
+    // MARK: - Actions
+
+    public func didSelectItem(_ item: FeaturedItem) {
+        logger.log("Item selected: \(item.title)")
+        coordinator?.showDetail(for: item)
     }
 }

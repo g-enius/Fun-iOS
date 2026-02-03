@@ -10,6 +10,10 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 public enum L10n {
+  public enum Accessibility {
+    /// Double tap to view details
+    public static let doubleTapToViewDetails = L10n.tr("Localizable", "accessibility.doubleTapToViewDetails", fallback: "Double tap to view details")
+  }
   public enum Common {
     /// Build
     public static let build = L10n.tr("Localizable", "common.build", fallback: "Build")
@@ -46,10 +50,12 @@ public enum L10n {
     public static let usingCoordinatorPattern = L10n.tr("Localizable", "detail.usingCoordinatorPattern", fallback: "Using Coordinator Pattern")
   }
   public enum Home {
+    /// Carousel Disabled
+    public static let carouselDisabled = L10n.tr("Localizable", "home.carouselDisabled", fallback: "Carousel Disabled")
+    /// Enable the Featured Carousel from the Settings tab to see featured items here.
+    public static let enableFromSettings = L10n.tr("Localizable", "home.enableFromSettings", fallback: "Enable the Featured Carousel from the Settings tab to see featured items here.")
     /// Featured
     public static let featured = L10n.tr("Localizable", "home.featured", fallback: "Featured")
-    /// Switch to Tab 2
-    public static let switchToTab2 = L10n.tr("Localizable", "home.switchToTab2", fallback: "Switch to Tab 2")
   }
   public enum Items {
     /// Favorite
@@ -62,16 +68,18 @@ public enum L10n {
   public enum Profile {
     /// Days
     public static let days = L10n.tr("Localizable", "profile.days", fallback: "Days")
-    /// Edit Profile
-    public static let editProfile = L10n.tr("Localizable", "profile.editProfile", fallback: "Edit Profile")
     /// Favorites
     public static let favorites = L10n.tr("Localizable", "profile.favorites", fallback: "Favorites")
+    /// Search for Items?
+    public static let searchItems = L10n.tr("Localizable", "profile.searchItems", fallback: "Search for Items?")
     /// Profile
     public static let title = L10n.tr("Localizable", "profile.title", fallback: "Profile")
     /// Views
     public static let views = L10n.tr("Localizable", "profile.views", fallback: "Views")
   }
   public enum Search {
+    /// Keep Typing...
+    public static let keepTyping = L10n.tr("Localizable", "search.keepTyping", fallback: "Keep Typing...")
     /// Search (min %d chars)...
     public static func minCharacters(_ p1: Int) -> String {
       return L10n.tr("Localizable", "search.minCharacters", p1, fallback: "Search (min %d chars)...")
