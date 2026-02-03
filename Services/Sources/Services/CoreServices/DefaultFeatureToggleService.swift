@@ -30,22 +30,6 @@ public final class DefaultFeatureToggleService: FeatureToggleServiceProtocol {
         }
     }
 
-    public var featureAnalytics: Bool {
-        get { UserDefaults.standard.bool(forKey: .featureAnalytics) }
-        set {
-            UserDefaults.standard.set(newValue, forKey: .featureAnalytics)
-            togglesChangedSubject.send()
-        }
-    }
-
-    public var featureDebugMode: Bool {
-        get { UserDefaults.standard.bool(forKey: .featureDebugMode) }
-        set {
-            UserDefaults.standard.set(newValue, forKey: .featureDebugMode)
-            togglesChangedSubject.send()
-        }
-    }
-
     // MARK: - Initialization
 
     public init() {

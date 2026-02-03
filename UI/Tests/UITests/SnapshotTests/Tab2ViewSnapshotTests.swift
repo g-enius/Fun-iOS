@@ -13,18 +13,14 @@ import SnapshotTesting
 @testable import FunModel
 @testable import FunCore
 
+@MainActor
 final class Tab2ViewSnapshotTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        registerMockServices()
-    }
-
-    private func registerMockServices() {
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
     }
 
-    @MainActor
     func testTab2View_allCategories() {
         let viewModel = Tab2ViewModel(coordinator: nil, tabBarViewModel: nil)
 
@@ -35,7 +31,6 @@ final class Tab2ViewSnapshotTests: XCTestCase {
         assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro))
     }
 
-    @MainActor
     func testTab2View_techCategorySelected() {
         let viewModel = Tab2ViewModel(coordinator: nil, tabBarViewModel: nil)
         viewModel.didSelectCategory("Tech")
@@ -47,7 +42,6 @@ final class Tab2ViewSnapshotTests: XCTestCase {
         assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro))
     }
 
-    @MainActor
     func testTab2View_withSearchText() {
         let viewModel = Tab2ViewModel(coordinator: nil, tabBarViewModel: nil)
         viewModel.searchText = "Swift"
@@ -60,7 +54,6 @@ final class Tab2ViewSnapshotTests: XCTestCase {
         assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro))
     }
 
-    @MainActor
     func testTab2View_noResults() {
         let viewModel = Tab2ViewModel(coordinator: nil, tabBarViewModel: nil)
         viewModel.searchText = "nonexistent"
@@ -73,7 +66,6 @@ final class Tab2ViewSnapshotTests: XCTestCase {
         assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro))
     }
 
-    @MainActor
     func testTab2View_darkMode() {
         let viewModel = Tab2ViewModel(coordinator: nil, tabBarViewModel: nil)
 

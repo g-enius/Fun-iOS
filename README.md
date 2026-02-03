@@ -2,6 +2,10 @@
 
 A modern iOS application demonstrating clean architecture principles, modular design with Swift Package Manager, and best practices for scalable iOS development.
 
+## Demo
+
+![App Demo](assets/demo.gif)
+
 ## Projects/Modules
 
 The workspace contains the following sub-projects:
@@ -137,15 +141,16 @@ class MockNetworkService: NetworkService { ... }
 ### 4. Coordinator Pattern
 ```swift
 protocol Tab1Coordinator: AnyObject {
-    func showDetail(for item: String)
+    func showDetail(for item: FeaturedItem)
     func showProfile()
     func showSettings()
 }
 
 class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
-    func showDetail(for item: String) {
+    func showDetail(for item: FeaturedItem) {
         let coordinator = DetailCoordinatorImpl(...)
-        coordinate(to: coordinator)
+        let viewModel = DetailViewModel(item: item, coordinator: coordinator)
+        safePush(DetailViewController(viewModel: viewModel))
     }
 }
 ```
@@ -163,9 +168,9 @@ class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
 │                                 UI Layer                                     │
 │                    (SwiftUI Views, UIKit ViewControllers)                    │
 │                                                                              │
-│   • Tab1View (Home) - Featured carousel, pull-to-refresh                    │
+│   • Tab1View (Home) - Featured carousel with 14 technology items            │
 │   • Tab2View (Search) - Bottom search bar, debounced input                  │
-│   • Tab3View (Favorites) - Persisted favorites list                         │
+│   • Tab3View (Items) - Full technology list with favorites support          │
 │   • Tab4View (Profile) - User profile display                               │
 │   • Tab5View (Settings) - Feature toggles, app configuration                │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -185,20 +190,20 @@ class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                             Services Layer                                   │
-│                                                                              │
-│   NetworkService ────► API calls (simulated)                                │
-│   FavoritesService ──► UserDefaults persistence                             │
-│   FeatureToggleService ► Runtime feature flags                              │
-│   LoggerService ─────► Console logging                                      │
-│   ToastService ──────► In-app notifications                                 │
+│                              Services Layer                                 │
+│                                                                             │
+│   NetworkService ───────► API calls (simulated)                             │
+│   FavoritesService ─────► UserDefaults persistence                          │
+│   FeatureToggleService ─► Runtime feature flags                             │
+│   LoggerService ────────► Console logging                                   │
+│   ToastService ─────────► In-app notifications                              │
 └─────────────────────────────────────────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                              Model Layer                                     │
 │                                                                              │
-│   • FeaturedItem, ListItem, SearchResult (Data models)                      │
+│   • FeaturedItem (14 technology showcase items with descriptions)           │
 │   • Service protocols (NetworkService, FavoritesService, etc.)              │
 │   • Coordinator protocols (Tab1Coordinator, DetailCoordinator, etc.)        │
 │   • Mock implementations for testing                                        │
@@ -206,51 +211,13 @@ class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                             Core Layer                                    │
-│                                                                              │
+│                              Core Layer                                     │
+│                                                                             │
 │   • ServiceLocator (Dependency injection container)                         │
 │   • @Service property wrapper                                               │
 │   • ObjectIdentityEquatable/Hashable utilities                              │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
-
-## AI-Assisted Development
-
-This project demonstrates **end-to-end AI-assisted iOS development** using Claude Code with MCP (Model Context Protocol) integration.
-
-![Claude Code Demo](assets/claude-code-demo.gif)
-
-### Workflow
-
-```
-Prompt → Code Generation → Build → Test → Simulator → Verify → Commit
-   │          │              │       │        │          │        │
-   └──────────┴──────────────┴───────┴────────┴──────────┴────────┘
-                        All within Claude Code CLI
-```
-
-### What MCP Enables
-
-| Capability | Description |
-|------------|-------------|
-| **XcodeBuildMCP** | Build, run, and test directly from AI conversation |
-| **Simulator Control** | Launch app, capture screenshots, verify UI |
-| **Code Indexing** | Deep codebase understanding for accurate changes |
-| **File System** | Read, write, edit files with full context |
-
-### Evidence of AI Collaboration
-
-- All commits include `Co-Authored-By: Claude` attribution
-- Consistent code style and architecture across the project
-- Comprehensive test coverage generated alongside features
-- Documentation written in tandem with implementation
-
-### Key Differentiator
-
-Most developers use AI for **code completion**. This project demonstrates **full development lifecycle automation**:
-- Architecture decisions → Implementation → Testing → CI/CD → Documentation
-
----
 
 ## Key Features
 
@@ -433,6 +400,50 @@ Regenerate after editing `.strings` files:
 ```bash
 cd UI && ./Scripts/generate-strings.sh
 ```
+
+## AI-Assisted Development
+
+This project demonstrates **end-to-end AI-assisted iOS development** using Claude Code with MCP (Model Context Protocol) integration.
+
+![Claude Code Demo](assets/claude-code-demo.gif)
+
+### Workflow
+
+```
+Prompt → Code Generation → Build → Test → Simulator → Verify → Commit
+   │          │              │       │        │          │        │
+   └──────────┴──────────────┴───────┴────────┴──────────┴────────┘
+                        All within Claude Code CLI
+```
+
+### What MCP Enables
+
+| Capability | Description |
+|------------|-------------|
+| **XcodeBuildMCP** | Build, run, and test directly from AI conversation |
+| **Simulator Control** | Launch app, capture screenshots, verify UI |
+| **Code Indexing** | Deep codebase understanding for accurate changes |
+| **File System** | Read, write, edit files with full context |
+
+### Development Process
+
+The initial architecture, module structure, and foundational patterns were **designed and implemented by the developer**. Claude was then used as an AI assistant for:
+
+- Feature implementation following the established architecture
+- Bug fixes and refinements
+- Test coverage expansion
+- Documentation generation
+
+**Important**: The developer actively **instructed and corrected** Claude throughout the process. AI-generated code was reviewed, refined, and sometimes rejected when it didn't meet quality standards or architectural guidelines.
+
+Commits that involved AI assistance include `Co-Authored-By: Claude` attribution.
+
+### Key Differentiator
+
+Most developers use AI for **code completion**. This project demonstrates **full development lifecycle automation**:
+- Architecture decisions → Implementation → Testing → CI/CD → Documentation
+
+---
 
 ## License
 

@@ -20,6 +20,7 @@ public final class ProfileCoordinatorImpl: BaseCoordinator, ProfileCoordinator {
     // MARK: - ProfileCoordinator
 
     public func dismiss() {
-        safeDismiss()
+        // The navigationController IS the presented modal, so dismiss it directly
+        navigationController.dismiss(animated: true)
     }
 }

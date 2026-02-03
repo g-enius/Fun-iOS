@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 import FunModel
 import FunCore
 
@@ -26,16 +27,37 @@ public class DetailViewModel: ObservableObject {
 
     @Published public var itemTitle: String
     @Published public var category: String
+    @Published public var itemDescription: String
     @Published public var isFavorited: Bool = false
+
+    // MARK: - Private Properties
+
+    private var cancellables = Set<AnyCancellable>()
+    private var itemId: String
 
     // MARK: - Initialization
 
-    public init(itemTitle: String, category: String, coordinator: DetailCoordinator?, tabBarViewModel: HomeTabBarViewModel? = nil) {
-        self.itemTitle = itemTitle
-        self.category = category
+    public init(item: FeaturedItem, coordinator: DetailCoordinator?, tabBarViewModel: HomeTabBarViewModel? = nil) {
+        self.itemTitle = item.title
+        self.category = item.category
+        self.itemId = item.id
+        self.itemDescription = TechnologyDescriptions.description(for: item.id)
         self.coordinator = coordinator
         self.tabBarViewModel = tabBarViewModel
-        self.isFavorited = favoritesService.isFavorited(itemTitle)
+        self.isFavorited = favoritesService.isFavorited(itemId)
+        observeFavoritesChanges()
+    }
+
+    // MARK: - Setup
+
+    private func observeFavoritesChanges() {
+        favoritesService.favoritesDidChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] favorites in
+                guard let self else { return }
+                self.isFavorited = favorites.contains(self.itemId)
+            }
+            .store(in: &cancellables)
     }
 
     // MARK: - Actions
@@ -50,8 +72,7 @@ public class DetailViewModel: ObservableObject {
     }
 
     public func didTapToggleFavorite() {
-        favoritesService.toggleFavorite(forKey: itemTitle)
-        isFavorited = favoritesService.isFavorited(itemTitle)
+        favoritesService.toggleFavorite(forKey: itemId)
         logger.log("Favorite toggled for \(itemTitle): \(isFavorited)")
     }
 

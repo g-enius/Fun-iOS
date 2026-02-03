@@ -5,7 +5,7 @@
 //  ViewModel for Tab1 (Home) screen
 //
 
-import UIKit
+import Foundation
 import Combine
 import FunModel
 import FunCore
@@ -21,6 +21,7 @@ public class Tab1ViewModel: ObservableObject {
     // MARK: - Services
 
     @Service(.logger) private var logger: LoggerService
+    @Service(.favorites) private var favoritesService: FavoritesServiceProtocol
 
     /// Direct access to feature toggle service for reading current state
     private var featureToggleService: FeatureToggleServiceProtocol {
@@ -34,12 +35,12 @@ public class Tab1ViewModel: ObservableObject {
     @Published public var isLoading: Bool = false
     @Published public var isRefreshing: Bool = false
     @Published public var isCarouselEnabled: Bool = true
+    @Published public private(set) var favoriteIds: Set<String> = []
 
     // MARK: - Private Properties
 
     private var cancellables = Set<AnyCancellable>()
     private var hasLoadedInitialData: Bool = false
-    private var carouselTimerCancellable: AnyCancellable?
 
     // MARK: - Initialization
 
@@ -50,9 +51,8 @@ public class Tab1ViewModel: ObservableObject {
         // Load initial carousel state from feature toggle
         isCarouselEnabled = featureToggleService.featuredCarousel
 
-        startCarouselTimer()
         observeFeatureToggleChanges()
-        observeSceneLifecycle()
+        observeFavoritesChanges()
 
         // Load data asynchronously on init
         Task {
@@ -71,34 +71,30 @@ public class Tab1ViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    // MARK: - Scene Lifecycle (Combine)
+    // MARK: - Favorites Observation
 
-    private func observeSceneLifecycle() {
-        NotificationCenter.default
-            .publisher(for: UIApplication.didEnterBackgroundNotification)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.pauseCarouselTimer()
-            }
-            .store(in: &cancellables)
+    private func observeFavoritesChanges() {
+        // Initialize with current favorites
+        favoriteIds = favoritesService.favorites
 
-        NotificationCenter.default
-            .publisher(for: UIApplication.willEnterForegroundNotification)
+        // Observe future changes
+        favoritesService.favoritesDidChange
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.resumeCarouselTimer()
+            .sink { [weak self] newFavorites in
+                self?.favoriteIds = newFavorites
             }
             .store(in: &cancellables)
     }
 
-    private func pauseCarouselTimer() {
-        carouselTimerCancellable?.cancel()
-        carouselTimerCancellable = nil
+    // MARK: - Favorites
+
+    public func isFavorited(_ itemId: String) -> Bool {
+        favoriteIds.contains(itemId)
     }
 
-    private func resumeCarouselTimer() {
-        guard carouselTimerCancellable == nil else { return }
-        startCarouselTimer()
+    public func toggleFavorite(for itemId: String) {
+        favoritesService.toggleFavorite(forKey: itemId)
+        logger.log("Toggled favorite for: \(itemId)")
     }
 
     private func refreshFeatureToggles() {
@@ -124,24 +120,13 @@ public class Tab1ViewModel: ObservableObject {
         let delay = UInt64.random(in: 500_000_000...1_500_000_000)
         try? await Task.sleep(nanoseconds: delay)
 
-        // Mock data - in real app this would come from network
-        let mockData: [[FeaturedItem]] = [
-            [
-                FeaturedItem(id: "1", title: "Async/Await", subtitle: "Modern concurrency", color: "green"),
-                FeaturedItem(id: "2", title: "Combine", subtitle: "Reactive programming", color: "orange")
-            ],
-            [
-                FeaturedItem(id: "3", title: "SwiftUI", subtitle: "Declarative UI", color: "blue"),
-                FeaturedItem(id: "4", title: "Coordinator", subtitle: "Navigation pattern", color: "purple")
-            ]
-        ]
-
-        featuredItems = mockData
+        // Use static FeaturedItem data showcasing technologies used in this demo
+        featuredItems = FeaturedItem.allCarouselSets
         isLoading = false
         isRefreshing = false
         hasLoadedInitialData = true
 
-        logger.log("Featured items loaded: \(mockData.flatMap { $0 }.count) items")
+        logger.log("Featured items loaded: \(featuredItems.flatMap { $0 }.count) items")
     }
 
     /// Pull-to-refresh handler
@@ -157,24 +142,11 @@ public class Tab1ViewModel: ObservableObject {
         await loadFeaturedItems()
     }
 
-    private func startCarouselTimer() {
-        carouselTimerCancellable = Timer.publish(every: 5.0, on: .main, in: .common)
-            .autoconnect()
-            .sink { [weak self] _ in
-                self?.rotateCarousel()
-            }
-    }
-
-    private func rotateCarousel() {
-        guard !featuredItems.isEmpty else { return }
-        currentCarouselIndex = (currentCarouselIndex + 1) % featuredItems.count
-    }
-
     // MARK: - Actions
 
     public func didTapFeaturedItem(_ item: FeaturedItem) {
         logger.log("Featured item tapped: \(item.title)")
-        coordinator?.showDetail(for: item.title)
+        coordinator?.showDetail(for: item)
     }
 
     public func didTapSettings() {

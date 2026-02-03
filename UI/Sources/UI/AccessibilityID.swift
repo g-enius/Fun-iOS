@@ -43,8 +43,4 @@ public enum AccessibilityID {
     public enum Profile {
         public static let dismissButton = "profile_dismiss_button"
     }
-
-    public enum Settings {
-        public static let dismissButton = "settings_dismiss_button"
-    }
 }

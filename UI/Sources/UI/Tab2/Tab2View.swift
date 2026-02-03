@@ -56,23 +56,23 @@ public struct Tab2View: View {
                 EmptySearchResultsView(message: emptyStateMessage)
                 Spacer()
             } else {
-                List(viewModel.searchResults) { result in
-                    Button(action: { viewModel.didSelectResult(result) }) {
+                List(viewModel.searchResults) { item in
+                    Button(action: { viewModel.didSelectItem(item) }) {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(result.title)
+                            Text(item.title)
                                 .font(.headline)
-                            Text(result.subtitle)
+                            Text(item.subtitle)
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
-                            Text(result.category)
+                            Text(item.category)
                                 .font(.caption)
                                 .foregroundColor(.blue)
                         }
                         .padding(.vertical, 4)
                     }
                     .buttonStyle(.plain)
-                    .accessibilityIdentifier("search_result_\(result.id)")
-                    .accessibilityLabel("\(result.title), \(result.subtitle)")
+                    .accessibilityIdentifier("search_result_\(item.id)")
+                    .accessibilityLabel("\(item.title), \(item.subtitle)")
                 }
                 .listStyle(.plain)
                 .accessibilityIdentifier(AccessibilityID.Tab2.resultsList)

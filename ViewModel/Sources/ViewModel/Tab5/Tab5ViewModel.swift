@@ -39,28 +39,12 @@ public class Tab5ViewModel: ObservableObject {
         didSet { featureToggleService.featuredCarousel = featuredCarouselEnabled }
     }
 
-    @Published public var analyticsEnabled: Bool = false {
-        didSet {
-            featureToggleService.featureAnalytics = analyticsEnabled
-            logger.log("Analytics \(analyticsEnabled ? "enabled" : "disabled")")
-        }
-    }
-
-    @Published public var debugModeEnabled: Bool = false {
-        didSet {
-            featureToggleService.featureDebugMode = debugModeEnabled
-            logger.log("Debug mode \(debugModeEnabled ? "enabled" : "disabled")")
-        }
-    }
-
     // MARK: - Initialization
 
     public init(coordinator: Tab5Coordinator?) {
         self.coordinator = coordinator
         self.isDarkModeEnabled = UserDefaults.standard.bool(forKey: .darkModeEnabled)
         self.featuredCarouselEnabled = featureToggleService.featuredCarousel
-        self.analyticsEnabled = featureToggleService.featureAnalytics
-        self.debugModeEnabled = featureToggleService.featureDebugMode
     }
 
     // MARK: - Actions
@@ -72,8 +56,6 @@ public class Tab5ViewModel: ObservableObject {
 
     public func resetFeatureToggles() {
         featuredCarouselEnabled = true
-        analyticsEnabled = false
-        debugModeEnabled = false
         logger.log("Feature toggles reset")
     }
 }

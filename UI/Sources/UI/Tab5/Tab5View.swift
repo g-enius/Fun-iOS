@@ -26,10 +26,6 @@ public struct Tab5View: View {
             Section(header: Text(L10n.Settings.featureToggles)) {
                 Toggle(L10n.Settings.featuredCarousel, isOn: $viewModel.featuredCarouselEnabled)
                     .accessibilityIdentifier("toggle_carousel")
-                Toggle(L10n.Settings.analytics, isOn: $viewModel.analyticsEnabled)
-                    .accessibilityIdentifier("toggle_analytics")
-                Toggle(L10n.Settings.debugMode, isOn: $viewModel.debugModeEnabled)
-                    .accessibilityIdentifier("toggle_debug")
             }
 
             Section {

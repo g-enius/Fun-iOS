@@ -16,7 +16,7 @@ public final class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
 
     // Store to prevent deallocation, ViewModels hold weak refs
     private var detailCoordinator: DetailCoordinatorImpl?
-    private var settingsCoordinator: SettingsCoordinatorImpl?
+    private var tab5Coordinator: Tab5CoordinatorImpl?
     private var profileCoordinator: ProfileCoordinatorImpl?
 
     // MARK: - Tab Bar
@@ -38,7 +38,7 @@ public final class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
 
     // MARK: - Tab1Coordinator
 
-    public func showDetail(for item: String) {
+    public func showDetail(for item: FeaturedItem) {
         let coordinator = DetailCoordinatorImpl(
             navigationController: navigationController,
             tabBarViewModel: tabBarViewModel
@@ -46,8 +46,7 @@ public final class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
         detailCoordinator = coordinator
 
         let viewModel = DetailViewModel(
-            itemTitle: item,
-            category: "Async Data",
+            item: item,
             coordinator: coordinator,
             tabBarViewModel: tabBarViewModel
         )
@@ -68,12 +67,24 @@ public final class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
 
     public func showSettings() {
         let settingsNavController = UINavigationController()
-        let coordinator = SettingsCoordinatorImpl(navigationController: settingsNavController)
-        settingsCoordinator = coordinator
+        let coordinator = Tab5CoordinatorImpl(navigationController: settingsNavController)
+        tab5Coordinator = coordinator
 
-        let viewModel = SettingsViewModel(coordinator: coordinator)
-        let viewController = SettingsViewController(viewModel: viewModel)
+        let viewModel = Tab5ViewModel(coordinator: coordinator)
+        let viewController = Tab5ViewController(viewModel: viewModel)
+
+        // Add Done button for modal dismissal
+        viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(dismissSettings)
+        )
+
         settingsNavController.setViewControllers([viewController], animated: false)
         safePresent(settingsNavController)
+    }
+
+    @objc private func dismissSettings() {
+        navigationController.dismiss(animated: true)
     }
 }

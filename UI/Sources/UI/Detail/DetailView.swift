@@ -19,75 +19,34 @@ public struct DetailView: View {
     public var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                Text(viewModel.itemTitle)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
+                // Header
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(viewModel.itemTitle)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
 
-                HStack {
-                    Image(systemName: "folder")
-                    Text(viewModel.category)
-                    Spacer()
-                    Text(L10n.Detail.justNow)
-                        .foregroundColor(.gray)
+                    HStack {
+                        Text(viewModel.category)
+                            .font(.subheadline)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .background(Color.blue.opacity(0.1))
+                            .foregroundColor(.blue)
+                            .cornerRadius(8)
+                    }
                 }
-                .font(.subheadline)
 
                 Divider()
 
-                Text(L10n.Detail.description)
+                // Description
+                Text("How it's used in this demo")
                     .font(.headline)
-                Text(L10n.Detail.itemDescription(viewModel.itemTitle))
-                    .foregroundColor(.secondary)
+
+                DescriptionContentView(text: viewModel.itemDescription)
 
                 Divider()
 
-                VStack(spacing: 12) {
-                    Button(action: { viewModel.didTapShare() }) {
-                        HStack {
-                            Image(systemName: "square.and.arrow.up")
-                            Text(L10n.Common.share)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                    }
-                    .accessibilityIdentifier(AccessibilityID.Detail.shareButton)
-                    .accessibilityLabel(L10n.Common.share)
-
-                    Button(action: { viewModel.didTapToggleFavorite() }) {
-                        HStack {
-                            Image(systemName: viewModel.isFavorited ? "heart.fill" : "heart")
-                            Text(viewModel.isFavorited ? L10n.Detail.removeFromFavorites : L10n.Detail.addToFavorites)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.red.opacity(0.1))
-                        .foregroundColor(.red)
-                        .cornerRadius(10)
-                    }
-                    .accessibilityIdentifier(AccessibilityID.Detail.favoriteButton)
-                    .accessibilityLabel(
-                        viewModel.isFavorited
-                            ? L10n.Detail.removeFromFavorites
-                            : L10n.Detail.addToFavorites
-                    )
-
-                    Button(action: { viewModel.didTapSwitchToTab2() }) {
-                        HStack {
-                            Image(systemName: "arrow.right")
-                            Text(L10n.Home.switchToTab2)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.purple.opacity(0.2))
-                        .cornerRadius(10)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(L10n.Tabs.search)
-                }
-
+                // Navigation info
                 VStack(spacing: 8) {
                     HStack {
                         Image(systemName: "checkmark.circle.fill")
@@ -103,6 +62,109 @@ public struct DetailView: View {
                 .padding(.top)
             }
             .padding()
+        }
+    }
+}
+
+// MARK: - Description Content View
+
+/// Renders description text with code blocks styled differently
+private struct DescriptionContentView: View {
+    let text: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            ForEach(Array(parseContent().enumerated()), id: \.offset) { _, block in
+                switch block {
+                case .text(let content):
+                    Text(markdownAttributedString(from: content))
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .lineSpacing(4)
+                case .code(let content, let language):
+                    CodeBlockView(code: content, language: language)
+                }
+            }
+        }
+    }
+
+    private func parseContent() -> [ContentBlock] {
+        var blocks: [ContentBlock] = []
+        var remaining = text
+
+        while let startRange = remaining.range(of: "```") {
+            // Add text before code block
+            let textBefore = String(remaining[..<startRange.lowerBound])
+            if !textBefore.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                blocks.append(.text(textBefore))
+            }
+
+            // Find end of code block
+            let afterStart = remaining[startRange.upperBound...]
+            if let endRange = afterStart.range(of: "```") {
+                let codeContent = String(afterStart[..<endRange.lowerBound])
+
+                // Extract language hint (e.g., "swift" from ```swift)
+                let lines = codeContent.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false)
+                let language = lines.first.map(String.init)?.trimmingCharacters(in: .whitespaces) ?? ""
+                let code = lines.count > 1 ? String(lines[1]) : ""
+
+                blocks.append(.code(code.trimmingCharacters(in: .newlines), language))
+                remaining = String(afterStart[endRange.upperBound...])
+            } else {
+                // No closing ```, treat rest as text
+                blocks.append(.text(String(remaining[startRange.lowerBound...])))
+                remaining = ""
+            }
+        }
+
+        // Add remaining text
+        if !remaining.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            blocks.append(.text(remaining))
+        }
+
+        return blocks
+    }
+
+    private func markdownAttributedString(from text: String) -> AttributedString {
+        let markdownText = text
+            .replacingOccurrences(of: "• ", with: "- ")
+        return (try? AttributedString(
+            markdown: markdownText,
+            options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)
+        )) ?? AttributedString(text)
+    }
+}
+
+// MARK: - Content Block
+
+private enum ContentBlock {
+    case text(String)
+    case code(String, String) // code, language
+}
+
+// MARK: - Code Block View
+
+private struct CodeBlockView: View {
+    let code: String
+    let language: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            if !language.isEmpty {
+                Text(language)
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal, 8)
+            }
+
+            Text(code)
+                .font(.system(.footnote, design: .monospaced))
+                .foregroundColor(.primary)
+                .padding(12)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
         }
     }
 }

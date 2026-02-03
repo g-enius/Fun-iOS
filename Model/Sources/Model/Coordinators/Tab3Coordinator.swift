@@ -9,5 +9,5 @@ import Foundation
 
 @MainActor
 public protocol Tab3Coordinator: AnyObject {
-    func showDetail(for item: String)
+    func showDetail(for item: FeaturedItem)
 }

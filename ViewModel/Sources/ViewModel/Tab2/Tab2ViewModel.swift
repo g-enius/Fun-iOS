@@ -26,18 +26,21 @@ public class Tab2ViewModel: ObservableObject {
 
     @Published public var searchText: String = ""
     @Published public var selectedCategory: String = "All"
-    @Published public var searchResults: [SearchResult] = []
+    @Published public var searchResults: [FeaturedItem] = []
     @Published public var isSearching: Bool = false
 
     // MARK: - Configuration
 
-    public let categories = ["All", "Tech", "Design", "Business"]
+    public var categories: [String] {
+        let cats = Set(allItems.map { $0.category })
+        return ["All"] + cats.sorted()
+    }
     public let minimumSearchCharacters: Int = 2
 
     // MARK: - Private Properties
 
     private var cancellables = Set<AnyCancellable>()
-    private var allItems: [SearchResult] = []
+    private var allItems: [FeaturedItem] = []
     private var searchTask: Task<Void, Never>?
 
     // MARK: - Initialization
@@ -72,14 +75,8 @@ public class Tab2ViewModel: ObservableObject {
     // MARK: - Data Loading
 
     public func loadItems() {
-        allItems = [
-            SearchResult(id: "1", title: "Swift Concurrency", subtitle: "Async/await patterns", category: "Tech"),
-            SearchResult(id: "2", title: "UI Design", subtitle: "Modern interfaces", category: "Design"),
-            SearchResult(id: "3", title: "Architecture", subtitle: "App structure", category: "Tech"),
-            SearchResult(id: "4", title: "Business Logic", subtitle: "Domain modeling", category: "Business"),
-            SearchResult(id: "5", title: "Color Theory", subtitle: "Visual harmony", category: "Design"),
-            SearchResult(id: "6", title: "Market Analysis", subtitle: "Competitive research", category: "Business")
-        ]
+        // Use the same items as the carousel and list for consistency
+        allItems = FeaturedItem.allCarouselSets.flatMap { $0 }
         filterResults()
     }
 
@@ -143,9 +140,9 @@ public class Tab2ViewModel: ObservableObject {
         performSearch()
     }
 
-    public func didSelectResult(_ result: SearchResult) {
-        logger.log("Search result selected: \(result.title)")
-        coordinator?.showDetail(for: result.title)
+    public func didSelectItem(_ item: FeaturedItem) {
+        logger.log("Search result selected: \(item.title)")
+        coordinator?.showDetail(for: item)
     }
 
     public func didTapSwitchToTab1() {

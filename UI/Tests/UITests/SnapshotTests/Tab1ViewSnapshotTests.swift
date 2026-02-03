@@ -8,25 +8,22 @@
 import XCTest
 import SwiftUI
 import SnapshotTesting
+import Combine
 @testable import FunUI
 @testable import FunViewModel
 @testable import FunModel
 @testable import FunCore
 
+@MainActor
 final class Tab1ViewSnapshotTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        // Register mock services for testing
-        registerMockServices()
-    }
-
-    private func registerMockServices() {
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
         ServiceLocator.shared.register(MockFeatureToggleService(), for: .featureToggles)
+        ServiceLocator.shared.register(MockFavoritesService(), for: .favorites)
     }
 
-    @MainActor
     func testTab1View_withCarouselEnabled() {
         let viewModel = Tab1ViewModel(coordinator: nil, tabBarViewModel: nil)
         viewModel.isCarouselEnabled = true
@@ -38,7 +35,6 @@ final class Tab1ViewSnapshotTests: XCTestCase {
         assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro))
     }
 
-    @MainActor
     func testTab1View_withCarouselDisabled() {
         let viewModel = Tab1ViewModel(coordinator: nil, tabBarViewModel: nil)
         viewModel.isCarouselEnabled = false
@@ -50,7 +46,6 @@ final class Tab1ViewSnapshotTests: XCTestCase {
         assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro))
     }
 
-    @MainActor
     func testTab1View_darkMode() {
         let viewModel = Tab1ViewModel(coordinator: nil, tabBarViewModel: nil)
         viewModel.isCarouselEnabled = true
@@ -69,6 +64,8 @@ final class Tab1ViewSnapshotTests: XCTestCase {
 @MainActor
 private class MockFeatureToggleService: FeatureToggleServiceProtocol {
     var featuredCarousel: Bool = true
-    var featureAnalytics: Bool = false
-    var featureDebugMode: Bool = false
+
+    var featureTogglesDidChange: AnyPublisher<Void, Never> {
+        Empty().eraseToAnyPublisher()
+    }
 }

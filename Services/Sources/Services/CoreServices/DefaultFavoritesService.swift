@@ -6,13 +6,23 @@
 //
 
 import Foundation
+import Combine
 import FunModel
 
 @MainActor
 public final class DefaultFavoritesService: FavoritesServiceProtocol {
 
     public private(set) var favorites: Set<String> {
-        didSet { saveFavorites() }
+        didSet {
+            saveFavorites()
+            favoritesSubject.send(favorites)
+        }
+    }
+
+    private let favoritesSubject = PassthroughSubject<Set<String>, Never>()
+
+    public var favoritesDidChange: AnyPublisher<Set<String>, Never> {
+        favoritesSubject.eraseToAnyPublisher()
     }
 
     public init() {

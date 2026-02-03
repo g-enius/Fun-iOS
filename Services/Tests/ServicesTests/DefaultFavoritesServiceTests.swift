@@ -7,6 +7,7 @@
 
 import Testing
 import Foundation
+import Combine
 @testable import FunServices
 @testable import FunModel
 
@@ -158,5 +159,47 @@ struct DefaultFavoritesServiceTests {
         service.removeFavorite("nonexistent")
 
         #expect(service.favorites.count == countBefore)
+    }
+
+    // MARK: - Publisher Tests
+
+    @Test("favoritesDidChange publishes when favorites change")
+    func testFavoritesDidChangePublisher() async {
+        clearUserDefaults()
+        let service = DefaultFavoritesService()
+
+        var receivedFavorites: Set<String>?
+        var cancellables = Set<AnyCancellable>()
+
+        service.favoritesDidChange
+            .sink { favorites in
+                receivedFavorites = favorites
+            }
+            .store(in: &cancellables)
+
+        service.addFavorite("item2")
+
+        #expect(receivedFavorites != nil)
+        #expect(receivedFavorites?.contains("item2") == true)
+    }
+
+    @Test("favoritesDidChange publishes on toggle")
+    func testFavoritesDidChangeOnToggle() async {
+        clearUserDefaults()
+        let service = DefaultFavoritesService()
+
+        var publishCount = 0
+        var cancellables = Set<AnyCancellable>()
+
+        service.favoritesDidChange
+            .sink { _ in
+                publishCount += 1
+            }
+            .store(in: &cancellables)
+
+        service.toggleFavorite(forKey: "item1")
+        service.toggleFavorite(forKey: "item1")
+
+        #expect(publishCount == 2)
     }
 }

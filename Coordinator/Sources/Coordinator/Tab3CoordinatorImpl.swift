@@ -35,7 +35,7 @@ public final class Tab3CoordinatorImpl: BaseCoordinator, Tab3Coordinator {
 
     // MARK: - Tab3Coordinator
 
-    public func showDetail(for item: String) {
+    public func showDetail(for item: FeaturedItem) {
         let coordinator = DetailCoordinatorImpl(
             navigationController: navigationController,
             tabBarViewModel: tabBarViewModel
@@ -43,8 +43,7 @@ public final class Tab3CoordinatorImpl: BaseCoordinator, Tab3Coordinator {
         detailCoordinator = coordinator
 
         let viewModel = DetailViewModel(
-            itemTitle: item,
-            category: "List Item",
+            item: item,
             coordinator: coordinator,
             tabBarViewModel: tabBarViewModel
         )

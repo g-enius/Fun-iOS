@@ -10,7 +10,7 @@ import Foundation
 @MainActor
 public final class MockTabCoordinator: Tab1Coordinator, Tab2Coordinator, Tab3Coordinator {
     public var showDetailCalled = false
-    public var showDetailItem: String?
+    public var showDetailFeaturedItem: FeaturedItem?
     public var showProfileCalled = false
     public var showSettingsCalled = false
     public var switchToTabCalled = false
@@ -18,10 +18,10 @@ public final class MockTabCoordinator: Tab1Coordinator, Tab2Coordinator, Tab3Coo
 
     public init() {}
 
-    // Tab1Coordinator
-    public func showDetail(for item: String) {
+    // Tab1Coordinator, Tab2Coordinator & Tab3Coordinator (FeaturedItem)
+    public func showDetail(for item: FeaturedItem) {
         showDetailCalled = true
-        showDetailItem = item
+        showDetailFeaturedItem = item
     }
 
     public func showProfile() {

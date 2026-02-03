@@ -10,8 +10,6 @@ import Foundation
 public enum UserDefaultsKey: String {
     // Feature toggles
     case featureCarousel = "feature.carousel"
-    case featureAnalytics = "feature.analytics"
-    case featureDebugMode = "feature.debugMode"
 
     // App settings
     case darkModeEnabled = "app.darkModeEnabled"

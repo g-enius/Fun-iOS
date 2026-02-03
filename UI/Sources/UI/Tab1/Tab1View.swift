@@ -40,17 +40,26 @@ public struct Tab1View: View {
                                     ForEach(Array(viewModel.featuredItems.enumerated()), id: \.offset) { index, items in
                                         HStack(spacing: 16) {
                                             ForEach(items) { item in
-                                                FeaturedCardView(item: item) {
-                                                    viewModel.didTapFeaturedItem(item)
-                                                }
+                                                FeaturedCardView(
+                                                    item: item,
+                                                    isFavorited: viewModel.isFavorited(item.id),
+                                                    onTap: {
+                                                        viewModel.didTapFeaturedItem(item)
+                                                    },
+                                                    onFavoriteTap: {
+                                                        viewModel.toggleFavorite(for: item.id)
+                                                    }
+                                                )
                                             }
                                         }
                                         .padding(.horizontal)
+                                        .padding(.bottom, 40) // Make room for page indicator
                                         .tag(index)
                                     }
                                 }
-                                .tabViewStyle(.page(indexDisplayMode: .automatic))
-                                .frame(height: 200)
+                                .tabViewStyle(.page(indexDisplayMode: .always))
+                                .indexViewStyle(.page(backgroundDisplayMode: .always))
+                                .frame(height: 240) // Increased height to accommodate indicator
                                 .accessibilityIdentifier(AccessibilityID.Tab1.carousel)
                             }
                         }
@@ -98,24 +107,38 @@ public struct Tab1View: View {
 
 struct FeaturedCardView: View {
     let item: FeaturedItem
+    let isFavorited: Bool
     let onTap: () -> Void
+    let onFavoriteTap: () -> Void
 
     var body: some View {
-        Button(action: onTap) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(item.title)
-                    .font(.headline)
-                    .foregroundColor(.white)
-                Text(item.subtitle)
-                    .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.8))
+        ZStack(alignment: .topTrailing) {
+            Button(action: onTap) {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(item.title)
+                        .font(.headline)
+                        .foregroundColor(.white)
+                    Text(item.subtitle)
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.8))
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+                .padding()
+                .background(cardColor(for: item.color))
+                .cornerRadius(12)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
-            .padding()
-            .background(cardColor(for: item.color))
-            .cornerRadius(12)
+            .buttonStyle(.plain)
+
+            Button(action: onFavoriteTap) {
+                Image(systemName: isFavorited ? "star.fill" : "star")
+                    .font(.system(size: 20))
+                    .foregroundColor(isFavorited ? .yellow : .white.opacity(0.8))
+                    .padding(12)
+            }
+            .buttonStyle(.plain)
+            .accessibilityIdentifier("favorite_button_\(item.id)")
+            .accessibilityLabel(isFavorited ? "Remove from favorites" : "Add to favorites")
         }
-        .buttonStyle(.plain)
         .accessibilityIdentifier("featured_card_\(item.id)")
         .accessibilityLabel("\(item.title), \(item.subtitle)")
         .accessibilityHint("Double tap to view details")
@@ -127,6 +150,14 @@ struct FeaturedCardView: View {
         case "orange": return .orange
         case "blue": return .blue
         case "purple": return .purple
+        case "indigo": return .indigo
+        case "brown": return .brown
+        case "teal": return .teal
+        case "mint": return .mint
+        case "cyan": return .cyan
+        case "gray": return .gray
+        case "red": return .red
+        case "pink": return .pink
         default: return .gray
         }
     }
