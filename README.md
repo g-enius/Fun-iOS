@@ -159,15 +159,15 @@ class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                              User Interaction                                │
-│                         (Tap, Scroll, Pull-to-Refresh)                      │
+│                              User Interaction                               │
+│                        (Tap, Scroll, Pull-to-Refresh)                       │
 └─────────────────────────────────────────────────────────────────────────────┘
                                       │
                                       ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                                 UI Layer                                     │
-│                    (SwiftUI Views, UIKit ViewControllers)                    │
-│                                                                              │
+│                                 UI Layer                                    │
+│                   (SwiftUI Views, UIKit ViewControllers)                    │
+│                                                                             │
 │   • Tab1View (Home) - Featured carousel with 14 technology items            │
 │   • Tab2View (Search) - Bottom search bar, debounced input                  │
 │   • Tab3View (Items) - Full technology list with favorites support          │
@@ -201,8 +201,8 @@ class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                              Model Layer                                     │
-│                                                                              │
+│                               Model Layer                                   │
+│                                                                             │
 │   • FeaturedItem (14 technology showcase items with descriptions)           │
 │   • Service protocols (NetworkService, FavoritesService, etc.)              │
 │   • Coordinator protocols (Tab1Coordinator, DetailCoordinator, etc.)        │
@@ -211,7 +211,7 @@ class Tab1CoordinatorImpl: BaseCoordinator, Tab1Coordinator {
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                              Core Layer                                     │
+│                               Core Layer                                    │
 │                                                                             │
 │   • ServiceLocator (Dependency injection container)                         │
 │   • @Service property wrapper                                               │
