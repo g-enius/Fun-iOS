@@ -176,20 +176,28 @@ class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
 │   • SettingsView - Feature toggles, app configuration                       │
 └─────────────────────────────────────────────────────────────────────────────┘
                                       │
-                         ┌────────────┴────────────┐
-                         │   @ObservedObject       │
-                         ▼                         ▼
-┌─────────────────────────────────┐   ┌───────────────────────────────────────┐
-│         ViewModel Layer          │   │           Coordinator Layer            │
-│                                  │   │                                        │
-│  • Business logic                │   │  • Navigation flow control             │
-│  • State management              │◄──│  • Screen transitions                  │
-│  • Data transformation           │   │  • Deep linking support                │
-│  • Combine publishers            │   │  • Child coordinator management        │
-│  • Async/await operations        │   │                                        │
-└─────────────────────────────────┘   └───────────────────────────────────────┘
-                         │
-                         ▼
+                                      │ @ObservedObject
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              ViewModel Layer                                │
+│                                                                             │
+│   • Business logic & state management (@Published properties)               │
+│   • Data transformation & Combine publishers                                │
+│   • Async/await operations                                                  │
+│   • Calls Coordinator for navigation (weak reference)                       │
+└─────────────────────────────────────────────────────────────────────────────┘
+                         │                                   │
+                         │ navigation request                │
+                         ▼                                   │
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            Coordinator Layer                                │
+│                                                                             │
+│   • Creates ViewControllers + ViewModels for new screens                    │
+│   • Manages UINavigationController push/pop/present                         │
+│   • Child coordinator management (retains to prevent deallocation)          │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                              Services Layer                                 │
 │                                                                             │
