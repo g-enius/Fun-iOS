@@ -45,6 +45,7 @@
 "items.loadedItems" = "Loaded Items";
 "items.favorite" = "Favorite";
 "items.unfavorite" = "Unfavorite";
+"items.categoryAll" = "All";
 
 // MARK: - Settings
 
@@ -71,6 +72,7 @@
 "detail.pushNavigation" = "Push Navigation";
 "detail.usingCoordinatorPattern" = "Using Coordinator Pattern";
 "detail.itemDescription" = "This is a detailed description of %@. It showcases the coordinator pattern for navigation in iOS apps.";
+"detail.shareText" = "Check out %@!";
 
 // MARK: - Profile
 

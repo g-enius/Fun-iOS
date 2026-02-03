@@ -29,7 +29,7 @@ public class ItemsViewModel: ObservableObject {
 
     // Search & Filter State
     @Published public var searchText: String = ""
-    @Published public var selectedCategory: String = "All"
+    @Published public var selectedCategory: String = L10n.Items.categoryAll
     @Published public var isSearching: Bool = false
     @Published public var needsMoreCharacters: Bool = false
 
@@ -37,7 +37,7 @@ public class ItemsViewModel: ObservableObject {
 
     public var categories: [String] {
         let cats = Set(allItems.map { $0.category })
-        return ["All"] + cats.sorted()
+        return [L10n.Items.categoryAll] + cats.sorted()
     }
     public let minimumSearchCharacters: Int = 2
 
@@ -144,7 +144,7 @@ public class ItemsViewModel: ObservableObject {
         var results = allItems
 
         // Filter by category (if not "All")
-        if selectedCategory != "All" {
+        if selectedCategory != L10n.Items.categoryAll {
             results = results.filter { $0.category == selectedCategory }
         }
 

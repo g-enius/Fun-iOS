@@ -48,6 +48,10 @@ public enum L10n {
     public static let pushNavigation = L10n.tr("Localizable", "detail.pushNavigation", fallback: "Push Navigation")
     /// Remove from Favorites
     public static let removeFromFavorites = L10n.tr("Localizable", "detail.removeFromFavorites", fallback: "Remove from Favorites")
+    /// Check out %@!
+    public static func shareText(_ p1: Any) -> String {
+      return L10n.tr("Localizable", "detail.shareText", String(describing: p1), fallback: "Check out %@!")
+    }
     /// Using Coordinator Pattern
     public static let usingCoordinatorPattern = L10n.tr("Localizable", "detail.usingCoordinatorPattern", fallback: "Using Coordinator Pattern")
   }
@@ -60,6 +64,8 @@ public enum L10n {
     public static let featured = L10n.tr("Localizable", "home.featured", fallback: "Featured")
   }
   public enum Items {
+    /// All
+    public static let categoryAll = L10n.tr("Localizable", "items.categoryAll", fallback: "All")
     /// Favorite
     public static let favorite = L10n.tr("Localizable", "items.favorite", fallback: "Favorite")
     /// Loaded Items

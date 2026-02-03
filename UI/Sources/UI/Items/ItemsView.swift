@@ -8,6 +8,7 @@
 import SwiftUI
 import FunViewModel
 import FunModel
+import FunCore
 
 public struct ItemsView: View {
     @ObservedObject var viewModel: ItemsViewModel

@@ -67,7 +67,7 @@ public class DetailViewModel: ObservableObject {
     }
 
     public func didTapShare() {
-        let shareText = "Check out \(itemTitle)!"
+        let shareText = L10n.Detail.shareText(itemTitle)
         coordinator?.share(text: shareText)
     }
 

@@ -8,6 +8,7 @@
 import SwiftUI
 import FunViewModel
 import FunModel
+import FunCore
 
 public struct SettingsView: View {
     @ObservedObject var viewModel: SettingsViewModel

@@ -3,7 +3,6 @@ import PackageDescription
 
 let package = Package(
     name: "UI",
-    defaultLocalization: "en",
     platforms: [
         .iOS(.v15),
         .macCatalyst(.v15),
@@ -25,10 +24,7 @@ let package = Package(
                 .product(name: "FunModel", package: "Model"),
                 .product(name: "FunCore", package: "Core"),
             ],
-            path: "Sources/UI",
-            resources: [
-                .process("Resources")
-            ]
+            path: "Sources/UI"
         ),
         .testTarget(
             name: "UITests",

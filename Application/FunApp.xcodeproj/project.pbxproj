@@ -292,7 +292,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"/opt/homebrew/bin:$PATH\"\nif which swiftgen >/dev/null; then\n  cd \"${SRCROOT}/../UI\"\n  swiftgen config run --config swiftgen.yml\nelse\n  echo \"warning: SwiftGen not installed, download from https://github.com/SwiftGen/SwiftGen\"\nfi\n";
+			shellScript = "export PATH=\"/opt/homebrew/bin:$PATH\"\nif which swiftgen >/dev/null; then\n  cd \"${SRCROOT}/../Core\"\n  swiftgen config run --config swiftgen.yml\nelse\n  echo \"warning: SwiftGen not installed, download from https://github.com/SwiftGen/SwiftGen\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

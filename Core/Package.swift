@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "Core",
+    defaultLocalization: "en",
     platforms: [
         .iOS(.v15),
         .macCatalyst(.v15),
@@ -13,7 +14,10 @@ let package = Package(
     targets: [
         .target(
             name: "FunCore",
-            path: "Sources/Core"
+            path: "Sources/Core",
+            resources: [
+                .process("Resources")
+            ]
         ),
         .testTarget(
             name: "CoreTests",

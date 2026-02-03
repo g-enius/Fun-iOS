@@ -17,7 +17,7 @@ struct DefaultFavoritesServiceTests {
 
     // Helper to clear UserDefaults before each test
     private func clearUserDefaults() {
-        UserDefaults.standard.removeObject(forKey: "app.favorites")
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.favorites)
     }
 
     // MARK: - Initialization Tests

@@ -8,6 +8,7 @@
 import UIKit
 import FunUI
 import FunViewModel
+import FunCore
 
 /// Main app coordinator that manages the root navigation
 public final class AppCoordinator: BaseCoordinator {
@@ -30,22 +31,20 @@ public final class AppCoordinator: BaseCoordinator {
         let settingsNavController = UINavigationController()
 
         // Configure tab bar items with icons and titles
-        // Note: Using hardcoded strings here since L10n is in the UI module.
-        // For a production app, consider a shared Localization module.
         homeNavController.tabBarItem = UITabBarItem(
-            title: "Home",
+            title: L10n.Tabs.home,
             image: UIImage(systemName: "house"),
             selectedImage: UIImage(systemName: "house.fill")
         )
 
         itemsNavController.tabBarItem = UITabBarItem(
-            title: "Items",
+            title: L10n.Tabs.items,
             image: UIImage(systemName: "list.bullet"),
             selectedImage: UIImage(systemName: "list.bullet")
         )
 
         settingsNavController.tabBarItem = UITabBarItem(
-            title: "Settings",
+            title: L10n.Tabs.settings,
             image: UIImage(systemName: "gearshape"),
             selectedImage: UIImage(systemName: "gearshape.fill")
         )
