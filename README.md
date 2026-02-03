@@ -158,6 +158,25 @@ class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
 }
 ```
 
+### 5. Centralized Settings Access
+All app settings (dark mode, feature toggles) are accessed through `FeatureToggleService`, never directly from `UserDefaults`. This ensures:
+- **Testability**: Mock services can inject any configuration
+- **Consistency**: Single source of truth for settings
+- **Observability**: Combine publishers notify UI of changes
+
+```swift
+// Protocol
+protocol FeatureToggleServiceProtocol {
+    var darkModeEnabled: Bool { get set }
+    var featuredCarousel: Bool { get set }
+    var simulateErrors: Bool { get set }
+}
+
+// Access via service (not UserDefaults)
+@Service(.featureToggles) var featureToggleService: FeatureToggleServiceProtocol
+let isDarkMode = featureToggleService.darkModeEnabled
+```
+
 ## Data Flow & System Dependencies
 
 ```
@@ -327,10 +346,11 @@ extension View {
 
 ## Testing Strategy
 
-### Unit Tests
-- **ViewModel Tests**: Business logic validation
-- **Service Tests**: Service behavior verification
-- **Mock Objects**: Protocol-based mocking
+### Unit Tests (48 tests across 3 suites)
+- **HomeViewModelTests**: Carousel, favorites, coordinator navigation, error handling
+- **ItemsViewModelTests**: Search, filtering, categories, favorites
+- **SettingsViewModelTests**: Dark mode, feature toggles, service integration
+- **Mock Objects**: Protocol-based mocking for all services
 
 ```swift
 @Test func searchFiltersResultsByText() async {
@@ -444,6 +464,7 @@ Key rules enabled:
 - `force_unwrapping` - No force unwraps allowed
 - `implicitly_unwrapped_optional` - Explicit optionals only
 - Custom `no_print` rule - Use Logger instead of print()
+- Custom `no_direct_userdefaults` rule - Access settings via services for testability
 
 ### GitHub Actions CI
 
