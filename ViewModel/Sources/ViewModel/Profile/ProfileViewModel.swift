@@ -22,17 +22,23 @@ public class ProfileViewModel: ObservableObject {
 
     // MARK: - Published State
 
-    @Published public var userName: String = "Demo User"
-    @Published public var userEmail: String = "demo@example.com"
-    @Published public var userBio: String = "iOS Developer passionate about clean architecture"
-    @Published public var viewCount: Int = 1234
-    @Published public var favoritesCount: Int = 56
-    @Published public var daysCount: Int = 42
+    @Published public var userName: String
+    @Published public var userEmail: String
+    @Published public var userBio: String
+    @Published public var viewCount: Int
+    @Published public var favoritesCount: Int
+    @Published public var daysCount: Int
 
     // MARK: - Initialization
 
-    public init(coordinator: ProfileCoordinator?) {
+    public init(coordinator: ProfileCoordinator?, profile: UserProfile = .demo) {
         self.coordinator = coordinator
+        self.userName = profile.name
+        self.userEmail = profile.email
+        self.userBio = profile.bio
+        self.viewCount = profile.viewsCount
+        self.favoritesCount = profile.favoritesCount
+        self.daysCount = profile.daysCount
     }
 
     // MARK: - Actions
