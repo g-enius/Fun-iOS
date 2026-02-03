@@ -13,6 +13,7 @@ import FunModel
 import FunServices
 import FunCoordinator
 
+@MainActor
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?

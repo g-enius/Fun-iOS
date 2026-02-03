@@ -17,6 +17,10 @@ public struct ProfileView: View {
         self.viewModel = viewModel
     }
 
+    private var appVersionText: String {
+        "\(L10n.Common.version) \(Bundle.main.appVersion) (\(L10n.Common.build) \(Bundle.main.buildNumber))"
+    }
+
     public var body: some View {
         ScrollView {
             VStack(spacing: 24) {
@@ -64,7 +68,7 @@ public struct ProfileView: View {
                     StatView(title: L10n.Profile.days, value: "\(viewModel.daysCount)")
                 }
 
-                Text("\(L10n.Common.version) 1.0.0 (\(L10n.Common.build) 42)")
+                Text(appVersionText)
                     .font(.caption)
                     .foregroundColor(.gray)
                     .padding(.top)

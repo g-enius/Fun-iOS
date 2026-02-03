@@ -32,7 +32,7 @@ public final class ProfileCoordinatorImpl: BaseCoordinator, ProfileCoordinator {
     public func dismissAndSwitchToItems() {
         // First dismiss the profile modal, then switch to Items tab
         navigationController.dismiss(animated: true) { [weak self] in
-            self?.tabBarViewModel?.switchToTab(1) // Items tab is now index 1
+            self?.tabBarViewModel?.switchToTab(TabIndex.items.rawValue)
         }
     }
 }

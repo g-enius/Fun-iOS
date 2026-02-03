@@ -32,6 +32,10 @@ public class HomeTabBarController: UITabBarController {
 
     private var toastHostingController: UIHostingController<ToastView>?
 
+    // MARK: - Tasks
+
+    private var tabObservationTask: Task<Void, Never>?
+
     // MARK: - Initialization
 
     public init(viewModel: HomeTabBarViewModel, tabNavigationControllers: [UINavigationController]) {
@@ -46,6 +50,10 @@ public class HomeTabBarController: UITabBarController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        tabObservationTask?.cancel()
+    }
+
     // MARK: - Lifecycle
 
     override public func viewDidLoad() {
@@ -55,7 +63,7 @@ public class HomeTabBarController: UITabBarController {
         viewModel.selectedTabIndex = selectedIndex
 
         // Observe view model for programmatic tab changes
-        Task { @MainActor [weak self] in
+        tabObservationTask = Task { @MainActor [weak self] in
             guard let self else { return }
             for await index in viewModel.$selectedTabIndex.values where self.selectedIndex != index {
                 self.selectedIndex = index

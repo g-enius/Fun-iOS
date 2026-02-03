@@ -47,13 +47,13 @@ public struct SettingsView: View {
                 HStack {
                     Text(L10n.Common.version)
                     Spacer()
-                    Text("1.0.0")
+                    Text(Bundle.main.appVersion)
                         .foregroundColor(.gray)
                 }
                 HStack {
                     Text(L10n.Common.build)
                     Spacer()
-                    Text("42")
+                    Text(Bundle.main.buildNumber)
                         .foregroundColor(.gray)
                 }
             }
