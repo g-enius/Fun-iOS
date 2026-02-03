@@ -17,12 +17,16 @@ import Combine
 @MainActor
 final class HomeViewSnapshotTests: XCTestCase {
 
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
         ServiceLocator.shared.register(MockFeatureToggleService(), for: .featureToggles)
         ServiceLocator.shared.register(MockFavoritesService(), for: .favorites)
+        ServiceLocator.shared.register(MockToastService(), for: .toast)
     }
+
+    // Set to true to regenerate snapshots, then set back to false
+    private var recording: Bool { false }
 
     func testHomeView_withCarouselEnabled() {
         let viewModel = HomeViewModel(coordinator: nil)
@@ -32,7 +36,7 @@ final class HomeViewSnapshotTests: XCTestCase {
         let hostingController = UIHostingController(rootView: view)
         hostingController.view.frame = CGRect(x: 0, y: 0, width: 390, height: 844)
 
-        assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro))
+        assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro), record: recording)
     }
 
     func testHomeView_withCarouselDisabled() {
@@ -43,7 +47,7 @@ final class HomeViewSnapshotTests: XCTestCase {
         let hostingController = UIHostingController(rootView: view)
         hostingController.view.frame = CGRect(x: 0, y: 0, width: 390, height: 844)
 
-        assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro))
+        assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro), record: recording)
     }
 
     func testHomeView_darkMode() {
@@ -55,7 +59,7 @@ final class HomeViewSnapshotTests: XCTestCase {
         hostingController.overrideUserInterfaceStyle = .dark
         hostingController.view.frame = CGRect(x: 0, y: 0, width: 390, height: 844)
 
-        assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro))
+        assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro), record: recording)
     }
 }
 
@@ -64,8 +68,20 @@ final class HomeViewSnapshotTests: XCTestCase {
 @MainActor
 private class MockFeatureToggleService: FeatureToggleServiceProtocol {
     var featuredCarousel: Bool = true
+    var simulateErrors: Bool = false
 
     var featureTogglesDidChange: AnyPublisher<Void, Never> {
         Empty().eraseToAnyPublisher()
+    }
+}
+
+@MainActor
+private class MockToastService: ToastServiceProtocol {
+    var toastPublisher: AnyPublisher<ToastEvent, Never> {
+        Empty().eraseToAnyPublisher()
+    }
+
+    func showToast(message: String, type: ToastType) {
+        // No-op for snapshot tests
     }
 }

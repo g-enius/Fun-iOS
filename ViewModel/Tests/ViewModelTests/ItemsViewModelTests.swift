@@ -12,15 +12,19 @@ import Combine
 @testable import FunModel
 @testable import FunCore
 
-@Suite("ItemsViewModel Tests")
+@Suite("ItemsViewModel Tests", .serialized)
 @MainActor
 struct ItemsViewModelTests {
 
     // MARK: - Setup
 
-    private func setupServices(initialFavorites: Set<String> = []) {
+    private func setupServices(initialFavorites: Set<String> = [], simulateErrors: Bool = false) {
+        ServiceLocator.shared.reset()
+        ServiceLocator.shared.assertOnMissingService = false
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
         ServiceLocator.shared.register(MockFavoritesService(initialFavorites: initialFavorites), for: .favorites)
+        ServiceLocator.shared.register(MockFeatureToggleService(simulateErrors: simulateErrors), for: .featureToggles)
+        ServiceLocator.shared.register(MockToastService(), for: .toast)
     }
 
     // MARK: - Initialization Tests
@@ -269,5 +273,54 @@ struct ItemsViewModelTests {
         for item in viewModel.items {
             #expect(item.category == testCategory)
         }
+    }
+
+    // MARK: - Error State Tests
+
+    @Test("Initial hasError is false")
+    func testInitialHasErrorFalse() async {
+        setupServices()
+        let viewModel = ItemsViewModel(coordinator: nil)
+
+        #expect(viewModel.hasError == false)
+    }
+
+    @Test("Mock feature toggle service returns correct simulateErrors value")
+    func testMockFeatureToggleSimulateErrors() async {
+        setupServices(simulateErrors: true)
+
+        let service: FeatureToggleServiceProtocol = ServiceLocator.shared.resolve(for: .featureToggles)
+        #expect(service.simulateErrors == true)
+    }
+
+
+    @Test("clearSearch always sets hasError to false")
+    func testClearSearchSetsHasErrorFalse() async {
+        setupServices(simulateErrors: true)
+        let viewModel = ItemsViewModel(coordinator: nil)
+
+        // Manually set hasError to true to simulate error state
+        viewModel.hasError = true
+
+        // Clear search
+        viewModel.clearSearch()
+
+        #expect(viewModel.hasError == false)
+    }
+
+    @Test("retry resets hasError before re-searching")
+    func testRetryResetsHasError() async {
+        setupServices(simulateErrors: false)
+        let viewModel = ItemsViewModel(coordinator: nil)
+
+        // Manually set hasError to true
+        viewModel.hasError = true
+
+        // Retry should clear the error flag
+        viewModel.retry()
+
+        // hasError should be cleared immediately when retry is called
+        // (even though the search is async)
+        #expect(viewModel.hasError == false)
     }
 }

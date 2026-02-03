@@ -7,7 +7,9 @@
 //
 
 import UIKit
+import SwiftUI
 import Combine
+import FunCore
 import FunViewModel
 import FunModel
 
@@ -17,9 +19,17 @@ public class HomeTabBarController: UITabBarController {
 
     private let viewModel: HomeTabBarViewModel
 
+    // MARK: - Services
+
+    @Service(.toast) private var toastService: ToastServiceProtocol
+
     // MARK: - Combine
 
     private var cancellables = Set<AnyCancellable>()
+
+    // MARK: - Toast UI
+
+    private var toastHostingController: UIHostingController<ToastView>?
 
     // MARK: - Initialization
 
@@ -53,6 +63,48 @@ public class HomeTabBarController: UITabBarController {
 
         updateAppearance()
         observeAppSettingChanges()
+        observeToastEvents()
+    }
+
+    // MARK: - Toast Observation
+
+    private func observeToastEvents() {
+        toastService.toastPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] event in
+                self?.showToast(message: event.message, type: event.type)
+            }
+            .store(in: &cancellables)
+    }
+
+    private func showToast(message: String, type: ToastType) {
+        // Remove existing toast if any
+        toastHostingController?.view.removeFromSuperview()
+        toastHostingController = nil
+
+        let toastView = ToastView(message: message, type: type) { [weak self] in
+            self?.dismissToast()
+        }
+
+        let hostingController = UIHostingController(rootView: toastView)
+        hostingController.view.backgroundColor = .clear
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(hostingController.view)
+
+        NSLayoutConstraint.activate([
+            hostingController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            hostingController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            hostingController.view.heightAnchor.constraint(equalToConstant: 100)
+        ])
+
+        toastHostingController = hostingController
+    }
+
+    private func dismissToast() {
+        toastHostingController?.view.removeFromSuperview()
+        toastHostingController = nil
     }
 
     // MARK: - Appearance (Combine)

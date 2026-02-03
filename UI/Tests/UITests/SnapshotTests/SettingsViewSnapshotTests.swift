@@ -17,11 +17,14 @@ import Combine
 @MainActor
 final class SettingsViewSnapshotTests: XCTestCase {
 
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
         ServiceLocator.shared.register(MockFeatureToggleServiceForSettings(), for: .featureToggles)
     }
+
+    // Set to true to regenerate snapshots, then set back to false
+    private var recording: Bool { false }
 
     func testSettingsView_defaultState() {
         let viewModel = SettingsViewModel(coordinator: nil)
@@ -30,7 +33,7 @@ final class SettingsViewSnapshotTests: XCTestCase {
         let hostingController = UIHostingController(rootView: view)
         hostingController.view.frame = CGRect(x: 0, y: 0, width: 390, height: 844)
 
-        assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro))
+        assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro), record: recording)
     }
 
     func testSettingsView_darkModeEnabled() {
@@ -42,7 +45,7 @@ final class SettingsViewSnapshotTests: XCTestCase {
         hostingController.overrideUserInterfaceStyle = .dark
         hostingController.view.frame = CGRect(x: 0, y: 0, width: 390, height: 844)
 
-        assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro))
+        assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro), record: recording)
     }
 
     func testSettingsView_carouselEnabled() {
@@ -53,7 +56,7 @@ final class SettingsViewSnapshotTests: XCTestCase {
         let hostingController = UIHostingController(rootView: view)
         hostingController.view.frame = CGRect(x: 0, y: 0, width: 390, height: 844)
 
-        assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro))
+        assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro), record: recording)
     }
 
     func testSettingsView_carouselDisabled() {
@@ -64,7 +67,7 @@ final class SettingsViewSnapshotTests: XCTestCase {
         let hostingController = UIHostingController(rootView: view)
         hostingController.view.frame = CGRect(x: 0, y: 0, width: 390, height: 844)
 
-        assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro))
+        assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro), record: recording)
     }
 }
 
@@ -73,6 +76,7 @@ final class SettingsViewSnapshotTests: XCTestCase {
 @MainActor
 private class MockFeatureToggleServiceForSettings: FeatureToggleServiceProtocol {
     var featuredCarousel: Bool = true
+    var simulateErrors: Bool = false
 
     var featureTogglesDidChange: AnyPublisher<Void, Never> {
         Empty().eraseToAnyPublisher()

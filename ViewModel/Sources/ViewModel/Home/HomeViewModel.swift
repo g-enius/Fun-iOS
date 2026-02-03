@@ -21,6 +21,7 @@ public class HomeViewModel: ObservableObject {
 
     @Service(.logger) private var logger: LoggerService
     @Service(.favorites) private var favoritesService: FavoritesServiceProtocol
+    @Service(.toast) private var toastService: ToastServiceProtocol
 
     /// Direct access to feature toggle service for reading current state
     private var featureToggleService: FeatureToggleServiceProtocol {
@@ -35,6 +36,7 @@ public class HomeViewModel: ObservableObject {
     @Published public var isRefreshing: Bool = false
     @Published public var isCarouselEnabled: Bool = true
     @Published public private(set) var favoriteIds: Set<String> = []
+    @Published public var hasError: Bool = false
 
     // MARK: - Private Properties
 
@@ -107,11 +109,18 @@ public class HomeViewModel: ObservableObject {
 
     /// Load featured items with simulated network delay
     public func loadFeaturedItems() async {
+        // Check if error simulation is enabled
+        if featureToggleService.simulateErrors {
+            await handleSimulatedError()
+            return
+        }
+
         // Show loading only for initial load
         if !hasLoadedInitialData {
             isLoading = true
         }
 
+        hasError = false
         logger.log("Loading featured items...")
 
         // Simulate network delay (500ms - 1.5s)
@@ -127,6 +136,21 @@ public class HomeViewModel: ObservableObject {
         logger.log("Featured items loaded: \(featuredItems.flatMap { $0 }.count) items")
     }
 
+    private func handleSimulatedError() async {
+        logger.log("Simulating network error...")
+
+        // Simulate network delay
+        let delay = UInt64.random(in: 500_000_000...1_000_000_000)
+        try? await Task.sleep(nanoseconds: delay)
+
+        hasError = true
+        isLoading = false
+        isRefreshing = false
+        featuredItems = []
+
+        toastService.showToast(message: AppError.networkError.errorDescription ?? "Error", type: .error)
+    }
+
     /// Pull-to-refresh handler
     public func refresh() async {
         isRefreshing = true
@@ -138,6 +162,13 @@ public class HomeViewModel: ObservableObject {
 
         // Reload data (could fetch new data from server)
         await loadFeaturedItems()
+    }
+
+    /// Retry loading after error
+    public func retry() {
+        Task {
+            await loadFeaturedItems()
+        }
     }
 
     // MARK: - Actions

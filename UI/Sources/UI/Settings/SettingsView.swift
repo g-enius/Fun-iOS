@@ -27,6 +27,8 @@ public struct SettingsView: View {
             Section(header: Text(L10n.Settings.featureToggles)) {
                 Toggle(L10n.Settings.featuredCarousel, isOn: $viewModel.featuredCarouselEnabled)
                     .accessibilityIdentifier("toggle_carousel")
+                Toggle(L10n.Settings.simulateErrors, isOn: $viewModel.simulateErrorsEnabled)
+                    .accessibilityIdentifier("toggle_simulate_errors")
             }
 
             Section {

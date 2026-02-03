@@ -28,6 +28,8 @@ public struct HomeView: View {
                         .foregroundColor(.secondary)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else if viewModel.hasError {
+                ErrorStateView(onRetry: viewModel.retry)
             } else if viewModel.isCarouselEnabled && !viewModel.featuredItems.isEmpty {
                 ScrollView {
                     VStack(spacing: 20) {
@@ -79,6 +81,48 @@ public struct HomeView: View {
                 CarouselDisabledView()
             }
         }
+    }
+}
+
+// MARK: - Error State View
+
+struct ErrorStateView: View {
+    let onRetry: () -> Void
+
+    var body: some View {
+        VStack(spacing: 20) {
+            Spacer()
+
+            Image(systemName: "exclamationmark.triangle")
+                .font(.system(size: 64))
+                .foregroundColor(.red)
+
+            Text(L10n.Error.failedToLoad)
+                .font(.title2)
+                .fontWeight(.semibold)
+
+            Text(L10n.Error.networkError)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 40)
+
+            Button(action: onRetry) {
+                Text(L10n.Error.retry)
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 32)
+                    .padding(.vertical, 12)
+                    .background(Color.blue)
+                    .cornerRadius(8)
+            }
+            .accessibilityIdentifier(AccessibilityID.Error.retryButton)
+            .padding(.top, 8)
+
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .accessibilityIdentifier(AccessibilityID.Error.errorStateView)
     }
 }
 
@@ -158,9 +202,12 @@ struct FeaturedCardView: View {
                 Image(systemName: isFavorited ? "star.fill" : "star")
                     .font(.system(size: 20))
                     .foregroundColor(isFavorited ? .yellow : .white.opacity(0.8))
+                    .symbolReplaceTransition()
                     .padding(12)
             }
             .buttonStyle(.plain)
+            .symbolBounceEffect(value: isFavorited)
+            .selectionFeedback(trigger: isFavorited)
             .accessibilityIdentifier("favorite_button_\(item.id)")
             .accessibilityLabel(isFavorited ? L10n.Detail.removeFromFavorites : L10n.Detail.addToFavorites)
         }

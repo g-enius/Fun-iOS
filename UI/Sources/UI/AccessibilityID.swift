@@ -33,4 +33,10 @@ public enum AccessibilityID {
     public enum Profile {
         public static let dismissButton = "profile_dismiss_button"
     }
+
+    public enum Error {
+        public static let errorStateView = "error_state_view"
+        public static let retryButton = "retry_button"
+        public static let itemsErrorStateView = "items_error_state_view"
+    }
 }

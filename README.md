@@ -203,9 +203,9 @@ class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
 │                                                                             │
 │   NetworkService ───────► API calls (simulated)                             │
 │   FavoritesService ─────► UserDefaults persistence                          │
-│   FeatureToggleService ─► Runtime feature flags                             │
-│   LoggerService ────────► Console logging                                   │
-│   ToastService ─────────► In-app notifications                              │
+│   FeatureToggleService ─► Runtime feature flags (carousel, simulate errors) │
+│   LoggerService ────────► OSLog with type-safe categories                   │
+│   ToastService ─────────► In-app toast notifications                        │
 └─────────────────────────────────────────────────────────────────────────────┘
                          │
                          ▼
@@ -245,10 +245,31 @@ class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
 // Toggle carousel visibility at runtime
 featureToggleService.featuredCarousel = false  // Instantly hides carousel
 
+// Enable error simulation for testing
+featureToggleService.simulateErrors = true  // Triggers error states
+
 // Observe changes via Combine
 featureToggleService.featureTogglesDidChange
     .sink { /* update UI */ }
     .store(in: &cancellables)
+```
+
+### Error Handling & Toast Notifications
+- Centralized `AppError` enum for type-safe error handling
+- Toast notifications that slide from top with auto-dismiss
+- "Simulate Errors" toggle in Settings for testing error flows
+- Retry functionality on error states
+
+```swift
+// AppError cases
+public enum AppError: LocalizedError, Equatable {
+    case networkError
+    case serverError
+    case unknown
+}
+
+// Show toast notification
+toastService.showToast(message: "Network error", type: .error)
 ```
 
 ### Modern Search Implementation
@@ -262,6 +283,29 @@ featureToggleService.featureTogglesDidChange
 - Native SwiftUI `.refreshable` modifier
 - Async/await for clean async code
 - Simulated network delay for realistic UX
+
+### iOS 17+ Modern APIs (Backwards Compatible)
+The app demonstrates knowledge of modern iOS 17+ APIs while maintaining iOS 15+ compatibility through View extensions:
+
+```swift
+// View+ModernAPIs.swift - Backwards compatible extensions
+extension View {
+    /// Adds a bounce symbol effect when the value changes (iOS 17+)
+    @ViewBuilder
+    func symbolBounceEffect<T: Equatable>(value: T) -> some View {
+        if #available(iOS 17.0, *) {
+            self.symbolEffect(.bounce, value: value)
+        } else {
+            self
+        }
+    }
+}
+```
+
+**Implemented iOS 17+ features:**
+- **Symbol Effects**: Bounce animation on favorite button toggle (`.symbolEffect(.bounce)`)
+- **Symbol Replace Transition**: Smooth icon transition between star/star.fill (`.contentTransition(.symbolEffect(.replace))`)
+- **Sensory Feedback**: Haptic feedback when favoriting items (`.sensoryFeedback(.selection)`)
 
 ## Tech Stack
 
@@ -295,6 +339,32 @@ featureToggleService.featureTogglesDidChange
 
     #expect(viewModel.items.count == 1)
     #expect(viewModel.items.first?.title == "Swift Concurrency")
+}
+```
+
+### Parameterized Tests (Swift Testing)
+Test multiple scenarios with a single test function using custom test scenarios:
+
+```swift
+struct FeatureScenario: CustomTestStringConvertible, Sendable {
+    let carousel: Bool
+    let simulateErrors: Bool
+    let name: String
+
+    var testDescription: String { name }
+
+    static let carouselScenarios: [FeatureScenario] = [
+        .init(carousel: true, simulateErrors: false, name: "Carousel enabled"),
+        .init(carousel: false, simulateErrors: false, name: "Carousel disabled"),
+    ]
+}
+
+@Test("Carousel visibility", arguments: FeatureScenario.carouselScenarios)
+func testCarouselVisibility(scenario: FeatureScenario) async {
+    setupServices(scenario: scenario)
+    let viewModel = HomeViewModel(coordinator: nil)
+
+    #expect(viewModel.isCarouselEnabled == scenario.carousel)
 }
 ```
 
@@ -389,12 +459,15 @@ Automated pipeline on every push/PR:
 // Inject logger service
 @Service(.logger) var logger: LoggerService
 
-// Log with levels and categories
-logger.log("User logged in", level: .info, category: "auth")
-logger.log("Network error", level: .error, category: "network")
+// Log with type-safe categories
+logger.log("User logged in", level: .info, category: .general)
+logger.log("Network error", level: .error, category: .network)
+logger.log("Favorite toggled", level: .info, category: .favorites)
 ```
 
 Log levels: `.debug`, `.info`, `.warning`, `.error`, `.fault`
+
+Log categories (type-safe enum): `.general`, `.network`, `.ui`, `.data`, `.navigation`, `.favorites`, `.settings`, `.error`
 
 ### Localization with SwiftGen
 

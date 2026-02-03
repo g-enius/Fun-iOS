@@ -55,6 +55,18 @@ public enum L10n {
     /// Using Coordinator Pattern
     public static let usingCoordinatorPattern = L10n.tr("Localizable", "detail.usingCoordinatorPattern", fallback: "Using Coordinator Pattern")
   }
+  public enum Error {
+    /// Failed to load content
+    public static let failedToLoad = L10n.tr("Localizable", "error.failedToLoad", fallback: "Failed to load content")
+    /// Network connection failed. Please check your internet and try again.
+    public static let networkError = L10n.tr("Localizable", "error.networkError", fallback: "Network connection failed. Please check your internet and try again.")
+    /// Retry
+    public static let retry = L10n.tr("Localizable", "error.retry", fallback: "Retry")
+    /// Server error occurred. Please try again later.
+    public static let serverError = L10n.tr("Localizable", "error.serverError", fallback: "Server error occurred. Please try again later.")
+    /// Something went wrong. Please try again.
+    public static let unknownError = L10n.tr("Localizable", "error.unknownError", fallback: "Something went wrong. Please try again.")
+  }
   public enum Home {
     /// Carousel Disabled
     public static let carouselDisabled = L10n.tr("Localizable", "home.carouselDisabled", fallback: "Carousel Disabled")
@@ -126,6 +138,8 @@ public enum L10n {
     public static let resetDarkMode = L10n.tr("Localizable", "settings.resetDarkMode", fallback: "Reset Dark Mode")
     /// Reset Feature Toggles
     public static let resetFeatureToggles = L10n.tr("Localizable", "settings.resetFeatureToggles", fallback: "Reset Feature Toggles")
+    /// Simulate Errors
+    public static let simulateErrors = L10n.tr("Localizable", "settings.simulateErrors", fallback: "Simulate Errors")
     /// System Information
     public static let systemInfo = L10n.tr("Localizable", "settings.systemInfo", fallback: "System Information")
   }

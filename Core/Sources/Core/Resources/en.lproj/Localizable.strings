@@ -53,6 +53,7 @@
 "settings.darkMode" = "Dark Mode";
 "settings.featureToggles" = "Feature Toggles";
 "settings.featuredCarousel" = "Featured Carousel";
+"settings.simulateErrors" = "Simulate Errors";
 "settings.analytics" = "Analytics";
 "settings.debugMode" = "Debug Mode";
 "settings.resetDarkMode" = "Reset Dark Mode";
@@ -81,3 +82,11 @@
 "profile.views" = "Views";
 "profile.favorites" = "Favorites";
 "profile.days" = "Days";
+
+// MARK: - Errors
+
+"error.failedToLoad" = "Failed to load content";
+"error.retry" = "Retry";
+"error.networkError" = "Network connection failed. Please check your internet and try again.";
+"error.serverError" = "Server error occurred. Please try again later.";
+"error.unknownError" = "Something went wrong. Please try again.";

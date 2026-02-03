@@ -21,6 +21,12 @@ public class ItemsViewModel: ObservableObject {
 
     @Service(.logger) private var logger: LoggerService
     @Service(.favorites) private var favoritesService: FavoritesServiceProtocol
+    @Service(.toast) private var toastService: ToastServiceProtocol
+
+    /// Direct access to feature toggle service for reading current state
+    private var featureToggleService: FeatureToggleServiceProtocol {
+        ServiceLocator.shared.resolve(for: .featureToggles)
+    }
 
     // MARK: - Published State
 
@@ -32,6 +38,7 @@ public class ItemsViewModel: ObservableObject {
     @Published public var selectedCategory: String = L10n.Items.categoryAll
     @Published public var isSearching: Bool = false
     @Published public var needsMoreCharacters: Bool = false
+    @Published public var hasError: Bool = false
 
     // MARK: - Configuration
 
@@ -134,6 +141,18 @@ public class ItemsViewModel: ObservableObject {
             // Check if task was cancelled
             guard !Task.isCancelled else { return }
 
+            // Check if error simulation is enabled
+            if self.featureToggleService.simulateErrors {
+                self.isSearching = false
+                self.hasError = true
+                self.items = []
+                self.toastService.showToast(message: AppError.networkError.errorDescription ?? "Error", type: .error)
+                return
+            }
+
+            // Clear any previous error state
+            self.hasError = false
+
             // Perform filtering
             self.filterResults()
             self.isSearching = false
@@ -167,7 +186,13 @@ public class ItemsViewModel: ObservableObject {
         searchText = ""
         searchTask?.cancel()
         isSearching = false
+        hasError = false
         filterResults()
+    }
+
+    public func retry() {
+        hasError = false
+        performSearch()
     }
 
     public func didSelectCategory(_ category: String) {

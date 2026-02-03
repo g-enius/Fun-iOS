@@ -39,12 +39,17 @@ public class SettingsViewModel: ObservableObject {
         didSet { featureToggleService.featuredCarousel = featuredCarouselEnabled }
     }
 
+    @Published public var simulateErrorsEnabled: Bool = false {
+        didSet { featureToggleService.simulateErrors = simulateErrorsEnabled }
+    }
+
     // MARK: - Initialization
 
     public init(coordinator: SettingsCoordinator?) {
         self.coordinator = coordinator
         self.isDarkModeEnabled = UserDefaults.standard.bool(forKey: .darkModeEnabled)
         self.featuredCarouselEnabled = featureToggleService.featuredCarousel
+        self.simulateErrorsEnabled = featureToggleService.simulateErrors
     }
 
     // MARK: - Actions
@@ -56,6 +61,7 @@ public class SettingsViewModel: ObservableObject {
 
     public func resetFeatureToggles() {
         featuredCarouselEnabled = true
+        simulateErrorsEnabled = false
         logger.log("Feature toggles reset")
     }
 }

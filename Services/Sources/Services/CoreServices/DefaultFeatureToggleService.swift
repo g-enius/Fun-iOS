@@ -30,11 +30,22 @@ public final class DefaultFeatureToggleService: FeatureToggleServiceProtocol {
         }
     }
 
+    public var simulateErrors: Bool {
+        get { UserDefaults.standard.bool(forKey: .simulateErrors) }
+        set {
+            UserDefaults.standard.set(newValue, forKey: .simulateErrors)
+            togglesChangedSubject.send()
+        }
+    }
+
     // MARK: - Initialization
 
     public init() {
         if UserDefaults.standard.object(forKey: .featureCarousel) == nil {
             UserDefaults.standard.set(true, forKey: .featureCarousel)
+        }
+        if UserDefaults.standard.object(forKey: .simulateErrors) == nil {
+            UserDefaults.standard.set(false, forKey: .simulateErrors)
         }
     }
 }

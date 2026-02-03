@@ -39,6 +39,10 @@ public final class DefaultLoggerService: LoggerService {
         log(message, level: level, category: defaultCategory)
     }
 
+    public func log(_ message: String, level: LogLevel, category: LogCategory) {
+        log(message, level: level, category: category.rawValue)
+    }
+
     public func log(_ message: String, level: LogLevel, category: String) {
         let logger = getLogger(for: category)
 

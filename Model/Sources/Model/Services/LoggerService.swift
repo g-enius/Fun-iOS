@@ -27,10 +27,23 @@ public enum LogLevel {
     }
 }
 
+/// Log categories for type-safe logging
+public enum LogCategory: String {
+    case general
+    case network
+    case ui
+    case data
+    case navigation
+    case favorites
+    case settings
+    case error
+}
+
 /// Protocol for structured logging
 @MainActor
 public protocol LoggerService {
     func log(_ message: String)
     func log(_ message: String, level: LogLevel)
+    func log(_ message: String, level: LogLevel, category: LogCategory)
     func log(_ message: String, level: LogLevel, category: String)
 }
