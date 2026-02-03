@@ -9,6 +9,7 @@ import UIKit
 import FunViewModel
 import FunModel
 import FunUI
+import FunCore
 
 public final class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
 
@@ -55,6 +56,11 @@ public final class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
 
     public func showProfile() {
         let profileNavController = UINavigationController()
+
+        // Apply current dark mode setting to modal
+        let isDarkMode = UserDefaults.standard.bool(forKey: .darkModeEnabled)
+        profileNavController.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
+
         let coordinator = ProfileCoordinatorImpl(
             navigationController: profileNavController,
             tabBarViewModel: tabBarViewModel
