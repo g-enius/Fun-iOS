@@ -168,3 +168,14 @@ private struct CodeBlockView: View {
         }
     }
 }
+
+// MARK: - Previews
+
+struct DetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            DetailView(viewModel: PreviewHelper.makeDetailViewModel())
+                .navigationTitle("Detail")
+        }
+    }
+}

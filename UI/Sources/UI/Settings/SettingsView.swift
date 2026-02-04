@@ -62,3 +62,14 @@ public struct SettingsView: View {
         .accessibilityIdentifier(AccessibilityID.Settings.settingsList)
     }
 }
+
+// MARK: - Previews
+
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            SettingsView(viewModel: PreviewHelper.makeSettingsViewModel())
+                .navigationTitle("Settings")
+        }
+    }
+}

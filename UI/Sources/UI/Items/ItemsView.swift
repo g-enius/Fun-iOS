@@ -316,3 +316,42 @@ private struct ItemsErrorStateView: View {
         .accessibilityIdentifier(AccessibilityID.Error.itemsErrorStateView)
     }
 }
+
+// MARK: - Previews
+
+struct ItemsView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            NavigationView {
+                ItemsView(viewModel: PreviewHelper.makeItemsViewModel())
+                    .navigationTitle("Items")
+            }
+            .previewDisplayName("Items List")
+
+            SearchBarView(
+                text: .constant("Swift"),
+                isSearching: false,
+                minimumCharacters: 2,
+                onClear: {}
+            )
+            .previewDisplayName("Search Bar")
+
+            SearchBarView(
+                text: .constant("async"),
+                isSearching: true,
+                minimumCharacters: 2,
+                onClear: {}
+            )
+            .previewDisplayName("Search Bar - Searching")
+
+            KeepTypingView(minimumCharacters: 2)
+                .previewDisplayName("Keep Typing")
+
+            EmptyItemsView(message: "Try a different search term")
+                .previewDisplayName("Empty Results")
+
+            ItemsErrorStateView(onRetry: {})
+                .previewDisplayName("Error State")
+        }
+    }
+}

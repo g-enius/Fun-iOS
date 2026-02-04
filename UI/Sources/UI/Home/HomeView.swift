@@ -216,3 +216,37 @@ private struct FeaturedCardView: View {
         .accessibilityHint(L10n.Accessibility.doubleTapToViewDetails)
     }
 }
+
+// MARK: - Previews
+
+struct HomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            NavigationView {
+                HomeView(viewModel: PreviewHelper.makeHomeViewModel())
+                    .navigationTitle("Home")
+            }
+            .previewDisplayName("Home - Carousel")
+
+            ErrorStateView(onRetry: {})
+                .previewDisplayName("Error State")
+
+            CarouselDisabledView()
+                .previewDisplayName("Carousel Disabled")
+
+            PageIndicatorView(currentIndex: 1, pageCount: 3)
+                .padding()
+                .previewDisplayName("Page Indicator")
+
+            FeaturedCardView(
+                item: .asyncAwait,
+                isFavorited: true,
+                onTap: {},
+                onFavoriteTap: {}
+            )
+            .frame(width: 160, height: 200)
+            .padding()
+            .previewDisplayName("Featured Card")
+        }
+    }
+}

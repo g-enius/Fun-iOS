@@ -92,3 +92,14 @@ private struct StatView: View {
         }
     }
 }
+
+// MARK: - Previews
+
+struct ProfileView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            ProfileView(viewModel: PreviewHelper.makeProfileViewModel())
+                .navigationTitle("Profile")
+        }
+    }
+}

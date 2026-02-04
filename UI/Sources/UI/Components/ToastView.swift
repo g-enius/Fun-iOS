@@ -100,3 +100,32 @@ public struct ToastView: View {
         }
     }
 }
+
+// MARK: - Previews
+
+struct ToastView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            ToastView(
+                message: "Something went wrong. Please try again.",
+                type: .error,
+                onDismiss: {}
+            )
+            .previewDisplayName("Error Toast")
+
+            ToastView(
+                message: "Item added to favorites!",
+                type: .success,
+                onDismiss: {}
+            )
+            .previewDisplayName("Success Toast")
+
+            ToastView(
+                message: "Pull down to refresh content.",
+                type: .info,
+                onDismiss: {}
+            )
+            .previewDisplayName("Info Toast")
+        }
+    }
+}

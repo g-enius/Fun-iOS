@@ -1,6 +1,6 @@
 # Fun - iOS Demo App
 
-A modern iOS application demonstrating clean architecture principles, modular design with Swift Package Manager, and best practices for scalable iOS development.
+A modern iOS application demonstrating clean architecture (MVVM-C), Swift Concurrency, modular design with Swift Package Manager, and best practices for scalable iOS development.
 
 ## Demo
 
@@ -332,7 +332,7 @@ extension View {
 |----------|------------|
 | Language | Swift 6.0 |
 | UI Framework | SwiftUI + UIKit |
-| Reactive | Combine |
+| Reactive & Concurrency | Combine, Swift Concurrency (async/await, actors) |
 | Architecture | MVVM + Coordinator |
 | Dependency Injection | ServiceLocator + Property Wrapper |
 | Package Management | Swift Package Manager |
