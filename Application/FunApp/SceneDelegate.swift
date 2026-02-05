@@ -21,10 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var appCoordinator: AppCoordinator?
     private var cancellables = Set<AnyCancellable>()
 
-    // Access feature toggle service for appearance
-    private var featureToggleService: FeatureToggleServiceProtocol {
-        ServiceLocator.shared.resolve(for: .featureToggles)
-    }
+    // Service for appearance management (resolved after registration)
+    @Service(.featureToggles) private var featureToggleService: FeatureToggleServiceProtocol
 
     func scene(
         _ scene: UIScene,
