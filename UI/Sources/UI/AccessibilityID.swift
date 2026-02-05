@@ -9,6 +9,11 @@ import Foundation
 
 public enum AccessibilityID {
 
+    public enum Login {
+        public static let loginView = "login_view"
+        public static let loginButton = "login_button"
+    }
+
     public enum Home {
         public static let carousel = "home_carousel"
         public static let profileButton = "home_profile_button"
@@ -27,6 +32,7 @@ public enum AccessibilityID {
         public static let simulateErrorsToggle = "settings_simulate_errors_toggle"
         public static let resetDarkModeButton = "settings_reset_dark_mode"
         public static let resetTogglesButton = "settings_reset_toggles"
+        public static let logoutButton = "settings_logout_button"
     }
 
     public enum Toast {

@@ -87,6 +87,18 @@ public enum L10n {
     /// Unfavorite
     public static let unfavorite = L10n.tr("Localizable", "items.unfavorite", fallback: "Unfavorite")
   }
+  public enum Login {
+    /// This is a demo login - no credentials required
+    public static let demoNote = L10n.tr("Localizable", "login.demoNote", fallback: "This is a demo login - no credentials required")
+    /// Signing In...
+    public static let loggingIn = L10n.tr("Localizable", "login.loggingIn", fallback: "Signing In...")
+    /// Sign In
+    public static let loginButton = L10n.tr("Localizable", "login.loginButton", fallback: "Sign In")
+    /// A demo app showcasing iOS architecture patterns and best practices.
+    public static let subtitle = L10n.tr("Localizable", "login.subtitle", fallback: "A demo app showcasing iOS architecture patterns and best practices.")
+    /// Welcome to Fun
+    public static let welcome = L10n.tr("Localizable", "login.welcome", fallback: "Welcome to Fun")
+  }
   public enum Profile {
     /// Days
     public static let days = L10n.tr("Localizable", "profile.days", fallback: "Days")
@@ -132,6 +144,10 @@ public enum L10n {
     public static let featuredCarousel = L10n.tr("Localizable", "settings.featuredCarousel", fallback: "Featured Carousel")
     /// Feature Toggles
     public static let featureToggles = L10n.tr("Localizable", "settings.featureToggles", fallback: "Feature Toggles")
+    /// Sign Out
+    public static let logout = L10n.tr("Localizable", "settings.logout", fallback: "Sign Out")
+    /// Are you sure you want to sign out?
+    public static let logoutConfirmation = L10n.tr("Localizable", "settings.logoutConfirmation", fallback: "Are you sure you want to sign out?")
     /// Notifications
     public static let notifications = L10n.tr("Localizable", "settings.notifications", fallback: "Notifications")
     /// Privacy Mode

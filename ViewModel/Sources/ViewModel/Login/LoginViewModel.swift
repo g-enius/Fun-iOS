@@ -1,0 +1,49 @@
+//
+//  LoginViewModel.swift
+//  ViewModel
+//
+//  ViewModel for Login screen
+//
+
+import Foundation
+import Combine
+import FunModel
+import FunCore
+
+@MainActor
+public class LoginViewModel: ObservableObject {
+
+    // MARK: - Coordinator
+
+    private weak var coordinator: LoginCoordinator?
+
+    // MARK: - Services
+
+    @Service(.logger) private var logger: LoggerService
+
+    // MARK: - Published State
+
+    @Published public var isLoggingIn: Bool = false
+
+    // MARK: - Initialization
+
+    public init(coordinator: LoginCoordinator?) {
+        self.coordinator = coordinator
+    }
+
+    // MARK: - Actions
+
+    public func login() {
+        guard !isLoggingIn else { return }
+
+        isLoggingIn = true
+        logger.log("User tapped login", level: .info, category: .general)
+
+        // Simulate a brief login delay for realism
+        Task {
+            try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
+            isLoggingIn = false
+            coordinator?.didLogin()
+        }
+    }
+}

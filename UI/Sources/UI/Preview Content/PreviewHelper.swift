@@ -60,6 +60,12 @@ public enum PreviewHelper {
         configureMockServices()
         return DetailViewModel(item: .asyncAwait, coordinator: nil)
     }
+
+    /// Creates a LoginViewModel configured for previews
+    public static func makeLoginViewModel() -> LoginViewModel {
+        configureMockServices()
+        return LoginViewModel(coordinator: nil)
+    }
 }
 
 // MARK: - Preview Logger Service

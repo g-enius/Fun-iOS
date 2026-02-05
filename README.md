@@ -96,6 +96,7 @@ Fun/
 │       └── Resources/    # Localizable.strings
 ├── UI/                   # SwiftUI views & UIKit controllers
 │   └── Sources/UI/
+│       ├── Login/        # Login screen (app entry point)
 │       ├── Home/         # Home tab (carousel)
 │       ├── Items/        # Items tab (search + list)
 │       ├── Settings/     # Settings tab
@@ -157,6 +158,61 @@ class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
     }
 }
 ```
+
+### 5. App-Level Flow Management
+The app uses an `AppFlow` enum to manage major application states (login vs main). The `AppCoordinator` orchestrates transitions between flows:
+
+```swift
+// AppFlow enum - represents major app states
+public enum AppFlow: Equatable, Sendable {
+    case login
+    case main
+}
+
+// AppCoordinator manages flow transitions
+class AppCoordinator: BaseCoordinator {
+    private var currentFlow: AppFlow = .login
+
+    override func start() {
+        switch currentFlow {
+        case .login: showLoginFlow()
+        case .main: showMainFlow()
+        }
+    }
+
+    private func transitionToMainFlow() {
+        currentFlow = .main
+        removeAllChildCoordinators()
+        showMainFlow()
+    }
+
+    private func transitionToLoginFlow() {
+        currentFlow = .login
+        removeAllChildCoordinators()
+        showLoginFlow()
+    }
+}
+```
+
+**Flow Transition Diagram:**
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        AppCoordinator                        │
+│                                                             │
+│  ┌─────────────┐    didLogin()    ┌─────────────────────┐  │
+│  │  LoginFlow  │ ───────────────► │     MainFlow        │  │
+│  │             │                  │                     │  │
+│  │ LoginCoord. │                  │ TabBarCoordinator   │  │
+│  │ LoginView   │ ◄─────────────── │ HomeCoord/ItemsCoord│  │
+│  └─────────────┘    logout()      │ SettingsCoordinator │  │
+│                                   └─────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Key Design Decisions:**
+- **Callback-based communication**: Child coordinators use closures (`onLoginSuccess`, `onLogout`) to notify parent
+- **Clean state reset**: `removeAllChildCoordinators()` ensures proper cleanup during transitions
+- **Root view controller swap**: Uses `setViewControllers([newRoot], animated: true)` for smooth transitions
 
 ### 5. Centralized Settings Access
 All app settings (dark mode, feature toggles) are accessed through `FeatureToggleService`, never directly from `UserDefaults`. This ensures:
@@ -346,11 +402,12 @@ extension View {
 
 ## Testing Strategy
 
-### Unit Tests (48 tests across 3 suites)
+### Unit Tests (53 tests across 4 suites)
 - **HomeViewModelTests**: Carousel, favorites, coordinator navigation, error handling
 - **ItemsViewModelTests**: Search, filtering, categories, favorites
-- **SettingsViewModelTests**: Dark mode, feature toggles, service integration
-- **Mock Objects**: Protocol-based mocking for all services
+- **SettingsViewModelTests**: Dark mode, feature toggles, logout, service integration
+- **LoginViewModelTests**: Login state, coordinator callbacks, concurrent login prevention
+- **Mock Objects**: Protocol-based mocking for all services and coordinators
 
 ```swift
 @Test func searchFiltersResultsByText() async {

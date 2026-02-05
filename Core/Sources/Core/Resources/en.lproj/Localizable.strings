@@ -91,3 +91,16 @@
 "error.networkError" = "Network connection failed. Please check your internet and try again.";
 "error.serverError" = "Server error occurred. Please try again later.";
 "error.unknownError" = "Something went wrong. Please try again.";
+
+// MARK: - Login
+
+"login.welcome" = "Welcome to Fun";
+"login.subtitle" = "A demo app showcasing iOS architecture patterns and best practices.";
+"login.loginButton" = "Sign In";
+"login.loggingIn" = "Signing In...";
+"login.demoNote" = "This is a demo login - no credentials required";
+
+// MARK: - Logout
+
+"settings.logout" = "Sign Out";
+"settings.logoutConfirmation" = "Are you sure you want to sign out?";

@@ -8,15 +8,19 @@
 import UIKit
 import FunUI
 import FunViewModel
+import FunModel
 import FunCore
 
-/// Main app coordinator that manages the root navigation
+/// Main app coordinator that manages the root navigation and app flow
 public final class AppCoordinator: BaseCoordinator {
+
+    // MARK: - App Flow State
+
+    private var currentFlow: AppFlow = .login
 
     // MARK: - Child Coordinators
 
-    // Store child coordinators to prevent deallocation
-    // ViewModels hold weak references, so coordinators must be retained
+    private var loginCoordinator: LoginCoordinatorImpl?
     private var homeCoordinator: HomeCoordinatorImpl?
     private var itemsCoordinator: ItemsCoordinatorImpl?
     private var settingsCoordinator: SettingsCoordinatorImpl?
@@ -24,8 +28,36 @@ public final class AppCoordinator: BaseCoordinator {
     // Store tab bar view model for tab switching
     private var tabBarViewModel: HomeTabBarViewModel?
 
+    // MARK: - Start
+
     override public func start() {
-        // Create navigation controllers for each tab (3 tabs: Home, Items, Settings)
+        switch currentFlow {
+        case .login:
+            showLoginFlow()
+        case .main:
+            showMainFlow()
+        }
+    }
+
+    // MARK: - Flow Management
+
+    private func showLoginFlow() {
+        // Clear any existing main flow coordinators
+        clearMainFlowCoordinators()
+
+        let loginCoordinator = LoginCoordinatorImpl(navigationController: navigationController)
+        loginCoordinator.onLoginSuccess = { [weak self] in
+            self?.transitionToMainFlow()
+        }
+        self.loginCoordinator = loginCoordinator
+        loginCoordinator.start()
+    }
+
+    private func showMainFlow() {
+        // Clear login coordinator
+        loginCoordinator = nil
+
+        // Create navigation controllers for each tab
         let homeNavController = UINavigationController()
         let itemsNavController = UINavigationController()
         let settingsNavController = UINavigationController()
@@ -66,6 +98,11 @@ public final class AppCoordinator: BaseCoordinator {
             navigationController: settingsNavController
         )
 
+        // Set up logout callback
+        settingsCoordinator.onLogout = { [weak self] in
+            self?.transitionToLoginFlow()
+        }
+
         // Store coordinators to prevent deallocation
         self.homeCoordinator = homeCoordinator
         self.itemsCoordinator = itemsCoordinator
@@ -88,5 +125,26 @@ public final class AppCoordinator: BaseCoordinator {
 
         // Set as root (tab bar doesn't push, it's the container)
         navigationController.setViewControllers([tabBarController], animated: false)
+    }
+
+    // MARK: - Flow Transitions
+
+    private func transitionToMainFlow() {
+        currentFlow = .main
+        showMainFlow()
+    }
+
+    private func transitionToLoginFlow() {
+        currentFlow = .login
+        showLoginFlow()
+    }
+
+    // MARK: - Cleanup
+
+    private func clearMainFlowCoordinators() {
+        homeCoordinator = nil
+        itemsCoordinator = nil
+        settingsCoordinator = nil
+        tabBarViewModel = nil
     }
 }

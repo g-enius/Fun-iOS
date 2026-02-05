@@ -58,6 +58,19 @@ public struct SettingsView: View {
                         .foregroundColor(.gray)
                 }
             }
+
+            Section {
+                Button(action: { viewModel.logout() }) {
+                    HStack {
+                        Spacer()
+                        Text(L10n.Settings.logout)
+                            .fontWeight(.medium)
+                        Spacer()
+                    }
+                }
+                .foregroundColor(.red)
+                .accessibilityIdentifier(AccessibilityID.Settings.logoutButton)
+            }
         }
         .accessibilityIdentifier(AccessibilityID.Settings.settingsList)
     }

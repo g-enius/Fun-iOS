@@ -139,4 +139,17 @@ struct SettingsViewModelTests {
         #expect(mockService.featuredCarousel == true)
         #expect(mockService.simulateErrors == false)
     }
+
+    // MARK: - Logout Tests
+
+    @Test("Logout calls coordinator logout")
+    func testLogoutCallsCoordinator() async {
+        _ = setupServices()
+        let coordinator = MockSettingsCoordinator()
+        let viewModel = SettingsViewModel(coordinator: coordinator)
+
+        viewModel.logout()
+
+        #expect(coordinator.logoutCalled == true)
+    }
 }
