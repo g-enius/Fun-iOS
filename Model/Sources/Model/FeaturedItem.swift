@@ -203,4 +203,7 @@ public extension FeaturedItem {
         carouselSet1, carouselSet2, carouselSet3, carouselSet4,
         carouselSet5, carouselSet6, carouselSet7
     ]
+
+    /// All featured items (flattened from carousel sets)
+    static let all: [FeaturedItem] = allCarouselSets.flatMap { $0 }
 }

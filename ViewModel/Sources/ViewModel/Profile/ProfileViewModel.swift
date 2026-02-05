@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import FunModel
 import FunCore
 
@@ -45,7 +46,11 @@ public class ProfileViewModel: ObservableObject {
 
     public func didTapSearchItems() {
         logger.log("Search Items tapped from Profile")
-        coordinator?.dismissAndSwitchToItems()
+        coordinator?.dismiss()
+        // Use deep link to switch to Items tab (decoupled navigation)
+        if let url = URL(string: "funapp://tab/items") {
+            UIApplication.shared.open(url)
+        }
     }
 
     public func didTapDismiss() {

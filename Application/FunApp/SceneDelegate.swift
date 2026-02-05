@@ -79,4 +79,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         window.makeKeyAndVisible()
     }
+
+    // MARK: - Deep Link Handling
+
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url,
+              let deepLink = DeepLink(url: url) else { return }
+        appCoordinator?.handleDeepLink(deepLink)
+    }
 }

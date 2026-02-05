@@ -65,10 +65,7 @@ public final class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
         let isDarkMode = featureToggleService.darkModeEnabled
         profileNavController.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
 
-        let coordinator = ProfileCoordinatorImpl(
-            navigationController: profileNavController,
-            tabBarViewModel: tabBarViewModel
-        )
+        let coordinator = ProfileCoordinatorImpl(navigationController: profileNavController)
         profileCoordinator = coordinator
 
         let viewModel = ProfileViewModel(coordinator: coordinator)

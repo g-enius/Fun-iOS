@@ -28,6 +28,12 @@ public final class AppCoordinator: BaseCoordinator {
     // Store tab bar view model for tab switching
     private var tabBarViewModel: HomeTabBarViewModel?
 
+    // Store tab bar controller for deep link navigation
+    private weak var tabBarController: UITabBarController?
+
+    // Queue deep link if received during login flow
+    private var pendingDeepLink: DeepLink?
+
     // MARK: - Start
 
     override public func start() {
@@ -123,6 +129,9 @@ public final class AppCoordinator: BaseCoordinator {
             ]
         )
 
+        // Store reference for deep link navigation
+        self.tabBarController = tabBarController
+
         // Set as root (tab bar doesn't push, it's the container)
         navigationController.setViewControllers([tabBarController], animated: false)
     }
@@ -132,6 +141,16 @@ public final class AppCoordinator: BaseCoordinator {
     private func transitionToMainFlow() {
         currentFlow = .main
         showMainFlow()
+
+        // Execute pending deep link after main flow is ready
+        if let deepLink = pendingDeepLink {
+            pendingDeepLink = nil
+            // Small delay to ensure UI is ready
+            Task { @MainActor in
+                try? await Task.sleep(nanoseconds: 100_000_000)
+                executeDeepLink(deepLink)
+            }
+        }
     }
 
     private func transitionToLoginFlow() {
@@ -146,5 +165,37 @@ public final class AppCoordinator: BaseCoordinator {
         itemsCoordinator = nil
         settingsCoordinator = nil
         tabBarViewModel = nil
+        tabBarController = nil
+    }
+
+    // MARK: - Deep Link Handling
+
+    /// Handle incoming deep link
+    /// - Parameter deepLink: The deep link to handle
+    public func handleDeepLink(_ deepLink: DeepLink) {
+        // If on login screen, queue for after login
+        if currentFlow == .login {
+            pendingDeepLink = deepLink
+            return
+        }
+
+        executeDeepLink(deepLink)
+    }
+
+    private func executeDeepLink(_ deepLink: DeepLink) {
+        switch deepLink {
+        case .tab(let tabIndex):
+            tabBarController?.selectedIndex = tabIndex.rawValue
+
+        case .item(let id):
+            tabBarController?.selectedIndex = TabIndex.home.rawValue
+            if let item = FeaturedItem.all.first(where: { $0.id == id }) {
+                homeCoordinator?.showDetail(for: item)
+            }
+
+        case .profile:
+            tabBarController?.selectedIndex = TabIndex.home.rawValue
+            homeCoordinator?.showProfile()
+        }
     }
 }
