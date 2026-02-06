@@ -39,7 +39,7 @@ final class DetailViewSnapshotTests: XCTestCase {
 
     func testDetailView_favorited() {
         let viewModel = DetailViewModel(item: .asyncAwait, coordinator: nil)
-        viewModel.isFavorite = true
+        viewModel.isFavorited = true
 
         let view = DetailView(viewModel: viewModel)
         let hostingController = UIHostingController(rootView: view)
@@ -79,14 +79,15 @@ private class MockFavoritesServiceForDetail: FavoritesServiceProtocol {
 
     func addFavorite(_ id: String) { favorites.insert(id) }
     func removeFavorite(_ id: String) { favorites.remove(id) }
-    func isFavorite(_ id: String) -> Bool { favorites.contains(id) }
-    func toggleFavorite(_ id: String) {
+    func isFavorited(_ id: String) -> Bool { favorites.contains(id) }
+    func toggleFavorite(forKey id: String) {
         if favorites.contains(id) {
             favorites.remove(id)
         } else {
             favorites.insert(id)
         }
     }
+    func resetFavorites() { favorites.removeAll() }
 }
 
 @MainActor

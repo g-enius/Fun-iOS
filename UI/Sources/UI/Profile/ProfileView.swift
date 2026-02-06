@@ -71,6 +71,21 @@ public struct ProfileView: View {
                     .font(.caption)
                     .foregroundColor(.gray)
                     .padding(.top)
+
+                Button(action: { viewModel.logout() }) {
+                    HStack {
+                        Spacer()
+                        Text(L10n.Profile.logout)
+                            .fontWeight(.medium)
+                        Spacer()
+                    }
+                    .padding()
+                    .background(Color.red.opacity(0.1))
+                    .cornerRadius(10)
+                }
+                .foregroundColor(.red)
+                .accessibilityIdentifier(AccessibilityID.Profile.signOutButton)
+                .padding(.horizontal)
             }
             .padding(.vertical)
         }

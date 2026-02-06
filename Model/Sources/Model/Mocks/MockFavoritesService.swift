@@ -45,4 +45,9 @@ public final class MockFavoritesService: FavoritesServiceProtocol {
         favorites.remove(itemId)
         favoritesSubject.send(favorites)
     }
+
+    public func resetFavorites() {
+        favorites.removeAll()
+        favoritesSubject.send(favorites)
+    }
 }

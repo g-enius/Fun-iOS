@@ -14,6 +14,11 @@ import FunCore
 /// Main app coordinator that manages the root navigation and app flow
 public final class AppCoordinator: BaseCoordinator {
 
+    // MARK: - Session Management
+
+    private let sessionFactory: SessionFactory
+    private var currentSession: Session?
+
     // MARK: - App Flow State
 
     private var currentFlow: AppFlow = .login
@@ -34,15 +39,32 @@ public final class AppCoordinator: BaseCoordinator {
     // Queue deep link if received during login flow
     private var pendingDeepLink: DeepLink?
 
+    // MARK: - Init
+
+    public init(navigationController: UINavigationController, sessionFactory: SessionFactory) {
+        self.sessionFactory = sessionFactory
+        super.init(navigationController: navigationController)
+    }
+
     // MARK: - Start
 
     override public func start() {
+        activateSession(for: currentFlow)
         switch currentFlow {
         case .login:
             showLoginFlow()
         case .main:
             showMainFlow()
         }
+    }
+
+    // MARK: - Session Lifecycle
+
+    private func activateSession(for flow: AppFlow) {
+        currentSession?.teardown()
+        let session = sessionFactory.makeSession(for: flow)
+        session.activate()
+        currentSession = session
     }
 
     // MARK: - Flow Management
@@ -104,8 +126,8 @@ public final class AppCoordinator: BaseCoordinator {
             navigationController: settingsNavController
         )
 
-        // Set up logout callback
-        settingsCoordinator.onLogout = { [weak self] in
+        // Set up logout callback through home coordinator (Profile modal)
+        homeCoordinator.onLogout = { [weak self] in
             self?.transitionToLoginFlow()
         }
 
@@ -140,6 +162,7 @@ public final class AppCoordinator: BaseCoordinator {
 
     private func transitionToMainFlow() {
         currentFlow = .main
+        activateSession(for: .main)
         showMainFlow()
 
         // Execute pending deep link after main flow is ready
@@ -155,6 +178,7 @@ public final class AppCoordinator: BaseCoordinator {
 
     private func transitionToLoginFlow() {
         currentFlow = .login
+        activateSession(for: .login)
         showLoginFlow()
     }
 

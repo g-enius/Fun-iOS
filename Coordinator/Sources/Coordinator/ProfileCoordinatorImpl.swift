@@ -11,6 +11,11 @@ import FunModel
 
 public final class ProfileCoordinatorImpl: BaseCoordinator, ProfileCoordinator {
 
+    // MARK: - Properties
+
+    /// Callback to notify parent coordinator of logout
+    public var onLogout: (() -> Void)?
+
     // MARK: - Initialization
 
     override public init(navigationController: UINavigationController) {
@@ -20,7 +25,12 @@ public final class ProfileCoordinatorImpl: BaseCoordinator, ProfileCoordinator {
     // MARK: - ProfileCoordinator
 
     public func dismiss() {
-        // The navigationController IS the presented modal, so dismiss it directly
         navigationController.dismiss(animated: true)
+    }
+
+    public func logout() {
+        navigationController.dismiss(animated: true) { [weak self] in
+            self?.onLogout?()
+        }
     }
 }

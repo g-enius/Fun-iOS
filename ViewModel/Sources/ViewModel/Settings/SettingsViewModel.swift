@@ -61,9 +61,4 @@ public class SettingsViewModel: ObservableObject {
         simulateErrorsEnabled = false
         logger.log("Feature toggles reset")
     }
-
-    public func logout() {
-        logger.log("User tapped logout", level: .info, category: .general)
-        coordinator?.logout()
-    }
 }

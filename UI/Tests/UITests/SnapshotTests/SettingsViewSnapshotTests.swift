@@ -7,6 +7,7 @@
 
 import XCTest
 import SwiftUI
+import Combine
 import SnapshotTesting
 @testable import FunUI
 @testable import FunViewModel
@@ -76,6 +77,7 @@ final class SettingsViewSnapshotTests: XCTestCase {
 private class MockFeatureToggleServiceForSettings: FeatureToggleServiceProtocol {
     var featuredCarousel: Bool = true
     var simulateErrors: Bool = false
+    var darkModeEnabled: Bool = false
 
     var featureTogglesDidChange: AnyPublisher<Void, Never> {
         Empty().eraseToAnyPublisher()

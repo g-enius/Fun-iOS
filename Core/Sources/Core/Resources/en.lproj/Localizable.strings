@@ -83,6 +83,8 @@
 "profile.views" = "Views";
 "profile.favorites" = "Favorites";
 "profile.days" = "Days";
+"profile.logout" = "Sign Out";
+"profile.logoutConfirmation" = "Are you sure you want to sign out?";
 
 // MARK: - Errors
 
@@ -100,7 +102,3 @@
 "login.loggingIn" = "Signing In...";
 "login.demoNote" = "This is a demo login - no credentials required";
 
-// MARK: - Logout
-
-"settings.logout" = "Sign Out";
-"settings.logoutConfirmation" = "Are you sure you want to sign out?";

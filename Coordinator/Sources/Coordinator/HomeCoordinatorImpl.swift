@@ -12,6 +12,11 @@ import FunUI
 
 public final class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
 
+    // MARK: - Properties
+
+    /// Callback to notify parent coordinator of logout
+    public var onLogout: (() -> Void)?
+
     // MARK: - Child Coordinators
 
     // Store to prevent deallocation, ViewModels hold weak refs
@@ -56,6 +61,9 @@ public final class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
     public func showProfile() {
         let profileNavController = UINavigationController()
         let coordinator = ProfileCoordinatorImpl(navigationController: profileNavController)
+        coordinator.onLogout = { [weak self] in
+            self?.onLogout?()
+        }
         profileCoordinator = coordinator
 
         let viewModel = ProfileViewModel(coordinator: coordinator)

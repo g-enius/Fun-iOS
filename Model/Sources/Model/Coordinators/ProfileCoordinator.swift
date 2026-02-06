@@ -10,4 +10,5 @@ import Foundation
 @MainActor
 public protocol ProfileCoordinator: AnyObject {
     func dismiss()
+    func logout()
 }

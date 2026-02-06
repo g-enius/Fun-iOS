@@ -14,7 +14,7 @@ A modern iOS application demonstrating clean architecture (MVVM-C), Swift Concur
 | UI Framework | SwiftUI + UIKit |
 | Reactive & Concurrency | Combine, Swift Concurrency (async/await) |
 | Architecture | MVVM + Coordinator |
-| Dependency Injection | ServiceLocator + Property Wrapper |
+| Dependency Injection | Session-Scoped DI + Property Wrapper |
 | Package Management | Swift Package Manager |
 | Minimum iOS | iOS 15.0 |
 | Testing | Swift Testing, swift-snapshot-testing |
@@ -45,12 +45,23 @@ Application → Coordinator → UI → ViewModel → Model → Core
 - **View**: Pure UI (SwiftUI)
 - **Coordinator**: Navigation flow, screen transitions
 
-### Dependency Injection
-```swift
-// Registration (SceneDelegate)
-ServiceLocator.shared.register(DefaultNetworkService(), for: .network)
+### Session-Scoped Dependency Injection
 
-// Resolution via property wrapper
+Each app flow gets its own **session** with a dedicated set of services. When the flow changes, the old session tears down and a fresh one activates — no stale state leaks between login and main.
+
+```
+LoginSession:         logger, network, featureToggles
+AuthenticatedSession: logger, network, featureToggles, favorites, toast
+```
+
+```swift
+// Sessions activate/teardown automatically on flow transitions
+protocol Session: AnyObject {
+    func activate()   // register services
+    func teardown()   // reset ServiceLocator
+}
+
+// ViewModels resolve lazily — no changes needed
 @Service(.network) var networkService: NetworkService
 ```
 
@@ -58,7 +69,7 @@ ServiceLocator.shared.register(DefaultNetworkService(), for: .network)
 All services defined as protocols in `Model`, implementations in `Services`.
 
 ### App Flow Management
-`AppCoordinator` manages login/main flow transitions with proper cleanup.
+`AppCoordinator` manages login/main flow transitions with session lifecycle.
 
 ### Deep Linking
 
@@ -75,8 +86,15 @@ xcrun simctl openurl booted "funapp://item/swiftui"
 
 Deep links received during login are queued and executed after authentication.
 
+## Screenshots
+
+| Login | Home | Items | Settings |
+|:-----:|:----:|:-----:|:--------:|
+| ![Login](assets/screenshot-login.png) | ![Home](assets/screenshot-home.png) | ![Items](assets/screenshot-items.png) | ![Settings](assets/screenshot-settings.png) |
+
 ## Features
 
+- **Session-Scoped DI**: Clean service lifecycle per app flow — no stale state
 - **Reactive Data Flow**: Combine framework with `@Published` properties
 - **Feature Toggles**: Runtime flags persisted via services
 - **Error Handling**: Centralized `AppError` enum with toast notifications
@@ -96,7 +114,8 @@ Deep links received during login are queued and executed after authentication.
 
 ## Testing
 
-- **Unit Tests**: ViewModels with mock services and coordinators
+- **Unit Tests**: ViewModels, services, and session lifecycle
+- **Session DI Tests**: Activation, teardown, transitions, state isolation
 - **Snapshot Tests**: Visual regression testing for all views
 - **Parameterized Tests**: Swift Testing with custom scenarios
 

@@ -32,7 +32,6 @@ public enum AccessibilityID {
         public static let simulateErrorsToggle = "settings_simulate_errors_toggle"
         public static let resetDarkModeButton = "settings_reset_dark_mode"
         public static let resetTogglesButton = "settings_reset_toggles"
-        public static let logoutButton = "settings_logout_button"
     }
 
     public enum Toast {
@@ -46,6 +45,7 @@ public enum AccessibilityID {
 
     public enum Profile {
         public static let dismissButton = "profile_dismiss_button"
+        public static let signOutButton = "profile_sign_out_button"
     }
 
     public enum Error {

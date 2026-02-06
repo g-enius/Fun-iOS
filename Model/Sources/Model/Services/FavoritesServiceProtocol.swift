@@ -19,4 +19,7 @@ public protocol FavoritesServiceProtocol {
     func toggleFavorite(forKey itemId: String)
     func addFavorite(_ itemId: String)
     func removeFavorite(_ itemId: String)
+
+    /// Clear all favorites and reset to default state
+    func resetFavorites()
 }

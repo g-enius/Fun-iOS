@@ -56,4 +56,9 @@ public class ProfileViewModel: ObservableObject {
     public func didTapDismiss() {
         coordinator?.dismiss()
     }
+
+    public func logout() {
+        logger.log("User tapped logout from Profile", level: .info, category: .general)
+        coordinator?.logout()
+    }
 }

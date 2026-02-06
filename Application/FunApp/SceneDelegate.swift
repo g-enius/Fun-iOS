@@ -11,7 +11,6 @@ import FunUI
 import FunViewModel
 import FunCore
 import FunModel
-import FunServices
 import FunCoordinator
 
 @MainActor
@@ -31,40 +30,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
-        // MARK: - Register Services (Dependency Injection)
-        // Concrete implementations from CoreServices
-        // IMPORTANT: Must be synchronous - app needs services before starting
-
-        // Register logger service
-        ServiceLocator.shared.register(
-            DefaultLoggerService(),
-            for: .logger
-        )
-
-        // Register network service
-        ServiceLocator.shared.register(
-            DefaultNetworkService(),
-            for: .network
-        )
-
-        // Register favorites service
-        ServiceLocator.shared.register(
-            DefaultFavoritesService(),
-            for: .favorites
-        )
-
-        // Register toast service
-        ServiceLocator.shared.register(
-            DefaultToastService(),
-            for: .toast
-        )
-
-        // Register feature toggle service
-        ServiceLocator.shared.register(
-            DefaultFeatureToggleService(),
-            for: .featureToggles
-        )
-
         // MARK: - Setup Window
 
         let window = UIWindow(windowScene: windowScene)
@@ -73,8 +38,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController()
         navigationController.setNavigationBarHidden(true, animated: false)
 
-        // Create and start app coordinator
-        let coordinator = AppCoordinator(navigationController: navigationController)
+        // Create and start app coordinator with session factory
+        let coordinator = AppCoordinator(
+            navigationController: navigationController,
+            sessionFactory: AppSessionFactory()
+        )
         coordinator.start()
 
         // Store coordinator to prevent deallocation

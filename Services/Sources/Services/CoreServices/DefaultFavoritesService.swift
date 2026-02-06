@@ -54,6 +54,11 @@ public final class DefaultFavoritesService: FavoritesServiceProtocol {
         favorites.remove(itemId)
     }
 
+    public func resetFavorites() {
+        UserDefaults.standard.removeObject(forKey: .favorites)
+        favorites = ["item1"]
+    }
+
     private func saveFavorites() {
         if let data = try? JSONEncoder().encode(favorites) {
             UserDefaults.standard.set(data, forKey: .favorites)

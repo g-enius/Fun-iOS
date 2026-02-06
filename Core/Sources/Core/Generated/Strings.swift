@@ -104,6 +104,10 @@ public enum L10n {
     public static let days = L10n.tr("Localizable", "profile.days", fallback: "Days")
     /// Favorites
     public static let favorites = L10n.tr("Localizable", "profile.favorites", fallback: "Favorites")
+    /// Sign Out
+    public static let logout = L10n.tr("Localizable", "profile.logout", fallback: "Sign Out")
+    /// Are you sure you want to sign out?
+    public static let logoutConfirmation = L10n.tr("Localizable", "profile.logoutConfirmation", fallback: "Are you sure you want to sign out?")
     /// Search for Items?
     public static let searchItems = L10n.tr("Localizable", "profile.searchItems", fallback: "Search for Items?")
     /// Profile
@@ -144,10 +148,6 @@ public enum L10n {
     public static let featuredCarousel = L10n.tr("Localizable", "settings.featuredCarousel", fallback: "Featured Carousel")
     /// Feature Toggles
     public static let featureToggles = L10n.tr("Localizable", "settings.featureToggles", fallback: "Feature Toggles")
-    /// Sign Out
-    public static let logout = L10n.tr("Localizable", "settings.logout", fallback: "Sign Out")
-    /// Are you sure you want to sign out?
-    public static let logoutConfirmation = L10n.tr("Localizable", "settings.logoutConfirmation", fallback: "Are you sure you want to sign out?")
     /// Notifications
     public static let notifications = L10n.tr("Localizable", "settings.notifications", fallback: "Notifications")
     /// Privacy Mode

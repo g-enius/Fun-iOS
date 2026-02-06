@@ -12,11 +12,6 @@ import FunUI
 
 public final class SettingsCoordinatorImpl: BaseCoordinator, SettingsCoordinator {
 
-    // MARK: - Properties
-
-    /// Callback to notify parent coordinator of logout
-    public var onLogout: (() -> Void)?
-
     // MARK: - Initialization
 
     override public init(navigationController: UINavigationController) {
@@ -33,9 +28,5 @@ public final class SettingsCoordinatorImpl: BaseCoordinator, SettingsCoordinator
 
     public func dismiss() {
         safePop()
-    }
-
-    public func logout() {
-        onLogout?()
     }
 }

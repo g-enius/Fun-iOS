@@ -11,7 +11,6 @@ import Foundation
 public final class MockSettingsCoordinator: SettingsCoordinator {
 
     public var dismissCalled = false
-    public var logoutCalled = false
 
     public init() {}
 
@@ -19,12 +18,7 @@ public final class MockSettingsCoordinator: SettingsCoordinator {
         dismissCalled = true
     }
 
-    public func logout() {
-        logoutCalled = true
-    }
-
     public func reset() {
         dismissCalled = false
-        logoutCalled = false
     }
 }

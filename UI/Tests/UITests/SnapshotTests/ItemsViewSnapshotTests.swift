@@ -79,20 +79,22 @@ private class MockFavoritesServiceForItems: FavoritesServiceProtocol {
 
     func addFavorite(_ id: String) { favorites.insert(id) }
     func removeFavorite(_ id: String) { favorites.remove(id) }
-    func isFavorite(_ id: String) -> Bool { favorites.contains(id) }
-    func toggleFavorite(_ id: String) {
+    func isFavorited(_ id: String) -> Bool { favorites.contains(id) }
+    func toggleFavorite(forKey id: String) {
         if favorites.contains(id) {
             favorites.remove(id)
         } else {
             favorites.insert(id)
         }
     }
+    func resetFavorites() { favorites.removeAll() }
 }
 
 @MainActor
 private class MockFeatureToggleServiceForItems: FeatureToggleServiceProtocol {
     var featuredCarousel: Bool = true
     var simulateErrors: Bool = false
+    var darkModeEnabled: Bool = false
 
     var featureTogglesDidChange: AnyPublisher<Void, Never> {
         Empty().eraseToAnyPublisher()
