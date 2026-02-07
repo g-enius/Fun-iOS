@@ -32,12 +32,12 @@ Fun/
 └── Core/           # Utilities, DI container, L10n
 ```
 
-All modules except `Application` are Swift packages. `Application` is the Xcode project that consumes them.
+All modules except `FunApp` are Swift packages. `FunApp` is the Xcode project that consumes them.
 
 **Dependency Hierarchy:**
 ```
-Application → Coordinator → UI → ViewModel → Model → Core
-                └──────→ Services ───────────────────┘
+FunApp → Coordinator → UI → ViewModel → Model → Core
+            └──────→ Services ───────────────────┘
 ```
 
 ## Key Patterns
