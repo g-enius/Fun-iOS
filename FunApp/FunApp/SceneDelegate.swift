@@ -20,6 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private var cancellables = Set<AnyCancellable>()
     private var darkModeCancellable: AnyCancellable?
 
+    @Service(.featureToggles) private var featureToggleService: FeatureToggleServiceProtocol
+
     func scene(
         _ scene: UIScene,
         willConnectTo session: UISceneSession,
@@ -66,9 +68,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func subscribeToDarkMode() {
         // Cancel previous subscription to avoid duplicates on repeated registrations
         darkModeCancellable?.cancel()
-        guard ServiceLocator.shared.isRegistered(for: .featureToggles) else { return }
-        let toggleService: FeatureToggleServiceProtocol = ServiceLocator.shared.resolve(for: .featureToggles)
-        darkModeCancellable = toggleService.darkModePublisher
+        darkModeCancellable = featureToggleService.darkModePublisher
             .sink { [weak self] isDarkMode in
                 let style: UIUserInterfaceStyle = isDarkMode ? .dark : .light
                 self?.window?.overrideUserInterfaceStyle = style
