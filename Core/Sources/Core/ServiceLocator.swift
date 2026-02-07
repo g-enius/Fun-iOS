@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 // MARK: - Service Key
 
@@ -38,6 +39,12 @@ public class ServiceLocator {
     /// Registered services
     private var services: [String: Any] = [:]
 
+    /// Emits the key whenever a service is registered
+    private let registrationSubject = PassthroughSubject<ServiceKey, Never>()
+    public var serviceDidRegister: AnyPublisher<ServiceKey, Never> {
+        registrationSubject.eraseToAnyPublisher()
+    }
+
     /// Fallback services (used when primary service not registered)
     private var fallbacks: [String: Any] = [:]
 
@@ -49,6 +56,7 @@ public class ServiceLocator {
     public func register<T>(_ service: T, for key: ServiceKey) {
         let keyString = String(describing: key)
         services[keyString] = service
+        registrationSubject.send(key)
     }
 
     /// Register a fallback service (used if primary not registered)

@@ -19,6 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var appCoordinator: AppCoordinator?
     private var cancellables = Set<AnyCancellable>()
+    private var toggleSubscription: AnyCancellable?
 
     // Service for appearance management (resolved after registration)
     @Service(.featureToggles) private var featureToggleService: FeatureToggleServiceProtocol
@@ -60,14 +61,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // MARK: - Appearance (Single Source of Truth)
 
     private func observeAppearanceChanges() {
-        featureToggleService.featureTogglesDidChange
-            .map { [weak self] in self?.featureToggleService.darkModeEnabled }
-            .removeDuplicates()
+        subscribeToFeatureToggles()
+
+        // Re-subscribe when a new feature toggle service is registered (session transition)
+        ServiceLocator.shared.serviceDidRegister
+            .filter { $0 == .featureToggles }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
+                self?.subscribeToFeatureToggles()
                 self?.updateAppearance()
             }
             .store(in: &cancellables)
+    }
+
+    private func subscribeToFeatureToggles() {
+        toggleSubscription?.cancel()
+        toggleSubscription = featureToggleService.featureTogglesDidChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.updateAppearance()
+            }
     }
 
     private func updateAppearance() {
