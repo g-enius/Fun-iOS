@@ -23,7 +23,7 @@ A modern iOS application demonstrating clean architecture (MVVM-C), Swift Concur
 
 ```
 Fun/
-├── Application/    # iOS app target (Xcode project)
+├── FunApp/         # iOS app target (Xcode project)
 ├── Coordinator/    # Navigation coordinators
 ├── UI/             # SwiftUI views & UIKit controllers
 ├── ViewModel/      # Business logic (MVVM)

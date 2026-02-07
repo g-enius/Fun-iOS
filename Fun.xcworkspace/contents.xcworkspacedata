@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Application/FunApp.xcodeproj">
+      location = "group:FunApp/FunApp.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:ViewModel">
