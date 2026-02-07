@@ -60,8 +60,8 @@ public class HomeViewModel: ObservableObject {
 
     private func observeFeatureToggleChanges() {
         featureToggleService.featureTogglesDidChange
-            .compactMap { [weak self] in self?.featureToggleService.featuredCarousel
-            }
+            .filter { $0 == .featuredCarousel }
+            .compactMap { [weak self] _ in self?.featureToggleService.featuredCarousel }
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] newValue in

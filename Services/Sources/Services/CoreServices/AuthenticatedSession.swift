@@ -11,6 +11,8 @@ import FunModel
 @MainActor
 public final class AuthenticatedSession: Session {
 
+    @Service(.favorites) private var favoritesService: FavoritesServiceProtocol
+
     public init() {}
 
     public func activate() {
@@ -23,9 +25,7 @@ public final class AuthenticatedSession: Session {
     }
 
     public func teardown() {
-        // Clear user-scoped data before resetting
-        let favorites: FavoritesServiceProtocol = ServiceLocator.shared.resolve(for: .favorites)
-        favorites.resetFavorites()
+        favoritesService.resetFavorites()
         ServiceLocator.shared.reset()
     }
 }

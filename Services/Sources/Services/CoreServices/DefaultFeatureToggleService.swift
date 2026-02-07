@@ -14,9 +14,9 @@ public final class DefaultFeatureToggleService: FeatureToggleServiceProtocol {
 
     // MARK: - Combine Publisher
 
-    private let togglesChangedSubject = PassthroughSubject<Void, Never>()
+    private let togglesChangedSubject = PassthroughSubject<FeatureToggleKey, Never>()
 
-    public var featureTogglesDidChange: AnyPublisher<Void, Never> {
+    public var featureTogglesDidChange: AnyPublisher<FeatureToggleKey, Never> {
         togglesChangedSubject.eraseToAnyPublisher()
     }
 
@@ -26,7 +26,7 @@ public final class DefaultFeatureToggleService: FeatureToggleServiceProtocol {
         get { UserDefaults.standard.bool(forKey: .featureCarousel) }
         set {
             UserDefaults.standard.set(newValue, forKey: .featureCarousel)
-            togglesChangedSubject.send()
+            togglesChangedSubject.send(.featuredCarousel)
         }
     }
 
@@ -34,7 +34,7 @@ public final class DefaultFeatureToggleService: FeatureToggleServiceProtocol {
         get { UserDefaults.standard.bool(forKey: .simulateErrors) }
         set {
             UserDefaults.standard.set(newValue, forKey: .simulateErrors)
-            togglesChangedSubject.send()
+            togglesChangedSubject.send(.simulateErrors)
         }
     }
 
@@ -42,7 +42,7 @@ public final class DefaultFeatureToggleService: FeatureToggleServiceProtocol {
         get { UserDefaults.standard.bool(forKey: .darkModeEnabled) }
         set {
             UserDefaults.standard.set(newValue, forKey: .darkModeEnabled)
-            togglesChangedSubject.send()
+            togglesChangedSubject.send(.darkMode)
         }
     }
 

@@ -54,7 +54,7 @@ struct DefaultFeatureToggleServiceTests {
         var cancellables = Set<AnyCancellable>()
 
         service.featureTogglesDidChange
-            .sink { eventReceived = true }
+            .sink { _ in eventReceived = true }
             .store(in: &cancellables)
 
         service.featuredCarousel = false

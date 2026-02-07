@@ -11,22 +11,22 @@ import Combine
 @MainActor
 public final class MockFeatureToggleService: FeatureToggleServiceProtocol {
 
-    private let togglesChangedSubject = PassthroughSubject<Void, Never>()
+    private let togglesChangedSubject = PassthroughSubject<FeatureToggleKey, Never>()
 
-    public var featureTogglesDidChange: AnyPublisher<Void, Never> {
+    public var featureTogglesDidChange: AnyPublisher<FeatureToggleKey, Never> {
         togglesChangedSubject.eraseToAnyPublisher()
     }
 
     public var featuredCarousel: Bool {
-        didSet { togglesChangedSubject.send() }
+        didSet { togglesChangedSubject.send(.featuredCarousel) }
     }
 
     public var simulateErrors: Bool {
-        didSet { togglesChangedSubject.send() }
+        didSet { togglesChangedSubject.send(.simulateErrors) }
     }
 
     public var darkModeEnabled: Bool {
-        didSet { togglesChangedSubject.send() }
+        didSet { togglesChangedSubject.send(.darkMode) }
     }
 
     public init(featuredCarousel: Bool = true, simulateErrors: Bool = false, darkModeEnabled: Bool = false) {

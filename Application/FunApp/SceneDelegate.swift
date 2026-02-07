@@ -73,7 +73,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func subscribeToDarkMode() {
         darkModeSubscription?.cancel()
         darkModeSubscription = featureToggleService.featureTogglesDidChange
-            .compactMap { [weak self] in self?.featureToggleService.darkModeEnabled }
+            .filter { $0 == .darkMode }
+            .compactMap { [weak self] _ in self?.featureToggleService.darkModeEnabled }
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isDarkMode in

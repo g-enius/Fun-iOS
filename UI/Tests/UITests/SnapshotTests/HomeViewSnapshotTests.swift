@@ -9,6 +9,7 @@ import XCTest
 import SwiftUI
 import Combine
 import SnapshotTesting
+import FunModel
 @testable import FunUI
 @testable import FunViewModel
 @testable import FunModel
@@ -71,7 +72,7 @@ private class MockFeatureToggleService: FeatureToggleServiceProtocol {
     var simulateErrors: Bool = false
     var darkModeEnabled: Bool = false
 
-    var featureTogglesDidChange: AnyPublisher<Void, Never> {
+    var featureTogglesDidChange: AnyPublisher<FeatureToggleKey, Never> {
         Empty().eraseToAnyPublisher()
     }
 }
