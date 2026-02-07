@@ -5,13 +5,12 @@
 //  Created by Charles Wang on 30/01/2026.
 //
 
-import UIKit
 import Combine
-import FunUI
-import FunViewModel
+import UIKit
+
+import FunCoordinator
 import FunCore
 import FunModel
-import FunCoordinator
 
 @MainActor
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {

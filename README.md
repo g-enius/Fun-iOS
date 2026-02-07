@@ -35,7 +35,7 @@ Fun/
 **Dependency Hierarchy:**
 ```
 Application → Coordinator → UI → ViewModel → Model → Core
-                Services ────────────────────┘
+    └──────→ Services ────────────────────────┘
 ```
 
 ## Key Patterns

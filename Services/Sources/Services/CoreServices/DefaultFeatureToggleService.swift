@@ -5,8 +5,9 @@
 //  Default implementation of FeatureToggleServiceProtocol
 //
 
-import Foundation
 import Combine
+import Foundation
+
 import FunModel
 
 @MainActor

@@ -5,10 +5,11 @@
 //  ViewModel for Items screen - combines search, filter, and items list
 //
 
-import Foundation
 import Combine
-import FunModel
+import Foundation
+
 import FunCore
+import FunModel
 
 @MainActor
 public class ItemsViewModel: ObservableObject {
@@ -22,11 +23,7 @@ public class ItemsViewModel: ObservableObject {
     @Service(.logger) private var logger: LoggerService
     @Service(.favorites) private var favoritesService: FavoritesServiceProtocol
     @Service(.toast) private var toastService: ToastServiceProtocol
-
-    /// Direct access to feature toggle service for reading current state
-    private var featureToggleService: FeatureToggleServiceProtocol {
-        ServiceLocator.shared.resolve(for: .featureToggles)
-    }
+    @Service(.featureToggles) private var featureToggleService: FeatureToggleServiceProtocol
 
     // MARK: - Published State
 
@@ -103,7 +100,6 @@ public class ItemsViewModel: ObservableObject {
 
         // Observe future changes
         favoritesService.favoritesDidChange
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] newFavorites in
                 self?.favoriteIds = newFavorites
             }

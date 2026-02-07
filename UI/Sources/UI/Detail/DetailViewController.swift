@@ -5,9 +5,10 @@
 //  View controller for Detail screen
 //
 
-import UIKit
-import SwiftUI
 import Combine
+import SwiftUI
+import UIKit
+
 import FunViewModel
 
 public final class DetailViewController: UIViewController {

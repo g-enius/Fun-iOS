@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
-import FunViewModel
+
 import FunCore
+import FunViewModel
 
 public struct LoginView: View {
     @ObservedObject var viewModel: LoginViewModel

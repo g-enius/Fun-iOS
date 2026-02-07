@@ -5,8 +5,9 @@
 //  ViewModel for tab bar tab switching
 //
 
-import Foundation
 import Combine
+import Foundation
+
 import FunCore
 import FunModel
 

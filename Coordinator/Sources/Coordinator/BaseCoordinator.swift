@@ -6,8 +6,9 @@
 //
 
 import UIKit
-import FunModel
+
 import FunCore
+import FunModel
 
 // MARK: - Coordinator Protocol
 

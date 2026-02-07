@@ -5,8 +5,8 @@
 //  Protocol for toast notification service
 //
 
-import Foundation
 import Combine
+import Foundation
 
 public enum ToastType: Sendable {
     case success

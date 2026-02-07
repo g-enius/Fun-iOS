@@ -5,10 +5,11 @@
 //  ViewModel for Login screen
 //
 
-import Foundation
 import Combine
-import FunModel
+import Foundation
+
 import FunCore
+import FunModel
 
 @MainActor
 public class LoginViewModel: ObservableObject {

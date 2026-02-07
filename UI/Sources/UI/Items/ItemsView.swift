@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
-import FunViewModel
-import FunModel
+
 import FunCore
+import FunModel
+import FunViewModel
 
 public struct ItemsView: View {
     @ObservedObject var viewModel: ItemsViewModel

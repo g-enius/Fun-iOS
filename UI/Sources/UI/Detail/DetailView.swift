@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
-import FunViewModel
+
 import FunCore
+import FunViewModel
 
 public struct DetailView: View {
     @ObservedObject var viewModel: DetailViewModel

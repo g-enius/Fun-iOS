@@ -5,10 +5,11 @@
 //  View controller for Settings screen
 //
 
-import UIKit
 import SwiftUI
-import FunViewModel
+import UIKit
+
 import FunCore
+import FunViewModel
 
 public final class SettingsViewController: UIViewController {
 

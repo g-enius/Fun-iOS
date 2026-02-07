@@ -5,10 +5,11 @@
 //  ViewModel for Home screen
 //
 
-import Foundation
 import Combine
-import FunModel
+import Foundation
+
 import FunCore
+import FunModel
 
 @MainActor
 public class HomeViewModel: ObservableObject {
@@ -60,7 +61,6 @@ public class HomeViewModel: ObservableObject {
 
     private func observeFeatureToggleChanges() {
         featureToggleService.featuredCarouselPublisher
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] newValue in
                 self?.isCarouselEnabled = newValue
                 self?.logger.log("Carousel visibility changed to: \(newValue)")
@@ -76,7 +76,6 @@ public class HomeViewModel: ObservableObject {
 
         // Observe future changes
         favoritesService.favoritesDidChange
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] newFavorites in
                 self?.favoriteIds = newFavorites
             }

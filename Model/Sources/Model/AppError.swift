@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 import FunCore
 
 public enum AppError: LocalizedError, Equatable {

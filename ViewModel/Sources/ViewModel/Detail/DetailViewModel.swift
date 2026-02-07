@@ -5,10 +5,11 @@
 //  ViewModel for Detail screen
 //
 
-import Foundation
 import Combine
-import FunModel
+import Foundation
+
 import FunCore
+import FunModel
 
 @MainActor
 public class DetailViewModel: ObservableObject {
@@ -50,7 +51,6 @@ public class DetailViewModel: ObservableObject {
 
     private func observeFavoritesChanges() {
         favoritesService.favoritesDidChange
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] favorites in
                 guard let self else { return }
                 self.isFavorited = favorites.contains(self.itemId)

@@ -5,8 +5,8 @@
 //  Mock implementation of FeatureToggleServiceProtocol for testing
 //
 
-import Foundation
 import Combine
+import Foundation
 
 @MainActor
 public final class MockFeatureToggleService: FeatureToggleServiceProtocol {

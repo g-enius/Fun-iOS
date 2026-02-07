@@ -5,10 +5,11 @@
 //  View controller for Profile screen (modal)
 //
 
-import UIKit
 import SwiftUI
-import FunViewModel
+import UIKit
+
 import FunCore
+import FunViewModel
 
 public final class ProfileViewController: UIViewController {
 

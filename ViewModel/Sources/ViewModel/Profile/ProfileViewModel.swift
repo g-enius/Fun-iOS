@@ -7,8 +7,9 @@
 
 import Foundation
 import UIKit
-import FunModel
+
 import FunCore
+import FunModel
 
 @MainActor
 public class ProfileViewModel: ObservableObject {

@@ -5,8 +5,8 @@
 //  Extension to embed SwiftUI views in UIViewControllers
 //
 
-import UIKit
 import SwiftUI
+import UIKit
 
 public extension UIViewController {
     /// Embeds a SwiftUI view as a child view controller, filling the entire view

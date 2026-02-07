@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import FunModel
 
 public final class DetailCoordinatorImpl: BaseCoordinator, DetailCoordinator {

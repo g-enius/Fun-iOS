@@ -6,9 +6,10 @@
 //
 
 import UIKit
-import FunViewModel
+
 import FunModel
 import FunUI
+import FunViewModel
 
 public final class ItemsCoordinatorImpl: BaseCoordinator, ItemsCoordinator {
 

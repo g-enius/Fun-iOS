@@ -5,8 +5,8 @@
 //  Central registry for dependency injection
 //
 
-import Foundation
 import Combine
+import Foundation
 
 // MARK: - Service Key
 

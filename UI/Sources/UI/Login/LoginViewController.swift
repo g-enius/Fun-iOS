@@ -5,10 +5,11 @@
 //  View controller for Login screen
 //
 
-import UIKit
 import SwiftUI
-import FunViewModel
+import UIKit
+
 import FunCore
+import FunViewModel
 
 public final class LoginViewController: UIViewController {
 

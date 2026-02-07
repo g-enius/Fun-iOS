@@ -5,10 +5,11 @@
 //  View controller for Items screen
 //
 
-import UIKit
 import SwiftUI
-import FunViewModel
+import UIKit
+
 import FunCore
+import FunViewModel
 
 public final class ItemsViewController: UIViewController {
 

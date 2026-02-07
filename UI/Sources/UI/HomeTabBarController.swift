@@ -6,12 +6,13 @@
 //  Coordinators are injected from outside to avoid circular dependencies
 //
 
-import UIKit
-import SwiftUI
 import Combine
+import SwiftUI
+import UIKit
+
 import FunCore
-import FunViewModel
 import FunModel
+import FunViewModel
 
 public class HomeTabBarController: UITabBarController {
 

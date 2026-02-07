@@ -22,7 +22,4 @@
    <FileRef
       location = "group:Core">
    </FileRef>
-   <FileRef
-      location = "group:Documentation">
-   </FileRef>
 </Workspace>

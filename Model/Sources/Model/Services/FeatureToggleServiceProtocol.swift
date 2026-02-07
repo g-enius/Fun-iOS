@@ -5,8 +5,8 @@
 //  Protocol for feature toggle service
 //
 
-import Foundation
 import Combine
+import Foundation
 
 @MainActor
 public protocol FeatureToggleServiceProtocol: AnyObject {

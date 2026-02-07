@@ -5,10 +5,11 @@
 //  ViewModel for Settings screen
 //
 
-import Foundation
 import Combine
-import FunModel
+import Foundation
+
 import FunCore
+import FunModel
 
 @MainActor
 public class SettingsViewModel: ObservableObject {
@@ -20,11 +21,7 @@ public class SettingsViewModel: ObservableObject {
     // MARK: - Services
 
     @Service(.logger) private var logger: LoggerService
-
-    // We need direct access to the service for mutations
-    private var featureToggleService: FeatureToggleServiceProtocol {
-        ServiceLocator.shared.resolve(for: .featureToggles)
-    }
+    @Service(.featureToggles) private var featureToggleService: FeatureToggleServiceProtocol
 
     // MARK: - Published State
 

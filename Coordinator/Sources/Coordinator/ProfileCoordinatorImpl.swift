@@ -6,8 +6,9 @@
 //
 
 import UIKit
-import FunViewModel
+
 import FunModel
+import FunViewModel
 
 public final class ProfileCoordinatorImpl: BaseCoordinator, ProfileCoordinator {
 

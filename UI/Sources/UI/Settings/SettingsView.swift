@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
-import FunViewModel
+
 import FunCore
+import FunViewModel
 
 public struct SettingsView: View {
     @ObservedObject var viewModel: SettingsViewModel

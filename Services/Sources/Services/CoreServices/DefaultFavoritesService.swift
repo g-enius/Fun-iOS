@@ -5,8 +5,9 @@
 //  Default implementation of FavoritesServiceProtocol
 //
 
-import Foundation
 import Combine
+import Foundation
+
 import FunModel
 
 @MainActor

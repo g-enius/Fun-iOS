@@ -6,10 +6,11 @@
 //
 
 import UIKit
+
+import FunCore
+import FunModel
 import FunUI
 import FunViewModel
-import FunModel
-import FunCore
 
 /// Main app coordinator that manages the root navigation and app flow
 public final class AppCoordinator: BaseCoordinator {

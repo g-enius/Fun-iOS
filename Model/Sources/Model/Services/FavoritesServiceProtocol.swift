@@ -5,8 +5,8 @@
 //  Protocol for favorites service
 //
 
-import Foundation
 import Combine
+import Foundation
 
 @MainActor
 public protocol FavoritesServiceProtocol {

@@ -5,9 +5,9 @@
 //  Composition root: creates concrete sessions for each app flow
 //
 
+import FunCore
 import FunModel
 import FunServices
-import FunCore
 
 @MainActor
 struct AppSessionFactory: SessionFactory {

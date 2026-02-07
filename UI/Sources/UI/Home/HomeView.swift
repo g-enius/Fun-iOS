@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
-import FunViewModel
-import FunModel
+
 import FunCore
+import FunModel
+import FunViewModel
 
 public struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel

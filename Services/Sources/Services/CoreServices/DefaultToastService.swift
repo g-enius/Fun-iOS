@@ -5,8 +5,9 @@
 //  Default implementation of ToastServiceProtocol
 //
 
-import Foundation
 import Combine
+import Foundation
+
 import FunModel
 
 @MainActor

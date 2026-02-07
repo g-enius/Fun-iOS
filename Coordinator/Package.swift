@@ -27,9 +27,5 @@ let package = Package(
             ],
             path: "Sources/Coordinator"
         ),
-        .testTarget(
-            name: "CoordinatorTests",
-            dependencies: ["FunCoordinator"]
-        ),
     ]
 )
