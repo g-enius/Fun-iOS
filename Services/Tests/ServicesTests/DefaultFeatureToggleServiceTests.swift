@@ -46,15 +46,15 @@ struct DefaultFeatureToggleServiceTests {
 
     // MARK: - Combine Publisher Tests
 
-    @Test("Setting featured carousel emits via Combine publisher")
-    func testFeaturedCarouselEmitsViaCombine() async {
+    @Test("Setting featured carousel emits via publisher")
+    func testFeaturedCarouselEmitsViaPublisher() async {
         clearUserDefaults()
         let service = DefaultFeatureToggleService()
-        var eventReceived = false
+        var receivedValue: Bool?
         var cancellables = Set<AnyCancellable>()
 
-        service.featureTogglesDidChange
-            .sink { _ in eventReceived = true }
+        service.featuredCarouselPublisher
+            .sink { receivedValue = $0 }
             .store(in: &cancellables)
 
         service.featuredCarousel = false
@@ -62,7 +62,7 @@ struct DefaultFeatureToggleServiceTests {
         // Wait a moment for publisher
         try? await Task.sleep(nanoseconds: 100_000_000)
 
-        #expect(eventReceived == true)
+        #expect(receivedValue == false)
     }
 
     // MARK: - State Restoration Tests

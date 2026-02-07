@@ -59,10 +59,7 @@ public class HomeViewModel: ObservableObject {
     // MARK: - Feature Toggle Observation (Combine)
 
     private func observeFeatureToggleChanges() {
-        featureToggleService.featureTogglesDidChange
-            .filter { $0 == .featuredCarousel }
-            .compactMap { [weak self] _ in self?.featureToggleService.featuredCarousel }
-            .removeDuplicates()
+        featureToggleService.featuredCarouselPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] newValue in
                 self?.isCarouselEnabled = newValue

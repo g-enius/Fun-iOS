@@ -12,51 +12,52 @@ import FunModel
 @MainActor
 public final class DefaultFeatureToggleService: FeatureToggleServiceProtocol {
 
-    // MARK: - Combine Publisher
-
-    private let togglesChangedSubject = PassthroughSubject<FeatureToggleKey, Never>()
-
-    public var featureTogglesDidChange: AnyPublisher<FeatureToggleKey, Never> {
-        togglesChangedSubject.eraseToAnyPublisher()
-    }
-
     // MARK: - Feature Toggles
 
-    public var featuredCarousel: Bool {
-        get { UserDefaults.standard.bool(forKey: .featureCarousel) }
-        set {
-            UserDefaults.standard.set(newValue, forKey: .featureCarousel)
-            togglesChangedSubject.send(.featuredCarousel)
-        }
+    @Published public var featuredCarousel: Bool
+    @Published public var simulateErrors: Bool
+    @Published public var darkModeEnabled: Bool
+
+    // MARK: - Publishers
+
+    public var featuredCarouselPublisher: AnyPublisher<Bool, Never> {
+        $featuredCarousel.dropFirst().removeDuplicates().eraseToAnyPublisher()
     }
 
-    public var simulateErrors: Bool {
-        get { UserDefaults.standard.bool(forKey: .simulateErrors) }
-        set {
-            UserDefaults.standard.set(newValue, forKey: .simulateErrors)
-            togglesChangedSubject.send(.simulateErrors)
-        }
+    public var simulateErrorsPublisher: AnyPublisher<Bool, Never> {
+        $simulateErrors.dropFirst().removeDuplicates().eraseToAnyPublisher()
     }
 
-    public var darkModeEnabled: Bool {
-        get { UserDefaults.standard.bool(forKey: .darkModeEnabled) }
-        set {
-            UserDefaults.standard.set(newValue, forKey: .darkModeEnabled)
-            togglesChangedSubject.send(.darkMode)
-        }
+    public var darkModePublisher: AnyPublisher<Bool, Never> {
+        $darkModeEnabled.dropFirst().removeDuplicates().eraseToAnyPublisher()
     }
+
+    // MARK: - Private
+
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialization
 
     public init() {
-        if UserDefaults.standard.object(forKey: .featureCarousel) == nil {
-            UserDefaults.standard.set(true, forKey: .featureCarousel)
+        // Load from UserDefaults (with defaults for first launch)
+        let defaults = UserDefaults.standard
+        if defaults.object(forKey: .featureCarousel) == nil {
+            defaults.set(true, forKey: .featureCarousel)
         }
-        if UserDefaults.standard.object(forKey: .simulateErrors) == nil {
-            UserDefaults.standard.set(false, forKey: .simulateErrors)
+        if defaults.object(forKey: .simulateErrors) == nil {
+            defaults.set(false, forKey: .simulateErrors)
         }
-        if UserDefaults.standard.object(forKey: .darkModeEnabled) == nil {
-            UserDefaults.standard.set(false, forKey: .darkModeEnabled)
+        if defaults.object(forKey: .darkModeEnabled) == nil {
+            defaults.set(false, forKey: .darkModeEnabled)
         }
+
+        featuredCarousel = defaults.bool(forKey: .featureCarousel)
+        simulateErrors = defaults.bool(forKey: .simulateErrors)
+        darkModeEnabled = defaults.bool(forKey: .darkModeEnabled)
+
+        // Persist changes back to UserDefaults
+        $featuredCarousel.dropFirst().sink { UserDefaults.standard.set($0, forKey: .featureCarousel) }.store(in: &cancellables)
+        $simulateErrors.dropFirst().sink { UserDefaults.standard.set($0, forKey: .simulateErrors) }.store(in: &cancellables)
+        $darkModeEnabled.dropFirst().sink { UserDefaults.standard.set($0, forKey: .darkModeEnabled) }.store(in: &cancellables)
     }
 }

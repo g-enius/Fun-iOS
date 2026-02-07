@@ -192,9 +192,8 @@ public enum TechnologyDescriptions {
 
         Usage:
         ```swift
-        featureToggleService.featureTogglesDidChange
-            .filter { $0 == .featuredCarousel }
-            .sink { _ in self.refreshFeatureToggles() }
+        featureToggleService.featuredCarouselPublisher
+            .sink { newValue in self.isCarouselEnabled = newValue }
             .store(in: &cancellables)
         ```
 

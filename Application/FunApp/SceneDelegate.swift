@@ -68,11 +68,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func subscribeToDarkMode() {
         darkModeSubscription?.cancel()
-        darkModeSubscription = featureToggleService.featureTogglesDidChange
-            .filter { $0 == .darkMode }
-            .compactMap { [weak self] _ in self?.featureToggleService.darkModeEnabled }
-            .removeDuplicates()
-            .receive(on: DispatchQueue.main)
+        darkModeSubscription = featureToggleService.darkModePublisher
             .sink { [weak self] isDarkMode in
                 let style: UIUserInterfaceStyle = isDarkMode ? .dark : .light
                 self?.window?.overrideUserInterfaceStyle = style

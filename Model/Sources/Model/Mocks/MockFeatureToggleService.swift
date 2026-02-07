@@ -11,22 +11,20 @@ import Combine
 @MainActor
 public final class MockFeatureToggleService: FeatureToggleServiceProtocol {
 
-    private let togglesChangedSubject = PassthroughSubject<FeatureToggleKey, Never>()
+    @Published public var featuredCarousel: Bool
+    @Published public var simulateErrors: Bool
+    @Published public var darkModeEnabled: Bool
 
-    public var featureTogglesDidChange: AnyPublisher<FeatureToggleKey, Never> {
-        togglesChangedSubject.eraseToAnyPublisher()
+    public var featuredCarouselPublisher: AnyPublisher<Bool, Never> {
+        $featuredCarousel.dropFirst().removeDuplicates().eraseToAnyPublisher()
     }
 
-    public var featuredCarousel: Bool {
-        didSet { togglesChangedSubject.send(.featuredCarousel) }
+    public var simulateErrorsPublisher: AnyPublisher<Bool, Never> {
+        $simulateErrors.dropFirst().removeDuplicates().eraseToAnyPublisher()
     }
 
-    public var simulateErrors: Bool {
-        didSet { togglesChangedSubject.send(.simulateErrors) }
-    }
-
-    public var darkModeEnabled: Bool {
-        didSet { togglesChangedSubject.send(.darkMode) }
+    public var darkModePublisher: AnyPublisher<Bool, Never> {
+        $darkModeEnabled.dropFirst().removeDuplicates().eraseToAnyPublisher()
     }
 
     public init(featuredCarousel: Bool = true, simulateErrors: Bool = false, darkModeEnabled: Bool = false) {
