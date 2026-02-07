@@ -17,7 +17,6 @@ struct SessionTests {
 
     private func resetLocator() {
         ServiceLocator.shared.reset()
-        ServiceLocator.shared.assertOnMissingService = false
     }
 
     // MARK: - LoginSession
@@ -28,7 +27,6 @@ struct SessionTests {
 
         private func resetLocator() {
             ServiceLocator.shared.reset()
-            ServiceLocator.shared.assertOnMissingService = false
         }
 
         @Test("Registers core services and feature toggles")
@@ -70,7 +68,6 @@ struct SessionTests {
 
         private func resetLocator() {
             ServiceLocator.shared.reset()
-            ServiceLocator.shared.assertOnMissingService = false
         }
 
         @Test("Registers all five services")
@@ -114,7 +111,6 @@ struct SessionTests {
 
         private func resetLocator() {
             ServiceLocator.shared.reset()
-            ServiceLocator.shared.assertOnMissingService = false
         }
 
         @Test("Login to main: authenticated services become available")

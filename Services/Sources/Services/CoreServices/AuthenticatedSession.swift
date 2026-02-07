@@ -23,9 +23,9 @@ public final class AuthenticatedSession: Session {
     }
 
     public func teardown() {
-        // Clear user-scoped data through the service protocol before resetting
-        let favorites: FavoritesServiceProtocol? = ServiceLocator.shared.resolveOptional(for: .favorites)
-        favorites?.resetFavorites()
+        // Clear user-scoped data before resetting
+        let favorites: FavoritesServiceProtocol = ServiceLocator.shared.resolve(for: .favorites)
+        favorites.resetFavorites()
         ServiceLocator.shared.reset()
     }
 }

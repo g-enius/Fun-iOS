@@ -23,17 +23,13 @@ public class HomeViewModel: ObservableObject {
     @Service(.favorites) private var favoritesService: FavoritesServiceProtocol
     @Service(.toast) private var toastService: ToastServiceProtocol
 
-    /// Direct access to feature toggle service for reading current state
-    private var featureToggleService: FeatureToggleServiceProtocol {
-        ServiceLocator.shared.resolve(for: .featureToggles)
-    }
+    @Service(.featureToggles) private var featureToggleService: FeatureToggleServiceProtocol
 
     // MARK: - Published State
 
     @Published public var featuredItems: [[FeaturedItem]] = []
     @Published public var currentCarouselIndex: Int = 0
     @Published public var isLoading: Bool = false
-    @Published public var isRefreshing: Bool = false
     @Published public var isCarouselEnabled: Bool = true
     @Published public private(set) var favoriteIds: Set<String> = []
     @Published public var hasError: Bool = false
@@ -64,9 +60,13 @@ public class HomeViewModel: ObservableObject {
 
     private func observeFeatureToggleChanges() {
         featureToggleService.featureTogglesDidChange
+            .compactMap { [weak self] in self?.featureToggleService.featuredCarousel
+            }
+            .removeDuplicates()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.refreshFeatureToggles()
+            .sink { [weak self] newValue in
+                self?.isCarouselEnabled = newValue
+                self?.logger.log("Carousel visibility changed to: \(newValue)")
             }
             .store(in: &cancellables)
     }
@@ -97,14 +97,6 @@ public class HomeViewModel: ObservableObject {
         logger.log("Toggled favorite for: \(itemId)")
     }
 
-    private func refreshFeatureToggles() {
-        let newValue = featureToggleService.featuredCarousel
-        if isCarouselEnabled != newValue {
-            isCarouselEnabled = newValue
-            logger.log("Carousel visibility changed to: \(newValue)")
-        }
-    }
-
     // MARK: - Data Loading
 
     /// Load featured items with simulated network delay
@@ -130,7 +122,6 @@ public class HomeViewModel: ObservableObject {
         // Use static FeaturedItem data showcasing technologies used in this demo
         featuredItems = FeaturedItem.allCarouselSets
         isLoading = false
-        isRefreshing = false
         hasLoadedInitialData = true
 
         logger.log("Featured items loaded: \(featuredItems.flatMap { $0 }.count) items")
@@ -145,7 +136,6 @@ public class HomeViewModel: ObservableObject {
 
         hasError = true
         isLoading = false
-        isRefreshing = false
         featuredItems = []
 
         toastService.showToast(message: AppError.networkError.errorDescription ?? "Error", type: .error)
@@ -153,14 +143,7 @@ public class HomeViewModel: ObservableObject {
 
     /// Pull-to-refresh handler
     public func refresh() async {
-        isRefreshing = true
         logger.log("Pull to refresh triggered")
-
-        // Simulate network delay
-        let delay = UInt64.random(in: 800_000_000...1_200_000_000)
-        try? await Task.sleep(nanoseconds: delay)
-
-        // Reload data (could fetch new data from server)
         await loadFeaturedItems()
     }
 

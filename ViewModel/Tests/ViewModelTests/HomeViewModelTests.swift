@@ -46,7 +46,6 @@ struct HomeViewModelTests {
         simulateErrors: Bool = false
     ) {
         ServiceLocator.shared.reset()
-        ServiceLocator.shared.assertOnMissingService = false
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
         ServiceLocator.shared.register(MockFavoritesService(initialFavorites: initialFavorites), for: .favorites)
         ServiceLocator.shared.register(MockFeatureToggleService(featuredCarousel: featuredCarousel, simulateErrors: simulateErrors), for: .featureToggles)
@@ -99,7 +98,6 @@ struct HomeViewModelTests {
         // Setup with simulateErrors enabled
         let mockToast = MockToastService()
         ServiceLocator.shared.reset()
-        ServiceLocator.shared.assertOnMissingService = false
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
         ServiceLocator.shared.register(MockFavoritesService(), for: .favorites)
         ServiceLocator.shared.register(MockFeatureToggleService(featuredCarousel: true, simulateErrors: true), for: .featureToggles)
@@ -211,7 +209,6 @@ struct HomeViewModelTests {
     @Test("Mock feature toggle service supports darkModeEnabled")
     func testMockFeatureToggleDarkMode() async {
         ServiceLocator.shared.reset()
-        ServiceLocator.shared.assertOnMissingService = false
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
         ServiceLocator.shared.register(MockFavoritesService(), for: .favorites)
         ServiceLocator.shared.register(MockFeatureToggleService(darkModeEnabled: true), for: .featureToggles)
@@ -253,25 +250,4 @@ struct HomeViewModelTests {
         #expect(viewModel.hasError == false)
     }
 
-    // MARK: - Refresh Tests
-
-    @Test("refresh sets isRefreshing to true")
-    func testRefreshSetsIsRefreshing() async {
-        setupServices()
-        let viewModel = HomeViewModel(coordinator: nil)
-
-        // Start refresh but don't await
-        let task = Task {
-            await viewModel.refresh()
-        }
-
-        // Give a moment for isRefreshing to be set
-        try? await Task.sleep(nanoseconds: 50_000_000)
-
-        // During refresh, isRefreshing should be true (or finished)
-        // Note: This is timing-dependent
-        #expect(viewModel.isRefreshing == true || !viewModel.featuredItems.isEmpty)
-
-        await task.value
-    }
 }

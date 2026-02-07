@@ -16,7 +16,6 @@ public class DetailViewModel: ObservableObject {
     // MARK: - Coordinator
 
     private weak var coordinator: DetailCoordinator?
-    private weak var tabBarViewModel: HomeTabBarViewModel?
 
     // MARK: - Services
 
@@ -37,13 +36,12 @@ public class DetailViewModel: ObservableObject {
 
     // MARK: - Initialization
 
-    public init(item: FeaturedItem, coordinator: DetailCoordinator?, tabBarViewModel: HomeTabBarViewModel? = nil) {
+    public init(item: FeaturedItem, coordinator: DetailCoordinator?) {
         self.itemTitle = item.title
         self.category = item.category
         self.itemId = item.id
         self.itemDescription = TechnologyDescriptions.description(for: item.id)
         self.coordinator = coordinator
-        self.tabBarViewModel = tabBarViewModel
         self.isFavorited = favoritesService.isFavorited(itemId)
         observeFavoritesChanges()
     }
@@ -61,10 +59,6 @@ public class DetailViewModel: ObservableObject {
     }
 
     // MARK: - Actions
-
-    public func didTapBack() {
-        coordinator?.dismiss()
-    }
 
     public func didTapShare() {
         let shareText = L10n.Detail.shareText(itemTitle)

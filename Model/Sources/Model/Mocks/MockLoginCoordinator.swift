@@ -17,8 +17,4 @@ public final class MockLoginCoordinator: LoginCoordinator {
     public func didLogin() {
         didLoginCalled = true
     }
-
-    public func reset() {
-        didLoginCalled = false
-    }
 }

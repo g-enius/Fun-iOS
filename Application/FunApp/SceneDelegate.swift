@@ -19,9 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var appCoordinator: AppCoordinator?
     private var cancellables = Set<AnyCancellable>()
-    private var toggleSubscription: AnyCancellable?
+    private var darkModeSubscription: AnyCancellable?
 
-    // Service for appearance management (resolved after registration)
     @Service(.featureToggles) private var featureToggleService: FeatureToggleServiceProtocol
 
     func scene(
@@ -53,40 +52,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         window.makeKeyAndVisible()
 
-        // Apply initial appearance and observe changes
-        updateAppearance()
-        observeAppearanceChanges()
+        observeDarkMode()
     }
 
-    // MARK: - Appearance (Single Source of Truth)
+    // MARK: - Dark Mode Observation
 
-    private func observeAppearanceChanges() {
-        subscribeToFeatureToggles()
+    private func observeDarkMode() {
+        subscribeToDarkMode()
 
-        // Re-subscribe when a new feature toggle service is registered (session transition)
+        // Re-subscribe when feature toggle service is replaced (session transition)
         ServiceLocator.shared.serviceDidRegister
             .filter { $0 == .featureToggles }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.subscribeToFeatureToggles()
-                self?.updateAppearance()
+                self?.subscribeToDarkMode()
             }
             .store(in: &cancellables)
     }
 
-    private func subscribeToFeatureToggles() {
-        toggleSubscription?.cancel()
-        toggleSubscription = featureToggleService.featureTogglesDidChange
+    private func subscribeToDarkMode() {
+        darkModeSubscription?.cancel()
+        darkModeSubscription = featureToggleService.featureTogglesDidChange
+            .compactMap { [weak self] in self?.featureToggleService.darkModeEnabled }
+            .removeDuplicates()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.updateAppearance()
+            .sink { [weak self] isDarkMode in
+                let style: UIUserInterfaceStyle = isDarkMode ? .dark : .light
+                self?.window?.overrideUserInterfaceStyle = style
             }
-    }
 
-    private func updateAppearance() {
+        // Apply current value immediately
         let isDarkMode = featureToggleService.darkModeEnabled
-        let style: UIUserInterfaceStyle = isDarkMode ? .dark : .light
-        window?.overrideUserInterfaceStyle = style
+        window?.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
     }
 
     // MARK: - Deep Link Handling

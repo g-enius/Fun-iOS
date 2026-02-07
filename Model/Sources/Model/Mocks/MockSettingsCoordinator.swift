@@ -17,8 +17,4 @@ public final class MockSettingsCoordinator: SettingsCoordinator {
     public func dismiss() {
         dismissCalled = true
     }
-
-    public func reset() {
-        dismissCalled = false
-    }
 }

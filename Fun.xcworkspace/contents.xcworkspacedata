@@ -5,9 +5,6 @@
       location = "group:Application/FunApp.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:App">
-   </FileRef>
-   <FileRef
       location = "group:ViewModel">
    </FileRef>
    <FileRef

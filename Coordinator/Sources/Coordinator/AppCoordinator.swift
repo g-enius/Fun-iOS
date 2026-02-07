@@ -115,12 +115,10 @@ public final class AppCoordinator: BaseCoordinator {
 
         // Create and store coordinators for each tab
         let homeCoordinator = HomeCoordinatorImpl(
-            navigationController: homeNavController,
-            tabBarViewModel: tabBarViewModel
+            navigationController: homeNavController
         )
         let itemsCoordinator = ItemsCoordinatorImpl(
-            navigationController: itemsNavController,
-            tabBarViewModel: tabBarViewModel
+            navigationController: itemsNavController
         )
         let settingsCoordinator = SettingsCoordinatorImpl(
             navigationController: settingsNavController

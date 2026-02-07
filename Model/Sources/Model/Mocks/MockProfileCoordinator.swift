@@ -22,9 +22,4 @@ public final class MockProfileCoordinator: ProfileCoordinator {
     public func logout() {
         logoutCalled = true
     }
-
-    public func reset() {
-        dismissCalled = false
-        logoutCalled = false
-    }
 }

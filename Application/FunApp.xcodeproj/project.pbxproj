@@ -7,30 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5F3C37502F2CD600005C8ADE /* App in Frameworks */ = {isa = PBXBuildFile; productRef = 5F3C374F2F2CD600005C8ADE /* App */; };
+		5F3C37802F2CD600005C8ADE /* FunCore in Frameworks */ = {isa = PBXBuildFile; productRef = 5F3C37702F2CD600005C8ADE /* FunCore */; };
+		5F3C37812F2CD600005C8ADE /* FunModel in Frameworks */ = {isa = PBXBuildFile; productRef = 5F3C37712F2CD600005C8ADE /* FunModel */; };
+		5F3C37822F2CD600005C8ADE /* FunServices in Frameworks */ = {isa = PBXBuildFile; productRef = 5F3C37722F2CD600005C8ADE /* FunServices */; };
+		5F3C37832F2CD600005C8ADE /* FunViewModel in Frameworks */ = {isa = PBXBuildFile; productRef = 5F3C37732F2CD600005C8ADE /* FunViewModel */; };
+		5F3C37842F2CD600005C8ADE /* FunUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5F3C37742F2CD600005C8ADE /* FunUI */; };
+		5F3C37852F2CD600005C8ADE /* FunCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 5F3C37752F2CD600005C8ADE /* FunCoordinator */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		5F3C372A2F2CD551005C8ADE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5F3C370B2F2CD54F005C8ADE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5F3C37122F2CD54F005C8ADE;
-			remoteInfo = FunApp;
-		};
-		5F3C37342F2CD551005C8ADE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5F3C370B2F2CD54F005C8ADE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5F3C37122F2CD54F005C8ADE;
-			remoteInfo = FunApp;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		5F3C37132F2CD54F005C8ADE /* FunApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		5F3C37292F2CD551005C8ADE /* FunAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FunAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5F3C37332F2CD551005C8ADE /* FunAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FunAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -52,16 +38,6 @@
 			path = FunApp;
 			sourceTree = "<group>";
 		};
-		5F3C372C2F2CD551005C8ADE /* FunAppTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = FunAppTests;
-			sourceTree = "<group>";
-		};
-		5F3C37362F2CD551005C8ADE /* FunAppUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = FunAppUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,21 +45,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F3C37502F2CD600005C8ADE /* App in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5F3C37262F2CD551005C8ADE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5F3C37302F2CD551005C8ADE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				5F3C37802F2CD600005C8ADE /* FunCore in Frameworks */,
+				5F3C37812F2CD600005C8ADE /* FunModel in Frameworks */,
+				5F3C37822F2CD600005C8ADE /* FunServices in Frameworks */,
+				5F3C37832F2CD600005C8ADE /* FunViewModel in Frameworks */,
+				5F3C37842F2CD600005C8ADE /* FunUI in Frameworks */,
+				5F3C37852F2CD600005C8ADE /* FunCoordinator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,8 +61,6 @@
 			isa = PBXGroup;
 			children = (
 				5F3C37152F2CD54F005C8ADE /* FunApp */,
-				5F3C372C2F2CD551005C8ADE /* FunAppTests */,
-				5F3C37362F2CD551005C8ADE /* FunAppUITests */,
 				5F3C37142F2CD54F005C8ADE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -104,8 +69,6 @@
 			isa = PBXGroup;
 			children = (
 				5F3C37132F2CD54F005C8ADE /* FunApp.app */,
-				5F3C37292F2CD551005C8ADE /* FunAppTests.xctest */,
-				5F3C37332F2CD551005C8ADE /* FunAppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -132,57 +95,16 @@
 			);
 			name = FunApp;
 			packageProductDependencies = (
-				5F3C374F2F2CD600005C8ADE /* App */,
+				5F3C37702F2CD600005C8ADE /* FunCore */,
+				5F3C37712F2CD600005C8ADE /* FunModel */,
+				5F3C37722F2CD600005C8ADE /* FunServices */,
+				5F3C37732F2CD600005C8ADE /* FunViewModel */,
+				5F3C37742F2CD600005C8ADE /* FunUI */,
+				5F3C37752F2CD600005C8ADE /* FunCoordinator */,
 			);
 			productName = FunApp;
 			productReference = 5F3C37132F2CD54F005C8ADE /* FunApp.app */;
 			productType = "com.apple.product-type.application";
-		};
-		5F3C37282F2CD551005C8ADE /* FunAppTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5F3C37412F2CD551005C8ADE /* Build configuration list for PBXNativeTarget "FunAppTests" */;
-			buildPhases = (
-				5F3C37252F2CD551005C8ADE /* Sources */,
-				5F3C37262F2CD551005C8ADE /* Frameworks */,
-				5F3C37272F2CD551005C8ADE /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5F3C372B2F2CD551005C8ADE /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				5F3C372C2F2CD551005C8ADE /* FunAppTests */,
-			);
-			name = FunAppTests;
-			packageProductDependencies = (
-			);
-			productName = FunAppTests;
-			productReference = 5F3C37292F2CD551005C8ADE /* FunAppTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		5F3C37322F2CD551005C8ADE /* FunAppUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5F3C37442F2CD551005C8ADE /* Build configuration list for PBXNativeTarget "FunAppUITests" */;
-			buildPhases = (
-				5F3C372F2F2CD551005C8ADE /* Sources */,
-				5F3C37302F2CD551005C8ADE /* Frameworks */,
-				5F3C37312F2CD551005C8ADE /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5F3C37352F2CD551005C8ADE /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				5F3C37362F2CD551005C8ADE /* FunAppUITests */,
-			);
-			name = FunAppUITests;
-			packageProductDependencies = (
-			);
-			productName = FunAppUITests;
-			productReference = 5F3C37332F2CD551005C8ADE /* FunAppUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -197,14 +119,6 @@
 					5F3C37122F2CD54F005C8ADE = {
 						CreatedOnToolsVersion = 26.2;
 					};
-					5F3C37282F2CD551005C8ADE = {
-						CreatedOnToolsVersion = 26.2;
-						TestTargetID = 5F3C37122F2CD54F005C8ADE;
-					};
-					5F3C37322F2CD551005C8ADE = {
-						CreatedOnToolsVersion = 26.2;
-						TestTargetID = 5F3C37122F2CD54F005C8ADE;
-					};
 				};
 			};
 			buildConfigurationList = 5F3C370E2F2CD54F005C8ADE /* Build configuration list for PBXProject "FunApp" */;
@@ -217,7 +131,12 @@
 			mainGroup = 5F3C370A2F2CD54F005C8ADE;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				5F3C37472F2CD600005C8ADE /* XCLocalSwiftPackageReference "../App" */,
+				5F3C37602F2CD600005C8ADE /* XCLocalSwiftPackageReference "../Core" */,
+				5F3C37612F2CD600005C8ADE /* XCLocalSwiftPackageReference "../Model" */,
+				5F3C37622F2CD600005C8ADE /* XCLocalSwiftPackageReference "../Services" */,
+				5F3C37632F2CD600005C8ADE /* XCLocalSwiftPackageReference "../ViewModel" */,
+				5F3C37642F2CD600005C8ADE /* XCLocalSwiftPackageReference "../UI" */,
+				5F3C37652F2CD600005C8ADE /* XCLocalSwiftPackageReference "../Coordinator" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5F3C37142F2CD54F005C8ADE /* Products */;
@@ -225,28 +144,12 @@
 			projectRoot = "";
 			targets = (
 				5F3C37122F2CD54F005C8ADE /* FunApp */,
-				5F3C37282F2CD551005C8ADE /* FunAppTests */,
-				5F3C37322F2CD551005C8ADE /* FunAppUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5F3C37112F2CD54F005C8ADE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5F3C37272F2CD551005C8ADE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5F3C37312F2CD551005C8ADE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -304,34 +207,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5F3C37252F2CD551005C8ADE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5F3C372F2F2CD551005C8ADE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5F3C372B2F2CD551005C8ADE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5F3C37122F2CD54F005C8ADE /* FunApp */;
-			targetProxy = 5F3C372A2F2CD551005C8ADE /* PBXContainerItemProxy */;
-		};
-		5F3C37352F2CD551005C8ADE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5F3C37122F2CD54F005C8ADE /* FunApp */;
-			targetProxy = 5F3C37342F2CD551005C8ADE /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		5F3C373D2F2CD551005C8ADE /* Debug */ = {
@@ -513,86 +389,6 @@
 			};
 			name = Release;
 		};
-		5F3C37422F2CD551005C8ADE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.charles.wang.FunAppTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FunApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FunApp";
-			};
-			name = Debug;
-		};
-		5F3C37432F2CD551005C8ADE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.charles.wang.FunAppTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FunApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FunApp";
-			};
-			name = Release;
-		};
-		5F3C37452F2CD551005C8ADE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.charles.wang.FunAppUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = FunApp;
-			};
-			name = Debug;
-		};
-		5F3C37462F2CD551005C8ADE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.charles.wang.FunAppUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = FunApp;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -614,37 +410,59 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5F3C37412F2CD551005C8ADE /* Build configuration list for PBXNativeTarget "FunAppTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5F3C37422F2CD551005C8ADE /* Debug */,
-				5F3C37432F2CD551005C8ADE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5F3C37442F2CD551005C8ADE /* Build configuration list for PBXNativeTarget "FunAppUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5F3C37452F2CD551005C8ADE /* Debug */,
-				5F3C37462F2CD551005C8ADE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		5F3C37472F2CD600005C8ADE /* XCLocalSwiftPackageReference "../App" */ = {
+		5F3C37602F2CD600005C8ADE /* XCLocalSwiftPackageReference "../Core" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../App;
+			relativePath = ../Core;
+		};
+		5F3C37612F2CD600005C8ADE /* XCLocalSwiftPackageReference "../Model" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Model;
+		};
+		5F3C37622F2CD600005C8ADE /* XCLocalSwiftPackageReference "../Services" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Services;
+		};
+		5F3C37632F2CD600005C8ADE /* XCLocalSwiftPackageReference "../ViewModel" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../ViewModel;
+		};
+		5F3C37642F2CD600005C8ADE /* XCLocalSwiftPackageReference "../UI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../UI;
+		};
+		5F3C37652F2CD600005C8ADE /* XCLocalSwiftPackageReference "../Coordinator" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Coordinator;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5F3C374F2F2CD600005C8ADE /* App */ = {
+		5F3C37702F2CD600005C8ADE /* FunCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = App;
+			productName = FunCore;
+		};
+		5F3C37712F2CD600005C8ADE /* FunModel */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FunModel;
+		};
+		5F3C37722F2CD600005C8ADE /* FunServices */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FunServices;
+		};
+		5F3C37732F2CD600005C8ADE /* FunViewModel */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FunViewModel;
+		};
+		5F3C37742F2CD600005C8ADE /* FunUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FunUI;
+		};
+		5F3C37752F2CD600005C8ADE /* FunCoordinator */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FunCoordinator;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

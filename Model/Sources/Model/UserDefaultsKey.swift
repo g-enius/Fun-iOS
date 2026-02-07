@@ -14,7 +14,6 @@ public enum UserDefaultsKey: String {
 
     // App settings
     case darkModeEnabled = "app.darkModeEnabled"
-    case selectedLanguage = "app.selectedLanguage"
 
     // User data
     case favorites = "app.favorites"
@@ -31,24 +30,8 @@ public extension UserDefaults {
         set(value, forKey: key.rawValue)
     }
 
-    func string(forKey key: UserDefaultsKey) -> String? {
-        string(forKey: key.rawValue)
-    }
-
-    func set(_ value: String?, forKey key: UserDefaultsKey) {
-        set(value, forKey: key.rawValue)
-    }
-
     func object(forKey key: UserDefaultsKey) -> Any? {
         object(forKey: key.rawValue)
-    }
-
-    func set(_ value: Any?, forKey key: UserDefaultsKey) {
-        set(value, forKey: key.rawValue)
-    }
-
-    func array(forKey key: UserDefaultsKey) -> [Any]? {
-        array(forKey: key.rawValue)
     }
 
     func removeObject(forKey key: UserDefaultsKey) {

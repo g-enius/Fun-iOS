@@ -32,11 +32,4 @@ public final class MockToastService: ToastServiceProtocol {
         toastHistory.append(event)
         toastSubject.send(event)
     }
-
-    public func reset() {
-        showToastCalled = false
-        lastMessage = nil
-        lastType = nil
-        toastHistory.removeAll()
-    }
 }

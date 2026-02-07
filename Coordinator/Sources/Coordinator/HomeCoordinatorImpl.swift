@@ -23,17 +23,6 @@ public final class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
     private var detailCoordinator: DetailCoordinatorImpl?
     private var profileCoordinator: ProfileCoordinatorImpl?
 
-    // MARK: - Tab Bar
-
-    private weak var tabBarViewModel: HomeTabBarViewModel?
-
-    // MARK: - Initialization
-
-    public init(navigationController: UINavigationController, tabBarViewModel: HomeTabBarViewModel) {
-        self.tabBarViewModel = tabBarViewModel
-        super.init(navigationController: navigationController)
-    }
-
     override public func start() {
         let viewModel = HomeViewModel(coordinator: self)
         let viewController = HomeViewController(viewModel: viewModel)
@@ -44,15 +33,13 @@ public final class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
 
     public func showDetail(for item: FeaturedItem) {
         let coordinator = DetailCoordinatorImpl(
-            navigationController: navigationController,
-            tabBarViewModel: tabBarViewModel
+            navigationController: navigationController
         )
         detailCoordinator = coordinator
 
         let viewModel = DetailViewModel(
             item: item,
-            coordinator: coordinator,
-            tabBarViewModel: tabBarViewModel
+            coordinator: coordinator
         )
         let viewController = DetailViewController(viewModel: viewModel)
         safePush(viewController)

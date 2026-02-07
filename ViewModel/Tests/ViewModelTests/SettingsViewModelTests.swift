@@ -29,7 +29,6 @@ struct SettingsViewModelTests {
         )
 
         ServiceLocator.shared.reset()
-        ServiceLocator.shared.assertOnMissingService = false
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
         ServiceLocator.shared.register(mockFeatureToggle, for: .featureToggles)
 

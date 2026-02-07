@@ -19,7 +19,6 @@ struct ProfileViewModelTests {
 
     private func setupServices() {
         ServiceLocator.shared.reset()
-        ServiceLocator.shared.assertOnMissingService = false
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
     }
 
