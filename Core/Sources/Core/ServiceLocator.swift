@@ -33,7 +33,7 @@ public class ServiceLocator {
 
     /// Emits the key whenever a service is registered
     private let registrationSubject = PassthroughSubject<ServiceKey, Never>()
-    public var serviceDidRegister: AnyPublisher<ServiceKey, Never> {
+    public var serviceDidRegisterPublisher: AnyPublisher<ServiceKey, Never> {
         registrationSubject.eraseToAnyPublisher()
     }
 
@@ -56,11 +56,6 @@ public class ServiceLocator {
     /// Check if a service is registered
     public func isRegistered(for key: ServiceKey) -> Bool {
         services[key] != nil
-    }
-
-    /// Unregister a service (useful for testing)
-    public func unregister(for key: ServiceKey) {
-        services.removeValue(forKey: key)
     }
 
     /// Clear all services (useful for testing)

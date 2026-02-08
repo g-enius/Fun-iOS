@@ -70,32 +70,35 @@ open class BaseCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: animated)
     }
 
-    public func safePop(animated: Bool = true) {
+    public func safePop(animated: Bool = true, completion: (@MainActor () -> Void)? = nil) {
         guard !isTransitioning else {
             queueAction { [weak self] in
-                self?.safePop(animated: animated)
+                self?.safePop(animated: animated, completion: completion)
             }
             return
         }
         navigationController.popViewController(animated: animated)
-    }
-
-    public func safePopToRoot(animated: Bool = true) {
-        guard !isTransitioning else {
-            queueAction { [weak self] in
-                self?.safePopToRoot(animated: animated)
+        if animated, let transitionCoordinator = navigationController.transitionCoordinator {
+            transitionCoordinator.animate(alongsideTransition: nil) { _ in
+                completion?()
             }
-            return
+        } else {
+            completion?()
         }
-        navigationController.popToRootViewController(animated: animated)
     }
 
     public func safePresent(_ viewController: UIViewController, animated: Bool = true, completion: (@MainActor () -> Void)? = nil) {
-        guard navigationController.presentedViewController == nil else {
-            logger.log("Already presenting a view controller")
-            return
+        // Walk up to the topmost presented VC
+        var presenter: UIViewController = navigationController
+        while let presented = presenter.presentedViewController {
+            // Prevent presenting the same type again
+            if type(of: presented) == type(of: viewController) {
+                logger.log("Already presenting \(type(of: viewController))")
+                return
+            }
+            presenter = presented
         }
-        navigationController.present(viewController, animated: animated, completion: completion)
+        presenter.present(viewController, animated: animated, completion: completion)
     }
 
     public func safeDismiss(animated: Bool = true, completion: (@MainActor () -> Void)? = nil) {
@@ -104,21 +107,6 @@ open class BaseCoordinator: Coordinator {
             return
         }
         navigationController.dismiss(animated: animated, completion: completion)
-    }
-
-    public func dismiss(usePop: Bool = true, animated: Bool = true, completion: (@MainActor () -> Void)? = nil) {
-        if usePop {
-            safePop(animated: animated)
-            if animated, let transitionCoordinator = navigationController.transitionCoordinator {
-                transitionCoordinator.animate(alongsideTransition: nil) { _ in
-                    completion?()
-                }
-            } else {
-                completion?()
-            }
-        } else {
-            safeDismiss(animated: animated, completion: completion)
-        }
     }
 
     // MARK: - Share

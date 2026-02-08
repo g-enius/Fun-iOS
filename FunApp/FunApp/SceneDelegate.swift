@@ -40,7 +40,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = navigationController
         self.window = window
 
-        // Observe before coordinator.start() so serviceDidRegister triggers initial subscription
+        // Observe before coordinator.start() so serviceDidRegisterPublisher triggers initial subscription
         observeDarkMode()
 
         // Create and start app coordinator with session factory
@@ -52,12 +52,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.appCoordinator = coordinator
 
         window.makeKeyAndVisible()
+
+        // Handle deep link from cold start
+        if let url = connectionOptions.urlContexts.first?.url,
+           let deepLink = DeepLink(url: url) {
+            coordinator.handleDeepLink(deepLink)
+        }
     }
 
     // MARK: - Dark Mode Observation
 
     private func observeDarkMode() {
-        ServiceLocator.shared.serviceDidRegister
+        ServiceLocator.shared.serviceDidRegisterPublisher
             .filter { $0 == .featureToggles }
             .sink { [weak self] _ in
                 self?.subscribeToDarkMode()

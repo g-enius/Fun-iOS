@@ -21,8 +21,9 @@ public final class DetailCoordinatorImpl: BaseCoordinator, DetailCoordinator {
     public func dismiss() {
         guard !isDismissed else { return }
         isDismissed = true
-        safePop()
-        onDismiss?()
+        safePop { [weak self] in
+            self?.onDismiss?()
+        }
     }
 
     public func handleSystemDismiss() {
