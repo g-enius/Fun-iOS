@@ -75,26 +75,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
     }
 
-    // MARK: - Scene Lifecycle
-
-    func sceneDidDisconnect(_ scene: UIScene) {
-        appCoordinator = nil
-        cancellables.removeAll()
-        darkModeCancellable = nil
-    }
-
-    func sceneDidBecomeActive(_ scene: UIScene) {
-        // Resume any paused work
-    }
-
-    func sceneWillResignActive(_ scene: UIScene) {
-        // Pause ongoing tasks when going inactive
-    }
-
-    func sceneDidEnterBackground(_ scene: UIScene) {
-        // Save any transient state
-    }
-
     // MARK: - Deep Link Handling
 
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
