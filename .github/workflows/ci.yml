@@ -44,18 +44,53 @@ jobs:
       - name: Build iOS App
         run: |
           xcodebuild build \
-            -project FunApp/FunApp.xcodeproj \
+            -workspace Fun.xcworkspace \
             -scheme FunApp \
             -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO
 
-      - name: Run Unit Tests
+      - name: Run Core Tests
         run: |
           xcodebuild test \
-            -project FunApp/FunApp.xcodeproj \
-            -scheme FunApp \
+            -workspace Fun.xcworkspace \
+            -scheme CoreTests \
             -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
             -configuration Debug \
-            -skip-testing:FunAppUITests \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Run Model Tests
+        run: |
+          xcodebuild test \
+            -workspace Fun.xcworkspace \
+            -scheme ModelTests \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Run Services Tests
+        run: |
+          xcodebuild test \
+            -workspace Fun.xcworkspace \
+            -scheme ServicesTests \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Run ViewModel Tests
+        run: |
+          xcodebuild test \
+            -workspace Fun.xcworkspace \
+            -scheme ViewModelTests \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Run UI Snapshot Tests
+        run: |
+          xcodebuild test \
+            -workspace Fun.xcworkspace \
+            -scheme UITests \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -configuration Debug \
             CODE_SIGNING_ALLOWED=NO
