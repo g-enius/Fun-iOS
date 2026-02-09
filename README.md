@@ -96,6 +96,7 @@ Test from terminal:
 ```bash
 xcrun simctl openurl booted "funapp://tab/items"
 xcrun simctl openurl booted "funapp://item/swiftui"
+xcrun simctl openurl booted "funapp://profile"
 ```
 
 Deep links received during login are queued and executed after authentication.
