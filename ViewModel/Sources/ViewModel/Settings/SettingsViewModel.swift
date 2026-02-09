@@ -26,36 +26,24 @@ public class SettingsViewModel: ObservableObject {
     // MARK: - Published State
 
     @Published public var appearanceMode: AppearanceMode = .system {
-        didSet {
-            guard isInitialized else { return }
-            featureToggleService.appearanceMode = appearanceMode
-        }
+        didSet { featureToggleService.appearanceMode = appearanceMode }
     }
 
     @Published public var featuredCarouselEnabled: Bool = false {
-        didSet {
-            guard isInitialized else { return }
-            featureToggleService.featuredCarousel = featuredCarouselEnabled
-        }
+        didSet { featureToggleService.featuredCarousel = featuredCarouselEnabled }
     }
 
     @Published public var simulateErrorsEnabled: Bool = false {
-        didSet {
-            guard isInitialized else { return }
-            featureToggleService.simulateErrors = simulateErrorsEnabled
-        }
+        didSet { featureToggleService.simulateErrors = simulateErrorsEnabled }
     }
-
-    private var isInitialized = false
 
     // MARK: - Initialization
 
     public init(coordinator: SettingsCoordinator?) {
         self.coordinator = coordinator
-        self.appearanceMode = featureToggleService.appearanceMode
-        self.featuredCarouselEnabled = featureToggleService.featuredCarousel
-        self.simulateErrorsEnabled = featureToggleService.simulateErrors
-        self.isInitialized = true
+        _appearanceMode = Published(initialValue: featureToggleService.appearanceMode)
+        _featuredCarouselEnabled = Published(initialValue: featureToggleService.featuredCarousel)
+        _simulateErrorsEnabled = Published(initialValue: featureToggleService.simulateErrors)
     }
 
     // MARK: - Actions
