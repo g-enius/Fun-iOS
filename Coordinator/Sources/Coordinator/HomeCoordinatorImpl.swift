@@ -11,7 +11,7 @@ import FunModel
 import FunUI
 import FunViewModel
 
-public final class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
+public final class HomeCoordinatorImpl: BaseCoordinator {
 
     // MARK: - Properties
 
@@ -29,8 +29,11 @@ public final class HomeCoordinatorImpl: BaseCoordinator, HomeCoordinator {
         let viewController = HomeViewController(viewModel: viewModel)
         navigationController.setViewControllers([viewController], animated: false)
     }
+}
 
-    // MARK: - HomeCoordinator
+// MARK: - HomeCoordinator
+
+extension HomeCoordinatorImpl: HomeCoordinator {
 
     public func showDetail(for item: FeaturedItem) {
         let coordinator = DetailCoordinatorImpl(

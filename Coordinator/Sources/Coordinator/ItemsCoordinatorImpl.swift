@@ -11,7 +11,7 @@ import FunModel
 import FunUI
 import FunViewModel
 
-public final class ItemsCoordinatorImpl: BaseCoordinator, ItemsCoordinator {
+public final class ItemsCoordinatorImpl: BaseCoordinator {
 
     // MARK: - Child Coordinators
 
@@ -22,8 +22,11 @@ public final class ItemsCoordinatorImpl: BaseCoordinator, ItemsCoordinator {
         let viewController = ItemsViewController(viewModel: viewModel)
         navigationController.setViewControllers([viewController], animated: false)
     }
+}
 
-    // MARK: - ItemsCoordinator
+// MARK: - ItemsCoordinator
+
+extension ItemsCoordinatorImpl: ItemsCoordinator {
 
     public func showDetail(for item: FeaturedItem) {
         let coordinator = DetailCoordinatorImpl(

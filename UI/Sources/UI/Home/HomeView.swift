@@ -69,9 +69,9 @@ private struct CarouselView: View {
                 .padding(.horizontal)
 
             TabView(selection: $currentIndex) {
-                ForEach(Array(featuredItems.enumerated()), id: \.offset) { index, items in
+                ForEach(featuredItems.indices, id: \.self) { index in
                     HStack(spacing: 16) {
-                        ForEach(items) { item in
+                        ForEach(featuredItems[index]) { item in
                             FeaturedCardView(
                                 item: item,
                                 isFavorited: isFavorited(item.id),

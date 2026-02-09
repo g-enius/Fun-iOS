@@ -9,14 +9,17 @@ import UIKit
 
 import FunModel
 
-public final class DetailCoordinatorImpl: BaseCoordinator, DetailCoordinator {
+public final class DetailCoordinatorImpl: BaseCoordinator {
 
     /// Callback to notify parent coordinator when detail is dismissed
     public var onDismiss: (() -> Void)?
 
     private var isDismissed = false
+}
 
-    // MARK: - DetailCoordinator
+// MARK: - DetailCoordinator
+
+extension DetailCoordinatorImpl: DetailCoordinator {
 
     public func dismiss() {
         guard !isDismissed else { return }

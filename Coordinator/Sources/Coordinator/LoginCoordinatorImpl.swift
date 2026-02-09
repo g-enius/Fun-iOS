@@ -11,7 +11,7 @@ import FunModel
 import FunUI
 import FunViewModel
 
-public final class LoginCoordinatorImpl: BaseCoordinator, LoginCoordinator {
+public final class LoginCoordinatorImpl: BaseCoordinator {
 
     // MARK: - Properties
 
@@ -23,6 +23,10 @@ public final class LoginCoordinatorImpl: BaseCoordinator, LoginCoordinator {
         let viewController = LoginViewController(viewModel: viewModel)
         navigationController.setViewControllers([viewController], animated: false)
     }
+
+}
+
+extension LoginCoordinatorImpl: LoginCoordinator {
 
     // MARK: - LoginCoordinator
 

@@ -10,7 +10,7 @@ import UIKit
 import FunModel
 import FunViewModel
 
-public final class ProfileCoordinatorImpl: BaseCoordinator, ProfileCoordinator {
+public final class ProfileCoordinatorImpl: BaseCoordinator {
 
     // MARK: - Properties
 
@@ -23,8 +23,11 @@ public final class ProfileCoordinatorImpl: BaseCoordinator, ProfileCoordinator {
     // MARK: - State
 
     private var isDismissed = false
+}
 
-    // MARK: - ProfileCoordinator
+// MARK: - ProfileCoordinator
+
+extension ProfileCoordinatorImpl: ProfileCoordinator {
 
     public func dismiss() {
         guard !isDismissed else { return }
