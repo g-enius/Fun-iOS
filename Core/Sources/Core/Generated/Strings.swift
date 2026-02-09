@@ -38,16 +38,12 @@ public enum L10n {
     public static let addToFavorites = L10n.tr("Localizable", "detail.addToFavorites", fallback: "Add to Favorites")
     /// How it's used in this demo
     public static let howUsed = L10n.tr("Localizable", "detail.howUsed", fallback: "How it's used in this demo")
-    /// Push Navigation
-    public static let pushNavigation = L10n.tr("Localizable", "detail.pushNavigation", fallback: "Push Navigation")
     /// Remove from Favorites
     public static let removeFromFavorites = L10n.tr("Localizable", "detail.removeFromFavorites", fallback: "Remove from Favorites")
     /// Check out %@!
     public static func shareText(_ p1: Any) -> String {
       return L10n.tr("Localizable", "detail.shareText", String(describing: p1), fallback: "Check out %@!")
     }
-    /// Using Coordinator Pattern
-    public static let usingCoordinatorPattern = L10n.tr("Localizable", "detail.usingCoordinatorPattern", fallback: "Using Coordinator Pattern")
   }
   public enum Error {
     /// Failed to load content

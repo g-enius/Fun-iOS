@@ -188,13 +188,13 @@ public extension FeaturedItem {
     )
 
     // Carousel sets (2 items per page)
-    static let carouselSet1: [FeaturedItem] = [.asyncAwait, .combine]
-    static let carouselSet2: [FeaturedItem] = [.swiftUI, .coordinator]
-    static let carouselSet3: [FeaturedItem] = [.mvvm, .spmModules]
-    static let carouselSet4: [FeaturedItem] = [.serviceLocator, .protocolOriented]
-    static let carouselSet5: [FeaturedItem] = [.featureToggles, .osLog]
-    static let carouselSet6: [FeaturedItem] = [.swift6, .swiftTesting]
-    static let carouselSet7: [FeaturedItem] = [.snapshotTesting, .accessibility]
+    private static let carouselSet1: [FeaturedItem] = [.asyncAwait, .combine]
+    private static let carouselSet2: [FeaturedItem] = [.swiftUI, .coordinator]
+    private static let carouselSet3: [FeaturedItem] = [.mvvm, .spmModules]
+    private static let carouselSet4: [FeaturedItem] = [.serviceLocator, .protocolOriented]
+    private static let carouselSet5: [FeaturedItem] = [.featureToggles, .osLog]
+    private static let carouselSet6: [FeaturedItem] = [.swift6, .swiftTesting]
+    private static let carouselSet7: [FeaturedItem] = [.snapshotTesting, .accessibility]
 
     static let allCarouselSets: [[FeaturedItem]] = [
         carouselSet1, carouselSet2, carouselSet3, carouselSet4,

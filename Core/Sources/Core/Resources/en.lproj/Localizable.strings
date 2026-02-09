@@ -61,8 +61,6 @@
 "detail.howUsed" = "How it's used in this demo";
 "detail.addToFavorites" = "Add to Favorites";
 "detail.removeFromFavorites" = "Remove from Favorites";
-"detail.pushNavigation" = "Push Navigation";
-"detail.usingCoordinatorPattern" = "Using Coordinator Pattern";
 "detail.shareText" = "Check out %@!";
 
 // MARK: - Profile

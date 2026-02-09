@@ -45,23 +45,6 @@ public struct DetailView: View {
 
                 DescriptionContentView(text: viewModel.itemDescription)
 
-                Divider()
-
-                // Navigation info
-                VStack(spacing: 8) {
-                    HStack {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.green)
-                            .accessibilityHidden(true)
-                        Text(L10n.Detail.pushNavigation)
-                            .font(.caption)
-                    }
-                    Text(L10n.Detail.usingCoordinatorPattern)
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.top)
             }
             .padding()
         }
