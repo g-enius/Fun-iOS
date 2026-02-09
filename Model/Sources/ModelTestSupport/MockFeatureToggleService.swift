@@ -13,7 +13,7 @@ public final class MockFeatureToggleService: FeatureToggleServiceProtocol {
 
     @Published public var featuredCarousel: Bool
     @Published public var simulateErrors: Bool
-    @Published public var darkModeEnabled: Bool
+    @Published public var appearanceMode: AppearanceMode
 
     public var featuredCarouselPublisher: AnyPublisher<Bool, Never> {
         $featuredCarousel.removeDuplicates().eraseToAnyPublisher()
@@ -23,13 +23,13 @@ public final class MockFeatureToggleService: FeatureToggleServiceProtocol {
         $simulateErrors.removeDuplicates().eraseToAnyPublisher()
     }
 
-    public var darkModePublisher: AnyPublisher<Bool, Never> {
-        $darkModeEnabled.removeDuplicates().eraseToAnyPublisher()
+    public var appearanceModePublisher: AnyPublisher<AppearanceMode, Never> {
+        $appearanceMode.removeDuplicates().eraseToAnyPublisher()
     }
 
-    public init(featuredCarousel: Bool = true, simulateErrors: Bool = false, darkModeEnabled: Bool = false) {
+    public init(featuredCarousel: Bool = true, simulateErrors: Bool = false, appearanceMode: AppearanceMode = .system) {
         self.featuredCarousel = featuredCarousel
         self.simulateErrors = simulateErrors
-        self.darkModeEnabled = darkModeEnabled
+        self.appearanceMode = appearanceMode
     }
 }

@@ -25,10 +25,10 @@ public enum AccessibilityID {
 
     public enum Settings {
         public static let settingsList = "settings_list"
-        public static let darkModeToggle = "settings_dark_mode_toggle"
+        public static let appearancePicker = "settings_appearance_picker"
         public static let carouselToggle = "settings_carousel_toggle"
         public static let simulateErrorsToggle = "settings_simulate_errors_toggle"
-        public static let resetDarkModeButton = "settings_reset_dark_mode"
+        public static let resetAppearanceButton = "settings_reset_appearance"
         public static let resetTogglesButton = "settings_reset_toggles"
     }
 

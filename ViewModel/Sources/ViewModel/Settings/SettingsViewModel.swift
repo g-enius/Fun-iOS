@@ -25,10 +25,10 @@ public class SettingsViewModel: ObservableObject {
 
     // MARK: - Published State
 
-    @Published public var isDarkModeEnabled: Bool = false {
+    @Published public var appearanceMode: AppearanceMode = .system {
         didSet {
             guard isInitialized else { return }
-            featureToggleService.darkModeEnabled = isDarkModeEnabled
+            featureToggleService.appearanceMode = appearanceMode
         }
     }
 
@@ -52,7 +52,7 @@ public class SettingsViewModel: ObservableObject {
 
     public init(coordinator: SettingsCoordinator?) {
         self.coordinator = coordinator
-        self.isDarkModeEnabled = featureToggleService.darkModeEnabled
+        self.appearanceMode = featureToggleService.appearanceMode
         self.featuredCarouselEnabled = featureToggleService.featuredCarousel
         self.simulateErrorsEnabled = featureToggleService.simulateErrors
         self.isInitialized = true
@@ -60,9 +60,9 @@ public class SettingsViewModel: ObservableObject {
 
     // MARK: - Actions
 
-    public func resetDarkMode() {
-        isDarkModeEnabled = false
-        logger.log("Dark mode reset")
+    public func resetAppearance() {
+        appearanceMode = .system
+        logger.log("Appearance mode reset to system")
     }
 
     public func resetFeatureToggles() {

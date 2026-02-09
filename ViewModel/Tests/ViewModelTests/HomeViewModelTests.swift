@@ -204,16 +204,16 @@ struct HomeViewModelTests {
         #expect(viewModel.isCarouselEnabled == scenario.carousel)
     }
 
-    @Test("Mock feature toggle service supports darkModeEnabled")
-    func testMockFeatureToggleDarkMode() async {
+    @Test("Mock feature toggle service supports appearanceMode")
+    func testMockFeatureToggleAppearanceMode() async {
         ServiceLocator.shared.reset()
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
         ServiceLocator.shared.register(MockFavoritesService(), for: .favorites)
-        ServiceLocator.shared.register(MockFeatureToggleService(darkModeEnabled: true), for: .featureToggles)
+        ServiceLocator.shared.register(MockFeatureToggleService(appearanceMode: .dark), for: .featureToggles)
         ServiceLocator.shared.register(MockToastService(), for: .toast)
 
         let service: FeatureToggleServiceProtocol = ServiceLocator.shared.resolve(for: .featureToggles)
-        #expect(service.darkModeEnabled == true)
+        #expect(service.appearanceMode == .dark)
     }
 
     @Test("Loading behavior based on error simulation", arguments: FeatureScenario.errorScenarios)

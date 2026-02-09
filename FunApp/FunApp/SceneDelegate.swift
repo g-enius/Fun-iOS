@@ -74,9 +74,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func subscribeToDarkMode() {
         // Cancel previous subscription to avoid duplicates on repeated registrations
         darkModeCancellable?.cancel()
-        darkModeCancellable = featureToggleService.darkModePublisher
-            .sink { [weak self] isDarkMode in
-                let style: UIUserInterfaceStyle = isDarkMode ? .dark : .light
+        darkModeCancellable = featureToggleService.appearanceModePublisher
+            .sink { [weak self] mode in
+                let style: UIUserInterfaceStyle = switch mode {
+                case .system: .unspecified
+                case .light: .light
+                case .dark: .dark
+                }
                 self?.window?.overrideUserInterfaceStyle = style
             }
     }

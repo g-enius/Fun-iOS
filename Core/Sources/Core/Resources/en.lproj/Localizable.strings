@@ -48,11 +48,13 @@
 // MARK: - Settings
 
 "settings.appearance" = "Appearance";
-"settings.darkMode" = "Dark Mode";
+"settings.appearanceSystem" = "System";
+"settings.appearanceLight" = "Light";
+"settings.appearanceDark" = "Dark";
 "settings.featureToggles" = "Feature Toggles";
 "settings.featuredCarousel" = "Featured Carousel";
 "settings.simulateErrors" = "Simulate Errors";
-"settings.resetDarkMode" = "Reset Dark Mode";
+"settings.resetAppearance" = "Reset Appearance";
 "settings.resetFeatureToggles" = "Reset Feature Toggles";
 "settings.systemInfo" = "System Information";
 

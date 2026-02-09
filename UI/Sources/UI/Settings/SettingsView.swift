@@ -8,6 +8,7 @@
 import SwiftUI
 
 import FunCore
+import FunModel
 import FunViewModel
 
 public struct SettingsView: View {
@@ -20,9 +21,12 @@ public struct SettingsView: View {
     public var body: some View {
         Form {
             Section(header: Text(L10n.Settings.appearance)) {
-                Toggle(L10n.Settings.darkMode, isOn: $viewModel.isDarkModeEnabled)
-                    .accessibilityHint("Toggles dark mode appearance for the app")
-                    .accessibilityIdentifier(AccessibilityID.Settings.darkModeToggle)
+                Picker(L10n.Settings.appearance, selection: $viewModel.appearanceMode) {
+                    Text(L10n.Settings.appearanceSystem).tag(AppearanceMode.system)
+                    Text(L10n.Settings.appearanceLight).tag(AppearanceMode.light)
+                    Text(L10n.Settings.appearanceDark).tag(AppearanceMode.dark)
+                }
+                .accessibilityIdentifier(AccessibilityID.Settings.appearancePicker)
             }
 
             Section(header: Text(L10n.Settings.featureToggles)) {
@@ -35,11 +39,11 @@ public struct SettingsView: View {
             }
 
             Section {
-                Button(L10n.Settings.resetDarkMode) {
-                    viewModel.resetDarkMode()
+                Button(L10n.Settings.resetAppearance) {
+                    viewModel.resetAppearance()
                 }
                 .foregroundColor(.red)
-                .accessibilityIdentifier(AccessibilityID.Settings.resetDarkModeButton)
+                .accessibilityIdentifier(AccessibilityID.Settings.resetAppearanceButton)
 
                 Button(L10n.Settings.resetFeatureToggles) {
                     viewModel.resetFeatureToggles()

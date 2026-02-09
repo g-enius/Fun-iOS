@@ -12,9 +12,9 @@ import Foundation
 public protocol FeatureToggleServiceProtocol: AnyObject {
     var featuredCarousel: Bool { get set }
     var simulateErrors: Bool { get set }
-    var darkModeEnabled: Bool { get set }
+    var appearanceMode: AppearanceMode { get set }
 
     var featuredCarouselPublisher: AnyPublisher<Bool, Never> { get }
     var simulateErrorsPublisher: AnyPublisher<Bool, Never> { get }
-    var darkModePublisher: AnyPublisher<Bool, Never> { get }
+    var appearanceModePublisher: AnyPublisher<AppearanceMode, Never> { get }
 }

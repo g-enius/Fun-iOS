@@ -17,7 +17,7 @@ public final class DefaultFeatureToggleService: FeatureToggleServiceProtocol {
 
     @Published public var featuredCarousel: Bool
     @Published public var simulateErrors: Bool
-    @Published public var darkModeEnabled: Bool
+    @Published public var appearanceMode: AppearanceMode
 
     // MARK: - Publishers
 
@@ -29,8 +29,8 @@ public final class DefaultFeatureToggleService: FeatureToggleServiceProtocol {
         $simulateErrors.removeDuplicates().eraseToAnyPublisher()
     }
 
-    public var darkModePublisher: AnyPublisher<Bool, Never> {
-        $darkModeEnabled.removeDuplicates().eraseToAnyPublisher()
+    public var appearanceModePublisher: AnyPublisher<AppearanceMode, Never> {
+        $appearanceMode.removeDuplicates().eraseToAnyPublisher()
     }
 
     // MARK: - Private
@@ -44,12 +44,13 @@ public final class DefaultFeatureToggleService: FeatureToggleServiceProtocol {
         defaults.register(defaults: [
             UserDefaultsKey.featureCarousel.rawValue: true,
             UserDefaultsKey.simulateErrors.rawValue: false,
-            UserDefaultsKey.darkModeEnabled.rawValue: false
+            UserDefaultsKey.appearanceMode.rawValue: AppearanceMode.system.rawValue
         ])
 
         featuredCarousel = defaults.bool(forKey: .featureCarousel)
         simulateErrors = defaults.bool(forKey: .simulateErrors)
-        darkModeEnabled = defaults.bool(forKey: .darkModeEnabled)
+        appearanceMode = defaults.string(forKey: .appearanceMode)
+            .flatMap(AppearanceMode.init) ?? .system
 
         // Persist changes back to UserDefaults
         $featuredCarousel.dropFirst().sink {
@@ -60,8 +61,8 @@ public final class DefaultFeatureToggleService: FeatureToggleServiceProtocol {
             UserDefaults.standard.set($0, forKey: .simulateErrors)
         }.store(in: &cancellables)
 
-        $darkModeEnabled.dropFirst().sink {
-            UserDefaults.standard.set($0, forKey: .darkModeEnabled)
+        $appearanceMode.dropFirst().sink {
+            UserDefaults.standard.set($0.rawValue, forKey: .appearanceMode)
         }.store(in: &cancellables)
     }
 }

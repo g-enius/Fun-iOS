@@ -37,9 +37,9 @@ final class SettingsViewSnapshotTests: XCTestCase {
         assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro), record: recording)
     }
 
-    func testSettingsView_darkModeEnabled() {
+    func testSettingsView_darkAppearance() {
         let viewModel = SettingsViewModel(coordinator: nil)
-        viewModel.isDarkModeEnabled = true
+        viewModel.appearanceMode = .dark
 
         let view = SettingsView(viewModel: viewModel)
         let hostingController = UIHostingController(rootView: view)

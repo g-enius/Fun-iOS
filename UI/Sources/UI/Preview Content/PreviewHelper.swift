@@ -107,10 +107,10 @@ private final class PreviewFavoritesService: FavoritesServiceProtocol {
 private final class PreviewFeatureToggleService: FeatureToggleServiceProtocol {
     @Published var featuredCarousel: Bool = true
     @Published var simulateErrors: Bool = false
-    @Published var darkModeEnabled: Bool = false
+    @Published var appearanceMode: AppearanceMode = .system
     var featuredCarouselPublisher: AnyPublisher<Bool, Never> { $featuredCarousel.eraseToAnyPublisher() }
     var simulateErrorsPublisher: AnyPublisher<Bool, Never> { $simulateErrors.eraseToAnyPublisher() }
-    var darkModePublisher: AnyPublisher<Bool, Never> { $darkModeEnabled.eraseToAnyPublisher() }
+    var appearanceModePublisher: AnyPublisher<AppearanceMode, Never> { $appearanceMode.eraseToAnyPublisher() }
 }
 
 @MainActor

@@ -19,7 +19,7 @@ struct DefaultFeatureToggleServiceTests {
     private func clearUserDefaults() {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.featureCarousel.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.simulateErrors.rawValue)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.darkModeEnabled.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.appearanceMode.rawValue)
     }
 
     // MARK: - Initialization Tests
@@ -122,44 +122,47 @@ struct DefaultFeatureToggleServiceTests {
         #expect(receivedValue == true)
     }
 
-    // MARK: - DarkModeEnabled Tests
+    // MARK: - AppearanceMode Tests
 
-    @Test("DarkModeEnabled defaults to false")
-    func testDarkModeDefaultsFalse() async {
+    @Test("AppearanceMode defaults to system")
+    func testAppearanceModeDefaultsToSystem() async {
         clearUserDefaults()
         let service = DefaultFeatureToggleService()
 
-        #expect(service.darkModeEnabled == false)
+        #expect(service.appearanceMode == .system)
     }
 
-    @Test("DarkModeEnabled persists to UserDefaults")
-    func testDarkModePersistence() async {
+    @Test("AppearanceMode persists to UserDefaults")
+    func testAppearanceModePersistence() async {
         clearUserDefaults()
         let service = DefaultFeatureToggleService()
 
-        service.darkModeEnabled = true
-        #expect(UserDefaults.standard.bool(forKey: UserDefaultsKey.darkModeEnabled.rawValue) == true)
+        service.appearanceMode = .dark
+        #expect(UserDefaults.standard.string(forKey: UserDefaultsKey.appearanceMode.rawValue) == "dark")
 
-        service.darkModeEnabled = false
-        #expect(UserDefaults.standard.bool(forKey: UserDefaultsKey.darkModeEnabled.rawValue) == false)
+        service.appearanceMode = .light
+        #expect(UserDefaults.standard.string(forKey: UserDefaultsKey.appearanceMode.rawValue) == "light")
+
+        service.appearanceMode = .system
+        #expect(UserDefaults.standard.string(forKey: UserDefaultsKey.appearanceMode.rawValue) == "system")
     }
 
-    @Test("DarkModeEnabled emits via publisher")
-    func testDarkModeEmitsViaPublisher() async {
+    @Test("AppearanceMode emits via publisher")
+    func testAppearanceModeEmitsViaPublisher() async {
         clearUserDefaults()
         let service = DefaultFeatureToggleService()
-        var receivedValue: Bool?
+        var receivedValue: AppearanceMode?
         var cancellables = Set<AnyCancellable>()
 
-        service.darkModePublisher
+        service.appearanceModePublisher
             .sink { receivedValue = $0 }
             .store(in: &cancellables)
 
-        service.darkModeEnabled = true
+        service.appearanceMode = .dark
 
         await Task.yield()
 
-        #expect(receivedValue == true)
+        #expect(receivedValue == .dark)
     }
 
     // MARK: - State Restoration for All Properties
@@ -170,12 +173,12 @@ struct DefaultFeatureToggleServiceTests {
 
         UserDefaults.standard.set(false, forKey: UserDefaultsKey.featureCarousel.rawValue)
         UserDefaults.standard.set(true, forKey: UserDefaultsKey.simulateErrors.rawValue)
-        UserDefaults.standard.set(true, forKey: UserDefaultsKey.darkModeEnabled.rawValue)
+        UserDefaults.standard.set("dark", forKey: UserDefaultsKey.appearanceMode.rawValue)
 
         let service = DefaultFeatureToggleService()
 
         #expect(service.featuredCarousel == false)
         #expect(service.simulateErrors == true)
-        #expect(service.darkModeEnabled == true)
+        #expect(service.appearanceMode == .dark)
     }
 }

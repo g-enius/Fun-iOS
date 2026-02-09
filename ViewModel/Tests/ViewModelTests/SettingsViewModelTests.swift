@@ -19,14 +19,14 @@ struct SettingsViewModelTests {
     // MARK: - Setup
 
     private func setupServices(
-        darkModeEnabled: Bool = false,
+        appearanceMode: AppearanceMode = .system,
         featuredCarousel: Bool = true,
         simulateErrors: Bool = false
     ) -> MockFeatureToggleService {
         let mockFeatureToggle = MockFeatureToggleService(
             featuredCarousel: featuredCarousel,
             simulateErrors: simulateErrors,
-            darkModeEnabled: darkModeEnabled
+            appearanceMode: appearanceMode
         )
 
         ServiceLocator.shared.reset()
@@ -38,20 +38,20 @@ struct SettingsViewModelTests {
 
     // MARK: - Initialization Tests
 
-    @Test("Initial dark mode state matches service")
-    func testInitialDarkModeMatchesService() async {
-        _ = setupServices(darkModeEnabled: true)
+    @Test("Initial appearance mode matches service")
+    func testInitialAppearanceModeMatchesService() async {
+        _ = setupServices(appearanceMode: .dark)
         let viewModel = SettingsViewModel(coordinator: nil)
 
-        #expect(viewModel.isDarkModeEnabled == true)
+        #expect(viewModel.appearanceMode == .dark)
     }
 
-    @Test("Initial dark mode is false by default")
-    func testInitialDarkModeFalseByDefault() async {
-        _ = setupServices(darkModeEnabled: false)
+    @Test("Initial appearance mode is system by default")
+    func testInitialAppearanceModeSystemByDefault() async {
+        _ = setupServices(appearanceMode: .system)
         let viewModel = SettingsViewModel(coordinator: nil)
 
-        #expect(viewModel.isDarkModeEnabled == false)
+        #expect(viewModel.appearanceMode == .system)
     }
 
     @Test("Initial featured carousel state matches service")
@@ -70,26 +70,26 @@ struct SettingsViewModelTests {
         #expect(viewModel.simulateErrorsEnabled == true)
     }
 
-    // MARK: - Dark Mode Toggle Tests
+    // MARK: - Appearance Mode Tests
 
-    @Test("Toggling dark mode updates service")
-    func testTogglingDarkModeUpdatesService() async {
-        let mockService = setupServices(darkModeEnabled: false)
+    @Test("Changing appearance mode updates service")
+    func testChangingAppearanceModeUpdatesService() async {
+        let mockService = setupServices(appearanceMode: .system)
         let viewModel = SettingsViewModel(coordinator: nil)
 
-        viewModel.isDarkModeEnabled = true
+        viewModel.appearanceMode = .dark
 
-        #expect(mockService.darkModeEnabled == true)
+        #expect(mockService.appearanceMode == .dark)
     }
 
-    @Test("Dark mode changes propagate to service")
-    func testDarkModeChangesPropagateToService() async {
-        let mockService = setupServices(darkModeEnabled: true)
+    @Test("Appearance mode changes propagate to service")
+    func testAppearanceModeChangesPropagateToService() async {
+        let mockService = setupServices(appearanceMode: .dark)
         let viewModel = SettingsViewModel(coordinator: nil)
 
-        viewModel.isDarkModeEnabled = false
+        viewModel.appearanceMode = .light
 
-        #expect(mockService.darkModeEnabled == false)
+        #expect(mockService.appearanceMode == .light)
     }
 
     // MARK: - Feature Toggle Tests
@@ -116,15 +116,15 @@ struct SettingsViewModelTests {
 
     // MARK: - Reset Tests
 
-    @Test("Reset dark mode sets to false")
-    func testResetDarkModeSetsToFalse() async {
-        let mockService = setupServices(darkModeEnabled: true)
+    @Test("Reset appearance sets to system")
+    func testResetAppearanceSetsToSystem() async {
+        let mockService = setupServices(appearanceMode: .dark)
         let viewModel = SettingsViewModel(coordinator: nil)
 
-        viewModel.resetDarkMode()
+        viewModel.resetAppearance()
 
-        #expect(viewModel.isDarkModeEnabled == false)
-        #expect(mockService.darkModeEnabled == false)
+        #expect(viewModel.appearanceMode == .system)
+        #expect(mockService.appearanceMode == .system)
     }
 
     @Test("Reset feature toggles restores defaults")

@@ -13,7 +13,7 @@ public enum UserDefaultsKey: String, Sendable {
     case simulateErrors = "feature.simulateErrors"
 
     // App settings
-    case darkModeEnabled = "app.darkModeEnabled"
+    case appearanceMode = "app.appearanceMode"
 
     // User data
     case favorites = "app.favorites"
@@ -44,5 +44,13 @@ public extension UserDefaults {
 
     func set(_ value: Data?, forKey key: UserDefaultsKey) {
         set(value, forKey: key.rawValue)
+    }
+
+    func string(forKey key: UserDefaultsKey) -> String? {
+        string(forKey: key.rawValue)
+    }
+
+    func set(_ value: String, forKey key: UserDefaultsKey) {
+        set(value as Any, forKey: key.rawValue)
     }
 }

@@ -118,14 +118,18 @@ public enum L10n {
   public enum Settings {
     /// Appearance
     public static let appearance = L10n.tr("Localizable", "settings.appearance", fallback: "Appearance")
-    /// Dark Mode
-    public static let darkMode = L10n.tr("Localizable", "settings.darkMode", fallback: "Dark Mode")
+    /// Dark
+    public static let appearanceDark = L10n.tr("Localizable", "settings.appearanceDark", fallback: "Dark")
+    /// Light
+    public static let appearanceLight = L10n.tr("Localizable", "settings.appearanceLight", fallback: "Light")
+    /// System
+    public static let appearanceSystem = L10n.tr("Localizable", "settings.appearanceSystem", fallback: "System")
     /// Featured Carousel
     public static let featuredCarousel = L10n.tr("Localizable", "settings.featuredCarousel", fallback: "Featured Carousel")
     /// Feature Toggles
     public static let featureToggles = L10n.tr("Localizable", "settings.featureToggles", fallback: "Feature Toggles")
-    /// Reset Dark Mode
-    public static let resetDarkMode = L10n.tr("Localizable", "settings.resetDarkMode", fallback: "Reset Dark Mode")
+    /// Reset Appearance
+    public static let resetAppearance = L10n.tr("Localizable", "settings.resetAppearance", fallback: "Reset Appearance")
     /// Reset Feature Toggles
     public static let resetFeatureToggles = L10n.tr("Localizable", "settings.resetFeatureToggles", fallback: "Reset Feature Toggles")
     /// Simulate Errors
