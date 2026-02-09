@@ -114,31 +114,4 @@ struct HomeTabBarViewModelTests {
         }
     }
 
-    // MARK: - ObjectIdentityHashable Tests
-
-    @Test("Two instances are not equal")
-    func testDifferentInstancesNotEqual() async {
-        setupServices()
-        let vm1 = HomeTabBarViewModel()
-        let vm2 = HomeTabBarViewModel()
-
-        #expect(vm1 != vm2)
-    }
-
-    @Test("Same instance is equal to itself")
-    func testSameInstanceIsEqual() async {
-        setupServices()
-        let vm = HomeTabBarViewModel()
-
-        #expect(vm == vm)
-    }
-
-    @Test("Different instances produce different hashes")
-    func testDifferentInstancesDifferentHash() async {
-        setupServices()
-        let vm1 = HomeTabBarViewModel()
-        let vm2 = HomeTabBarViewModel()
-
-        #expect(vm1.hashValue != vm2.hashValue)
-    }
 }

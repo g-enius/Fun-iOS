@@ -12,7 +12,7 @@ import FunCore
 import FunModel
 
 @MainActor
-public class HomeTabBarViewModel: ObservableObject, ObjectIdentityHashable {
+public class HomeTabBarViewModel: ObservableObject {
 
     // MARK: - Services
 

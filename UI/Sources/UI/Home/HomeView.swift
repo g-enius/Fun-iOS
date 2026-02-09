@@ -33,45 +33,13 @@ public struct HomeView: View {
                 ErrorStateView(onRetry: viewModel.retry)
             } else if viewModel.isCarouselEnabled && !viewModel.featuredItems.isEmpty {
                 ScrollView {
-                    VStack(spacing: 20) {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(L10n.Home.featured)
-                                .font(.headline)
-                                .padding(.horizontal)
-
-                            TabView(selection: $viewModel.currentCarouselIndex) {
-                                ForEach(Array(viewModel.featuredItems.enumerated()), id: \.offset) { index, items in
-                                    HStack(spacing: 16) {
-                                        ForEach(items) { item in
-                                            FeaturedCardView(
-                                                item: item,
-                                                isFavorited: viewModel.isFavorited(item.id),
-                                                onTap: {
-                                                    viewModel.didTapFeaturedItem(item)
-                                                },
-                                                onFavoriteTap: {
-                                                    viewModel.toggleFavorite(for: item.id)
-                                                }
-                                            )
-                                        }
-                                    }
-                                    .padding(.horizontal)
-                                    .tag(index)
-                                }
-                            }
-                            .tabViewStyle(.page(indexDisplayMode: .never))
-                            .frame(height: 220)
-                            .accessibilityIdentifier(AccessibilityID.Home.carousel)
-
-                            // Custom page indicator below the carousel
-                            PageIndicatorView(
-                                currentIndex: viewModel.currentCarouselIndex,
-                                pageCount: viewModel.featuredItems.count
-                            )
-                            .frame(maxWidth: .infinity)
-                            .padding(.top, 12)
-                        }
-                    }
+                    CarouselView(
+                        featuredItems: viewModel.featuredItems,
+                        currentIndex: $viewModel.currentCarouselIndex,
+                        isFavorited: viewModel.isFavorited,
+                        onItemTap: viewModel.didTapFeaturedItem,
+                        onFavoriteTap: { viewModel.toggleFavorite(for: $0) }
+                    )
                     .padding(.vertical)
                 }
                 .refreshable {
@@ -81,6 +49,51 @@ public struct HomeView: View {
                 // Empty state when carousel is disabled
                 CarouselDisabledView()
             }
+        }
+    }
+}
+
+// MARK: - Carousel View
+
+private struct CarouselView: View {
+    let featuredItems: [[FeaturedItem]]
+    @Binding var currentIndex: Int
+    let isFavorited: (String) -> Bool
+    let onItemTap: (FeaturedItem) -> Void
+    let onFavoriteTap: (String) -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(L10n.Home.featured)
+                .font(.headline)
+                .padding(.horizontal)
+
+            TabView(selection: $currentIndex) {
+                ForEach(Array(featuredItems.enumerated()), id: \.offset) { index, items in
+                    HStack(spacing: 16) {
+                        ForEach(items) { item in
+                            FeaturedCardView(
+                                item: item,
+                                isFavorited: isFavorited(item.id),
+                                onTap: { onItemTap(item) },
+                                onFavoriteTap: { onFavoriteTap(item.id) }
+                            )
+                        }
+                    }
+                    .padding(.horizontal)
+                    .tag(index)
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .frame(height: 220)
+            .accessibilityIdentifier(AccessibilityID.Home.carousel)
+
+            PageIndicatorView(
+                currentIndex: currentIndex,
+                pageCount: featuredItems.count
+            )
+            .frame(maxWidth: .infinity)
+            .padding(.top, 12)
         }
     }
 }
@@ -157,6 +170,8 @@ private struct CarouselDisabledView: View {
 }
 
 // MARK: - Page Indicator View
+// Custom indicator because the built-in .page(indexDisplayMode: .always) renders
+// white dots on a white background with no color control.
 
 private struct PageIndicatorView: View {
     let currentIndex: Int
@@ -238,10 +253,6 @@ struct HomeView_Previews: PreviewProvider {
 
             CarouselDisabledView()
                 .previewDisplayName("Carousel Disabled")
-
-            PageIndicatorView(currentIndex: 1, pageCount: 3)
-                .padding()
-                .previewDisplayName("Page Indicator")
 
             FeaturedCardView(
                 item: .asyncAwait,
