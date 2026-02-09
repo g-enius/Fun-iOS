@@ -81,7 +81,9 @@ open class BaseCoordinator: Coordinator {
     }
 
     public func safeDismiss(animated: Bool = true, completion: (@MainActor () -> Void)? = nil) {
-        guard navigationController.presentedViewController != nil else {
+        // Check if this nav controller is presenting something OR is itself presented
+        guard navigationController.presentedViewController != nil
+            || navigationController.presentingViewController != nil else {
             completion?()
             return
         }
