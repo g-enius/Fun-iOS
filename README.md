@@ -100,12 +100,6 @@ xcrun simctl openurl booted "funapp://item/swiftui"
 
 Deep links received during login are queued and executed after authentication.
 
-## Screenshots
-
-| Login | Home | Items | Settings |
-|:-----:|:----:|:-----:|:--------:|
-| ![Login](assets/screenshot-login.png) | ![Home](assets/screenshot-home.png) | ![Items](assets/screenshot-items.png) | ![Settings](assets/screenshot-settings.png) |
-
 ## Features
 
 - **Session-Scoped DI**: Clean service lifecycle per app flow — no stale state
