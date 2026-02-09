@@ -18,8 +18,8 @@ struct UserProfileTests {
     func testDefaultProfile() {
         let profile = UserProfile()
 
-        #expect(profile.name == "Demo User")
-        #expect(profile.email == "demo@example.com")
+        #expect(profile.name == "Charles Wang")
+        #expect(profile.email == "CharlesWang@example.com")
         #expect(profile.viewsCount == 1234)
         #expect(profile.favoritesCount == 56)
         #expect(profile.daysCount == 42)

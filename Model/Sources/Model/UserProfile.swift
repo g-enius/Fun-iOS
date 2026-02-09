@@ -16,8 +16,8 @@ public struct UserProfile: Equatable, Sendable {
     public let daysCount: Int
 
     public init(
-        name: String = "Demo User",
-        email: String = "demo@example.com",
+        name: String = "Charles Wang",
+        email: String = "CharlesWang@example.com",
         bio: String = "iOS Developer passionate about clean architecture and modern Swift patterns.",
         viewsCount: Int = 1234,
         favoritesCount: Int = 56,
