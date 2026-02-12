@@ -1,5 +1,7 @@
 # Fun - iOS Demo App
 
+[![CI](https://github.com/g-enius/Fun/actions/workflows/ci.yml/badge.svg)](https://github.com/g-enius/Fun/actions/workflows/ci.yml)
+
 A modern iOS application demonstrating clean architecture (MVVM-C), Swift Concurrency, modular design with Swift Package Manager, and best practices for scalable iOS development.
 
 ## Demo
