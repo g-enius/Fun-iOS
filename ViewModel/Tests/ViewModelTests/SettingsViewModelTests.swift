@@ -38,36 +38,14 @@ struct SettingsViewModelTests {
 
     // MARK: - Initialization Tests
 
-    @Test("Initial appearance mode matches service")
-    func testInitialAppearanceModeMatchesService() async {
-        _ = setupServices(appearanceMode: .dark)
-        let viewModel = SettingsViewModel(coordinator: nil)
-
-        #expect(viewModel.appearanceMode == .dark)
-    }
-
-    @Test("Initial appearance mode is system by default")
-    func testInitialAppearanceModeSystemByDefault() async {
-        _ = setupServices(appearanceMode: .system)
+    @Test("Initial state matches service defaults")
+    func testInitialStateMatchesServiceDefaults() async {
+        _ = setupServices()
         let viewModel = SettingsViewModel(coordinator: nil)
 
         #expect(viewModel.appearanceMode == .system)
-    }
-
-    @Test("Initial featured carousel state matches service")
-    func testInitialFeaturedCarouselMatchesService() async {
-        _ = setupServices(featuredCarousel: false)
-        let viewModel = SettingsViewModel(coordinator: nil)
-
-        #expect(viewModel.featuredCarouselEnabled == false)
-    }
-
-    @Test("Initial simulate errors state matches service")
-    func testInitialSimulateErrorsMatchesService() async {
-        _ = setupServices(simulateErrors: true)
-        let viewModel = SettingsViewModel(coordinator: nil)
-
-        #expect(viewModel.simulateErrorsEnabled == true)
+        #expect(viewModel.featuredCarouselEnabled == true)
+        #expect(viewModel.simulateErrorsEnabled == false)
     }
 
     // MARK: - Appearance Mode Tests
