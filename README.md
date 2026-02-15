@@ -4,6 +4,12 @@
 
 A modern iOS application demonstrating clean architecture (MVVM-C), Swift Concurrency, modular design with Swift Package Manager, and best practices for scalable iOS development. Android counterpart: [Fun-Android](https://github.com/g-enius/Fun-Android).
 
+## Screenshots
+
+| Home | Detail | Settings |
+|------|--------|----------|
+| ![Home](assets/screenshot-home.jpg) | ![Detail](assets/screenshot-detail.jpg) | ![Settings](assets/screenshot-settings.jpg) |
+
 ## Demo
 
 ![App Demo](assets/demo.gif)
@@ -55,7 +61,7 @@ Each app flow gets its own **session** with a dedicated set of services. When th
 
 ```
 LoginSession:         logger, network, featureToggles
-AuthenticatedSession: logger, network, featureToggles, favorites, toast
+AuthenticatedSession: logger, network, featureToggles, favorites, toast, ai
 ```
 
 ```swift
@@ -108,6 +114,7 @@ Deep links received during login are queued and executed after authentication.
 - **Session-Scoped DI**: Clean service lifecycle per app flow — no stale state
 - **Reactive Data Flow**: Combine framework with `@Published` properties
 - **Feature Toggles**: Runtime flags persisted via services
+- **AI Summary**: On-device text summarization using Apple Foundation Models (iOS 26+)
 - **Error Handling**: Centralized `AppError` enum with toast notifications
 - **Modern Search**: Debounced input, loading states
 - **Pull-to-Refresh**: Native SwiftUI `.refreshable`
