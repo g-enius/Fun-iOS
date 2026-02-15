@@ -67,7 +67,7 @@ public class ItemsViewModel: ObservableObject {
         // Debounce search text with minimum character requirement
         $searchText
             .dropFirst() // Skip initial value
-            .debounce(for: .milliseconds(400), scheduler: RunLoop.main)
+            .debounce(for: .milliseconds(600), scheduler: RunLoop.main)
             .removeDuplicates()
             .sink { [weak self] text in
                 guard let self else { return }
@@ -78,9 +78,11 @@ public class ItemsViewModel: ObservableObject {
                     self.needsMoreCharacters = false
                     self.performSearch()
                 } else if trimmed.count < self.minimumSearchCharacters {
-                    // Below minimum - clear results and show "keep typing"
-                    self.needsMoreCharacters = true
-                    self.items = []
+                    // Below minimum - show "keep typing" unless in error state
+                    if !self.hasError {
+                        self.needsMoreCharacters = true
+                        self.items = []
+                    }
                     self.isSearching = false
                 } else {
                     // Meets minimum - perform search
@@ -110,7 +112,13 @@ public class ItemsViewModel: ObservableObject {
         allItems = FeaturedItem.allCarouselSets.flatMap { $0 }
         let cats = Set(allItems.map { $0.category })
         categories = [L10n.Items.categoryAll] + cats.sorted()
-        filterResults()
+
+        if featureToggleService.simulateErrors {
+            hasError = true
+            items = []
+        } else {
+            filterResults()
+        }
     }
 
     /// Perform async search with simulated network delay
@@ -120,10 +128,12 @@ public class ItemsViewModel: ObservableObject {
 
         let trimmedSearch = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
 
-        // If search is empty, just filter immediately without loading state
+        // If search is empty, show all items unless in error state
         if trimmedSearch.isEmpty {
             isSearching = false
-            filterResults()
+            if !hasError {
+                filterResults()
+            }
             return
         }
 

@@ -27,19 +27,28 @@ public struct ItemsView: View {
 
 private struct ItemsMainContent: View {
     @ObservedObject var viewModel: ItemsViewModel
+    @FocusState private var isSearchFocused: Bool
+    @State private var hasAppeared = false
 
     var body: some View {
         VStack(spacing: 0) {
             CategoryFilterView(viewModel: viewModel)
-            ItemsContentView(viewModel: viewModel)
+            ItemsContentView(viewModel: viewModel, isSearchFocused: $isSearchFocused)
 
             SearchBarView(
                 text: $viewModel.searchText,
                 isSearching: viewModel.isSearching,
-                minimumCharacters: viewModel.minimumSearchCharacters,
-                onClear: { viewModel.clearSearch() }
+                isFocused: $isSearchFocused,
+                minimumCharacters: viewModel.minimumSearchCharacters
             )
             .accessibilityIdentifier(AccessibilityID.Items.searchField)
+        }
+        .onAppear {
+            // Restore keyboard on pop-back if search text is not empty
+            if hasAppeared && !viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                isSearchFocused = true
+            }
+            hasAppeared = true
         }
     }
 }
@@ -82,6 +91,7 @@ private struct CategoryFilterView: View {
 
 private struct ItemsContentView: View {
     @ObservedObject var viewModel: ItemsViewModel
+    var isSearchFocused: FocusState<Bool>.Binding
 
     var body: some View {
         if viewModel.isSearching {
@@ -92,22 +102,28 @@ private struct ItemsContentView: View {
         } else if viewModel.hasError {
             Spacer()
             ItemsErrorStateView(onRetry: viewModel.retry)
+                .onTapGesture { isSearchFocused.wrappedValue = false }
             Spacer()
         } else if viewModel.needsMoreCharacters {
             Spacer()
             KeepTypingView(minimumCharacters: viewModel.minimumSearchCharacters)
+                .onTapGesture { isSearchFocused.wrappedValue = false }
             Spacer()
         } else if viewModel.items.isEmpty {
             Spacer()
             EmptyItemsView(message: emptyStateMessage)
+                .onTapGesture { isSearchFocused.wrappedValue = false }
             Spacer()
         } else {
             List {
                 ForEach(viewModel.items) { item in
-                    ItemRowView(item: item, viewModel: viewModel)
+                    ItemRowView(item: item, viewModel: viewModel, isSearchFocused: isSearchFocused)
                 }
             }
             .listStyle(.plain)
+            .simultaneousGesture(DragGesture().onChanged { _ in
+                isSearchFocused.wrappedValue = false
+            })
             .accessibilityIdentifier(AccessibilityID.Items.itemsList)
         }
     }
@@ -124,13 +140,17 @@ private struct ItemsContentView: View {
 private struct ItemRowView: View {
     let item: FeaturedItem
     @ObservedObject var viewModel: ItemsViewModel
+    var isSearchFocused: FocusState<Bool>.Binding
 
     private var isFavorited: Bool {
         viewModel.isFavorited(item.id)
     }
 
     var body: some View {
-        Button(action: { viewModel.didSelectItem(item) }) {
+        Button(action: {
+            isSearchFocused.wrappedValue = false
+            viewModel.didSelectItem(item)
+        }) {
             HStack(spacing: 12) {
                 Image(systemName: item.iconName)
                     .font(.system(size: 20))
@@ -190,13 +210,11 @@ private struct ItemRowView: View {
 private struct SearchBarView: View {
     @Binding var text: String
     let isSearching: Bool
+    var isFocused: FocusState<Bool>.Binding
     let minimumCharacters: Int
-    let onClear: () -> Void
-
-    @FocusState private var isFocused: Bool
 
     var body: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 12) {
             HStack(spacing: 8) {
                 if isSearching {
                     ProgressView()
@@ -205,21 +223,20 @@ private struct SearchBarView: View {
                         .frame(width: 20, height: 20)
                 } else {
                     Image(systemName: "magnifyingglass")
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                 }
 
                 TextField(L10n.Search.minCharacters(minimumCharacters), text: $text)
                     .textFieldStyle(.plain)
-                    .focused($isFocused)
+                    .focused(isFocused)
                     .submitLabel(.search)
 
                 if !text.isEmpty {
-                    Button(action: onClear) {
+                    Button(action: { text = "" }) {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.gray)
+                            .foregroundColor(.secondary)
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel(L10n.Common.cancel)
                 }
             }
             .padding(.horizontal, 12)
@@ -227,18 +244,26 @@ private struct SearchBarView: View {
             .background(Color(.systemGray6))
             .cornerRadius(10)
 
-            Button(L10n.Common.cancel) {
-                text = ""
-                isFocused = false
-                onClear()
+            if isFocused.wrappedValue {
+                Button {
+                    isFocused.wrappedValue = false
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundColor(Color(.label))
+                        .frame(width: 36, height: 36)
+                        .background(Color(.systemGray4))
+                        .clipShape(Circle())
+                }
+                .buttonStyle(.plain)
+                .transition(.move(edge: .trailing).combined(with: .opacity))
+                .accessibilityLabel(L10n.Common.cancel)
             }
-            .foregroundColor(.blue)
-            .opacity(isFocused ? 1 : 0)
-            .disabled(!isFocused)
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
         .background(Color(.systemBackground))
+        .animation(.easeInOut(duration: 0.2), value: isFocused.wrappedValue)
     }
 }
 
@@ -336,22 +361,6 @@ struct ItemsView_Previews: PreviewProvider {
                     .navigationTitle("Items")
             }
             .previewDisplayName("Items List")
-
-            SearchBarView(
-                text: .constant("Swift"),
-                isSearching: false,
-                minimumCharacters: 2,
-                onClear: {}
-            )
-            .previewDisplayName("Search Bar")
-
-            SearchBarView(
-                text: .constant("async"),
-                isSearching: true,
-                minimumCharacters: 2,
-                onClear: {}
-            )
-            .previewDisplayName("Search Bar - Searching")
 
             KeepTypingView(minimumCharacters: 2)
                 .previewDisplayName("Keep Typing")

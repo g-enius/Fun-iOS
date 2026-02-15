@@ -25,6 +25,7 @@ A modern iOS application demonstrating clean architecture (MVVM-C), Swift Concur
 | Dependency Injection | Session-Scoped DI + Property Wrapper |
 | Package Management | Swift Package Manager |
 | Minimum iOS | iOS 15.0 |
+| On-Device LLM | Apple Intelligence / Foundation Models (iOS 26+) |
 | Testing | Swift Testing, swift-snapshot-testing |
 
 ## Module Structure
@@ -114,7 +115,7 @@ Deep links received during login are queued and executed after authentication.
 - **Session-Scoped DI**: Clean service lifecycle per app flow — no stale state
 - **Reactive Data Flow**: Combine framework with `@Published` properties
 - **Feature Toggles**: Runtime flags persisted via services
-- **AI Summary**: On-device text summarization using Apple Foundation Models (iOS 26+)
+- **AI Summary**: On-device LLM summarisation using Apple Intelligence / Foundation Models (iOS 26+)
 - **Error Handling**: Centralized `AppError` enum with toast notifications
 - **Modern Search**: Debounced input, loading states
 - **Pull-to-Refresh**: Native SwiftUI `.refreshable`

@@ -23,6 +23,9 @@ Pods/
 .idea/
 *.sublime-*
 
+# XcodeBuildMCP
+.xcodebuildmcp/
+
 # Fastlane
 fastlane/report.xml
 fastlane/Preview.html
