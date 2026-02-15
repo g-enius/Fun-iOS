@@ -14,32 +14,24 @@ struct TechnologyDescriptionsTests {
 
     // MARK: - Known IDs Tests
 
-    @Test("Returns description for all known item IDs")
+    @Test("Returns description for all TechnologyItem cases")
     func testAllKnownIds() {
-        let knownIds = [
-            "asyncawait", "combine", "swiftui", "coordinator",
-            "mvvm", "spm", "servicelocator", "protocol",
-            "featuretoggles", "oslog", "swift6", "swifttesting",
-            "snapshot", "accessibility"
-        ]
-
-        for id in knownIds {
-            let description = TechnologyDescriptions.description(for: id)
-            #expect(!description.isEmpty, "Description for '\(id)' should not be empty")
+        for item in TechnologyItem.allCases {
+            let description = TechnologyDescriptions.description(for: item.rawValue)
+            #expect(!description.isEmpty, "Description for '\(item)' should not be empty")
         }
     }
 
-    @Test("Each known ID returns a unique description")
+    @Test("Each TechnologyItem returns a unique description")
     func testUniqueDescriptions() {
-        let ids = ["asyncawait", "combine", "swiftui", "coordinator", "mvvm", "spm"]
         var descriptions = Set<String>()
 
-        for id in ids {
-            let desc = TechnologyDescriptions.description(for: id)
+        for item in TechnologyItem.allCases {
+            let desc = TechnologyDescriptions.description(for: item.rawValue)
             descriptions.insert(desc)
         }
 
-        #expect(descriptions.count == ids.count)
+        #expect(descriptions.count == TechnologyItem.allCases.count)
     }
 
     // MARK: - Default Description Tests
@@ -66,27 +58,33 @@ struct TechnologyDescriptionsTests {
 
     // MARK: - Content Validation Tests
 
-    @Test("asyncawait description mentions concurrency")
+    @Test("asyncAwait description mentions concurrency")
     func testAsyncAwaitContent() {
-        let description = TechnologyDescriptions.description(for: "asyncawait")
+        let description = TechnologyDescriptions.description(for: TechnologyItem.asyncAwait.rawValue)
         #expect(description.lowercased().contains("async"))
     }
 
     @Test("combine description mentions reactive")
     func testCombineContent() {
-        let description = TechnologyDescriptions.description(for: "combine")
+        let description = TechnologyDescriptions.description(for: TechnologyItem.combine.rawValue)
         #expect(description.lowercased().contains("reactive") || description.lowercased().contains("combine"))
     }
 
     // MARK: - Alignment with FeaturedItem Tests
 
-    @Test("All FeaturedItem IDs have descriptions")
+    @Test("All FeaturedItem IDs have descriptions and match TechnologyItem cases")
     func testAllFeaturedItemIdsHaveDescriptions() {
         let defaultDesc = TechnologyDescriptions.description(for: "__nonexistent__")
 
         for item in FeaturedItem.all {
+            #expect(TechnologyItem(rawValue: item.id) != nil, "FeaturedItem '\(item.id)' should map to a TechnologyItem case")
             let desc = TechnologyDescriptions.description(for: item.id)
             #expect(desc != defaultDesc, "FeaturedItem '\(item.id)' should have a specific description")
         }
+    }
+
+    @Test("TechnologyItem case count matches FeaturedItem count")
+    func testCaseCountMatchesFeaturedItemCount() {
+        #expect(TechnologyItem.allCases.count == FeaturedItem.all.count)
     }
 }

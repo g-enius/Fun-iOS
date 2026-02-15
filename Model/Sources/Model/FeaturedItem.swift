@@ -49,14 +49,12 @@ public struct FeaturedItem: Identifiable, Equatable, Sendable {
         self.category = "General"
         self.timeLabel = "2 sec."
     }
-
-
 }
 
 public extension FeaturedItem {
     // Carousel Set 1: Concurrency & Reactive
     static let asyncAwait = FeaturedItem(
-        id: "asyncawait",
+        id: TechnologyItem.asyncAwait.rawValue,
         title: "Async/Await",
         subtitle: "Modern concurrency",
         iconName: "bolt.fill",
@@ -65,7 +63,7 @@ public extension FeaturedItem {
     )
 
     static let combine = FeaturedItem(
-        id: "combine",
+        id: TechnologyItem.combine.rawValue,
         title: "Combine",
         subtitle: "Reactive programming",
         iconName: "arrow.triangle.merge",
@@ -75,7 +73,7 @@ public extension FeaturedItem {
 
     // Carousel Set 2: UI & Navigation
     static let swiftUI = FeaturedItem(
-        id: "swiftui",
+        id: TechnologyItem.swiftUI.rawValue,
         title: "SwiftUI",
         subtitle: "Declarative UI",
         iconName: "swift",
@@ -84,7 +82,7 @@ public extension FeaturedItem {
     )
 
     static let coordinator = FeaturedItem(
-        id: "coordinator",
+        id: TechnologyItem.coordinator.rawValue,
         title: "Coordinator",
         subtitle: "Navigation pattern",
         iconName: "arrow.triangle.branch",
@@ -94,7 +92,7 @@ public extension FeaturedItem {
 
     // Carousel Set 3: Architecture
     static let mvvm = FeaturedItem(
-        id: "mvvm",
+        id: TechnologyItem.mvvm.rawValue,
         title: "MVVM",
         subtitle: "Architecture pattern",
         iconName: "square.stack.3d.up",
@@ -103,9 +101,9 @@ public extension FeaturedItem {
     )
 
     static let spmModules = FeaturedItem(
-        id: "spm",
+        id: TechnologyItem.spm.rawValue,
         title: "SPM Modules",
-        subtitle: "8 Swift packages",
+        subtitle: "6 Swift packages",
         iconName: "shippingbox.fill",
         iconColor: .brown,
         category: "Modularization"
@@ -113,7 +111,7 @@ public extension FeaturedItem {
 
     // Carousel Set 4: Dependency Injection & Design
     static let serviceLocator = FeaturedItem(
-        id: "servicelocator",
+        id: TechnologyItem.serviceLocator.rawValue,
         title: "ServiceLocator",
         subtitle: "@Service wrapper",
         iconName: "cylinder.split.1x2.fill",
@@ -122,7 +120,7 @@ public extension FeaturedItem {
     )
 
     static let protocolOriented = FeaturedItem(
-        id: "protocol",
+        id: TechnologyItem.protocolOriented.rawValue,
         title: "Protocol-Oriented",
         subtitle: "Interface-based design",
         iconName: "doc.plaintext",
@@ -132,7 +130,7 @@ public extension FeaturedItem {
 
     // Carousel Set 5: Configuration & Logging
     static let featureToggles = FeaturedItem(
-        id: "featuretoggles",
+        id: TechnologyItem.featureToggles.rawValue,
         title: "Feature Toggles",
         subtitle: "Runtime flags",
         iconName: "switch.2",
@@ -141,7 +139,7 @@ public extension FeaturedItem {
     )
 
     static let osLog = FeaturedItem(
-        id: "oslog",
+        id: TechnologyItem.osLog.rawValue,
         title: "OSLog",
         subtitle: "Structured logging",
         iconName: "doc.text.magnifyingglass",
@@ -151,7 +149,7 @@ public extension FeaturedItem {
 
     // Carousel Set 6: Modern Swift
     static let swift6 = FeaturedItem(
-        id: "swift6",
+        id: TechnologyItem.swift6.rawValue,
         title: "Swift 6",
         subtitle: "Strict concurrency",
         iconName: "swift",
@@ -160,7 +158,7 @@ public extension FeaturedItem {
     )
 
     static let swiftTesting = FeaturedItem(
-        id: "swifttesting",
+        id: TechnologyItem.swiftTesting.rawValue,
         title: "Swift Testing",
         subtitle: "Modern test framework",
         iconName: "checkmark.seal.fill",
@@ -170,7 +168,7 @@ public extension FeaturedItem {
 
     // Carousel Set 7: Testing & Accessibility
     static let snapshotTesting = FeaturedItem(
-        id: "snapshot",
+        id: TechnologyItem.snapshotTesting.rawValue,
         title: "Snapshot Testing",
         subtitle: "Visual regression",
         iconName: "camera.viewfinder",
@@ -179,7 +177,7 @@ public extension FeaturedItem {
     )
 
     static let accessibility = FeaturedItem(
-        id: "accessibility",
+        id: TechnologyItem.accessibility.rawValue,
         title: "Accessibility",
         subtitle: "VoiceOver support",
         iconName: "accessibility",

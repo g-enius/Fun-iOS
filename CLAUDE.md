@@ -1,7 +1,7 @@
 # Fun-iOS
 
 ## Build & Test
-- 6 SPM packages: Coordinator > UI > ViewModel > Model > Core, Services > Core
+- 6 SPM packages: Coordinator > UI > ViewModel > Model > Core, Services > Model > Core
 - Xcode project: `FunApp/FunApp.xcodeproj`
 - Run all tests: `xcodebuild test -scheme FunApp -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`
 - Run package tests: `cd <Package> && xcodebuild test -scheme <Package> -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`

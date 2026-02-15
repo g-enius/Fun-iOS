@@ -46,7 +46,7 @@ All modules except `FunApp` are Swift packages. `FunApp` is the Xcode project th
 **Dependency Hierarchy:**
 ```
 FunApp → Coordinator → UI → ViewModel → Model → Core
-            └──────→ Services ───────────────────┘
+  └────→ Services ─────────────────────→┘
 ```
 
 ## Key Patterns

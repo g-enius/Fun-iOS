@@ -7,30 +7,50 @@
 
 import Foundation
 
+public enum TechnologyItem: String, CaseIterable, Sendable {
+    case asyncAwait = "asyncawait"
+    case combine = "combine"
+    case swiftUI = "swiftui"
+    case coordinator = "coordinator"
+    case mvvm = "mvvm"
+    case spm = "spm"
+    case serviceLocator = "servicelocator"
+    case protocolOriented = "protocol"
+    case featureToggles = "featuretoggles"
+    case osLog = "oslog"
+    case swift6 = "swift6"
+    case swiftTesting = "swifttesting"
+    case snapshotTesting = "snapshot"
+    case accessibility = "accessibility"
+}
+
 public enum TechnologyDescriptions {
     public static func description(for itemId: String) -> String {
-        descriptions[itemId] ?? defaultDescription
+        guard let item = TechnologyItem(rawValue: itemId) else {
+            return defaultDescription
+        }
+        return descriptions[item] ?? defaultDescription
     }
 
     private static let defaultDescription = """
         This technology is used throughout the demo app to showcase modern iOS development practices.
         """
 
-    private static let descriptions: [String: String] = [
-        "asyncawait": asyncAwaitDescription,
-        "combine": combineDescription,
-        "swiftui": swiftUIDescription,
-        "coordinator": coordinatorDescription,
-        "mvvm": mvvmDescription,
-        "spm": spmDescription,
-        "servicelocator": serviceLocatorDescription,
-        "protocol": protocolDescription,
-        "featuretoggles": featureTogglesDescription,
-        "oslog": osLogDescription,
-        "swift6": swift6Description,
-        "swifttesting": swiftTestingDescription,
-        "snapshot": snapshotDescription,
-        "accessibility": accessibilityDescription
+    private static let descriptions: [TechnologyItem: String] = [
+        .asyncAwait: asyncAwaitDescription,
+        .combine: combineDescription,
+        .swiftUI: swiftUIDescription,
+        .coordinator: coordinatorDescription,
+        .mvvm: mvvmDescription,
+        .spm: spmDescription,
+        .serviceLocator: serviceLocatorDescription,
+        .protocolOriented: protocolDescription,
+        .featureToggles: featureTogglesDescription,
+        .osLog: osLogDescription,
+        .swift6: swift6Description,
+        .swiftTesting: swiftTestingDescription,
+        .snapshotTesting: snapshotDescription,
+        .accessibility: accessibilityDescription
     ]
 
     // MARK: - Descriptions
@@ -132,6 +152,12 @@ public enum TechnologyDescriptions {
         • ViewModel - Business logic
         • UI - SwiftUI views, UIKit controllers
         • Coordinator - Navigation logic
+
+        Dependency graph:
+        ```
+        FunApp → Coordinator → UI → ViewModel → Model → Core
+          └────→ Services ─────────────────────→┘
+        ```
 
         Benefits:
         • Clear dependency boundaries

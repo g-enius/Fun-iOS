@@ -13,12 +13,6 @@ import Testing
 @Suite("ServiceLocator Tests")
 struct ServiceLocatorTests {
 
-    @Test("ServiceLocator shared instance exists")
-    @MainActor
-    func serviceLocatorExists() {
-        #expect(ServiceLocator.shared != nil)
-    }
-
     @Test("Can register and resolve a service")
     @MainActor
     func registerAndResolve() {
