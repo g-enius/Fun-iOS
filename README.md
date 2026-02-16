@@ -6,9 +6,9 @@ A modern iOS application demonstrating clean architecture (MVVM-C), Swift Concur
 
 ## Screenshots
 
-| Home | Detail | Settings |
-|------|--------|----------|
-| ![Home](assets/screenshot-home.jpg) | ![Detail](assets/screenshot-detail.jpg) | ![Settings](assets/screenshot-settings.jpg) |
+| Home | Detail | Profile | Settings |
+|------|--------|---------|----------|
+| ![Home](assets/screenshot-home.jpg) | ![Detail](assets/screenshot-detail.jpg) | ![Profile](assets/screenshot-profile.jpg) | ![Settings](assets/screenshot-settings.jpg) |
 
 ## Demo
 
