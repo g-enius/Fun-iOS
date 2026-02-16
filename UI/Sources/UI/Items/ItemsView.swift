@@ -102,17 +102,14 @@ private struct ItemsContentView: View {
         } else if viewModel.hasError {
             Spacer()
             ItemsErrorStateView(onRetry: viewModel.retry)
-                .onTapGesture { isSearchFocused.wrappedValue = false }
             Spacer()
         } else if viewModel.needsMoreCharacters {
             Spacer()
             KeepTypingView(minimumCharacters: viewModel.minimumSearchCharacters)
-                .onTapGesture { isSearchFocused.wrappedValue = false }
             Spacer()
         } else if viewModel.items.isEmpty {
             Spacer()
             EmptyItemsView(message: emptyStateMessage)
-                .onTapGesture { isSearchFocused.wrappedValue = false }
             Spacer()
         } else {
             List {
