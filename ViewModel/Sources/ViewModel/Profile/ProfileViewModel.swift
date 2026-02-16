@@ -44,8 +44,8 @@ public class ProfileViewModel: ObservableObject {
 
     // MARK: - Actions
 
-    public func didTapSearchItems() {
-        logger.log("Search Items tapped from Profile")
+    public func didTapGoToItems() {
+        logger.log("Go to Items tapped from Profile")
         coordinator?.dismiss()
         // Use deep link to switch to Items tab (decoupled navigation)
         if let url = URL(string: "funapp://tab/items") {

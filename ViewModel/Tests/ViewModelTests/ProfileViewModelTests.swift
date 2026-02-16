@@ -86,14 +86,14 @@ struct ProfileViewModelTests {
         #expect(coordinator.didDismissCalled == true)
     }
 
-    // MARK: - Search Items Tests
+    // MARK: - Go to Items Tests
 
-    @Test("didTapSearchItems calls coordinator dismiss and openURL")
-    func testDidTapSearchItemsCallsCoordinator() async {
+    @Test("didTapGoToItems calls coordinator dismiss and openURL")
+    func testDidTapGoToItemsCallsCoordinator() async {
         let coordinator = MockProfileCoordinator()
         let viewModel = ProfileViewModel(coordinator: coordinator)
 
-        viewModel.didTapSearchItems()
+        viewModel.didTapGoToItems()
 
         #expect(coordinator.dismissCalled == true)
         #expect(coordinator.openURLCalled == true)

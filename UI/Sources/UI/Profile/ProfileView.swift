@@ -48,9 +48,9 @@ public struct ProfileView: View {
                         .padding(.horizontal)
                 }
 
-                Button(action: { viewModel.didTapSearchItems() }) {
+                Button(action: { viewModel.didTapGoToItems() }) {
                     HStack {
-                        Image(systemName: "magnifyingglass")
+                        Image(systemName: "list.bullet")
                         Text(L10n.Profile.searchItems)
                     }
                     .frame(maxWidth: .infinity)
@@ -60,7 +60,7 @@ public struct ProfileView: View {
                     .cornerRadius(10)
                 }
                 .accessibilityLabel(L10n.Profile.searchItems)
-                .accessibilityIdentifier(AccessibilityID.Profile.searchItemsButton)
+                .accessibilityIdentifier(AccessibilityID.Profile.goToItemsButton)
                 .padding(.horizontal)
 
                 HStack(spacing: 40) {
