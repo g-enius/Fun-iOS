@@ -50,38 +50,12 @@ jobs:
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO
 
-      - name: Run Core Tests
+      - name: Run Unit Tests
         run: |
           xcodebuild test \
             -workspace Fun.xcworkspace \
-            -scheme FunCore \
-            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
-            -configuration Debug \
-            CODE_SIGNING_ALLOWED=NO
-
-      - name: Run Model Tests
-        run: |
-          xcodebuild test \
-            -workspace Fun.xcworkspace \
-            -scheme FunModel \
-            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
-            -configuration Debug \
-            CODE_SIGNING_ALLOWED=NO
-
-      - name: Run Services Tests
-        run: |
-          xcodebuild test \
-            -workspace Fun.xcworkspace \
-            -scheme FunServices \
-            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
-            -configuration Debug \
-            CODE_SIGNING_ALLOWED=NO
-
-      - name: Run ViewModel Tests
-        run: |
-          xcodebuild test \
-            -workspace Fun.xcworkspace \
-            -scheme FunViewModel \
+            -scheme FunApp \
+            -skip-testing UITests \
             -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO
@@ -91,7 +65,8 @@ jobs:
         run: |
           xcodebuild test \
             -workspace Fun.xcworkspace \
-            -scheme FunUI \
+            -scheme FunApp \
+            -only-testing UITests \
             -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO
