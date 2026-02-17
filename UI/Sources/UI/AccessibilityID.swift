@@ -12,6 +12,12 @@ public enum AccessibilityID {
         public static let loginButton = "login_button"
     }
 
+    public enum Tabs {
+        public static let home = "tab_home"
+        public static let items = "tab_items"
+        public static let settings = "tab_settings"
+    }
+
     public enum Home {
         public static let carousel = "home_carousel"
         public static let profileButton = "home_profile_button"

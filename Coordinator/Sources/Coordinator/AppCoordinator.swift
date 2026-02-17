@@ -98,18 +98,21 @@ public final class AppCoordinator: BaseCoordinator {
             image: UIImage(systemName: "house"),
             selectedImage: UIImage(systemName: "house.fill")
         )
+        homeNavController.tabBarItem.accessibilityIdentifier = AccessibilityID.Tabs.home
 
         itemsNavController.tabBarItem = UITabBarItem(
             title: L10n.Tabs.items,
             image: UIImage(systemName: "list.bullet"),
             selectedImage: UIImage(systemName: "list.bullet")
         )
+        itemsNavController.tabBarItem.accessibilityIdentifier = AccessibilityID.Tabs.items
 
         settingsNavController.tabBarItem = UITabBarItem(
             title: L10n.Tabs.settings,
             image: UIImage(systemName: "gearshape"),
             selectedImage: UIImage(systemName: "gearshape.fill")
         )
+        settingsNavController.tabBarItem.accessibilityIdentifier = AccessibilityID.Tabs.settings
 
         // Create view model for tab bar
         let tabBarViewModel = HomeTabBarViewModel()
