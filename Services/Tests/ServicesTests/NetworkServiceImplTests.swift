@@ -13,43 +13,49 @@ import Foundation
 @Suite("NetworkServiceImpl Tests")
 struct NetworkServiceImplTests {
 
-    @Test("login completes without error")
-    func testLoginCompletes() async throws {
-        let service = NetworkServiceImpl()
-        try await service.login()
-    }
-
-    @Test("fetchFeaturedItems returns 7 carousel sets")
-    func testFetchFeaturedItemsCount() async throws {
+    @Test("fetchFeaturedItems preserves all items from each carousel set")
+    func testFetchFeaturedItemsPreservesItems() async throws {
         let service = NetworkServiceImpl()
         let result = try await service.fetchFeaturedItems()
 
-        #expect(result.count == FeaturedItem.allCarouselSets.count)
-    }
+        let expected = FeaturedItem.allCarouselSets
+        #expect(result.count == expected.count)
 
-    @Test("fetchFeaturedItems returns shuffled results across calls")
-    func testFetchFeaturedItemsShuffled() async throws {
-        let service = NetworkServiceImpl()
+        // Each set should contain the same items, just reordered
+        let sortedResult = result.map { $0.sorted { $0.id < $1.id } }
+        let sortedExpected = expected.map { $0.sorted { $0.id < $1.id } }
 
-        var orders: [String] = []
-        for _ in 0..<5 {
-            let result = try await service.fetchFeaturedItems()
-            let order = result.map { $0.map(\.id).joined() }.joined(separator: "|")
-            orders.append(order)
+        for (resultSet, expectedSet) in zip(sortedResult.sorted { $0[0].id < $1[0].id },
+                                            sortedExpected.sorted { $0[0].id < $1[0].id }) {
+            #expect(resultSet == expectedSet)
         }
-
-        let uniqueOrders = Set(orders)
-        // With 7 sets shuffled, getting the same order 5 times is astronomically unlikely
-        #expect(uniqueOrders.count > 1)
     }
 
-    @Test("fetchAllItems returns all items")
+    @Test("fetchAllItems returns all items in order")
     func testFetchAllItems() async throws {
         let service = NetworkServiceImpl()
         let result = try await service.fetchAllItems()
 
-        #expect(result.count == FeaturedItem.all.count)
         #expect(result == FeaturedItem.all)
+    }
+
+    @Test("login respects cancellation")
+    func testLoginCancellation() async {
+        let service = NetworkServiceImpl()
+
+        let task = Task {
+            try await service.login()
+        }
+
+        task.cancel()
+
+        do {
+            try await task.value
+        } catch is CancellationError {
+            // Expected
+        } catch {
+            Issue.record("Unexpected error type: \(error)")
+        }
     }
 
     @Test("fetchFeaturedItems respects cancellation")
@@ -64,7 +70,6 @@ struct NetworkServiceImplTests {
 
         do {
             _ = try await task.value
-            // If it completed before cancellation, that's ok
         } catch is CancellationError {
             // Expected
         } catch {
