@@ -21,6 +21,7 @@ final class ProfileViewSnapshotTests: XCTestCase {
     override func setUp() async throws {
         ServiceLocator.shared.reset()
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
+        ServiceLocator.shared.register(MockNetworkService(), for: .network)
         ServiceLocator.shared.register(MockFavoritesService(initialFavorites: ["asyncawait", "swiftui"]), for: .favorites)
     }
 

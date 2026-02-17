@@ -7,8 +7,7 @@
 
 import Foundation
 
-@MainActor
-public protocol NetworkService {
-    func fetch<T: Decodable>(from url: URL) async throws -> T
-    func fetchData(from url: URL) async throws -> Data
+public protocol NetworkService: Sendable {
+    func fetchFeaturedItems() async throws -> [[FeaturedItem]]
+    func fetchAllItems() async throws -> [FeaturedItem]
 }

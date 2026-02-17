@@ -18,7 +18,7 @@ public final class AuthenticatedSession: Session {
     public func activate() {
         let locator = ServiceLocator.shared
         locator.register(DefaultLoggerService(), for: .logger)
-        locator.register(DefaultNetworkService(), for: .network)
+        locator.register(NetworkServiceImpl(), for: .network)
         locator.register(DefaultFavoritesService(), for: .favorites)
         locator.register(DefaultToastService(), for: .toast)
         locator.register(DefaultFeatureToggleService(), for: .featureToggles)

@@ -21,6 +21,7 @@ struct ItemsViewModelTests {
     private func setupServices(initialFavorites: Set<String> = [], simulateErrors: Bool = false) {
         ServiceLocator.shared.reset()
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
+        ServiceLocator.shared.register(MockNetworkService(), for: .network)
         ServiceLocator.shared.register(MockFavoritesService(initialFavorites: initialFavorites), for: .favorites)
         ServiceLocator.shared.register(MockFeatureToggleService(simulateErrors: simulateErrors), for: .featureToggles)
         ServiceLocator.shared.register(MockToastService(), for: .toast)
@@ -32,6 +33,7 @@ struct ItemsViewModelTests {
     func testItemsLoadedOnInit() async {
         setupServices()
         let viewModel = ItemsViewModel(coordinator: nil)
+        await viewModel.loadItems()
 
         #expect(viewModel.items.isEmpty == false)
     }
@@ -74,6 +76,7 @@ struct ItemsViewModelTests {
     func testCategoriesIncludeAll() async {
         setupServices()
         let viewModel = ItemsViewModel(coordinator: nil)
+        await viewModel.loadItems()
 
         #expect(viewModel.categories.first == "All")
     }
@@ -82,6 +85,7 @@ struct ItemsViewModelTests {
     func testSelectCategoryUpdatesState() async throws {
         setupServices()
         let viewModel = ItemsViewModel(coordinator: nil)
+        await viewModel.loadItems()
 
         let categories = viewModel.categories
         try #require(categories.count > 1)
@@ -96,6 +100,7 @@ struct ItemsViewModelTests {
     func testSelectAllShowsAllItems() async {
         setupServices()
         let viewModel = ItemsViewModel(coordinator: nil)
+        await viewModel.loadItems()
 
         // Get initial item count (with All selected)
         let allItemsCount = viewModel.items.count
@@ -212,6 +217,7 @@ struct ItemsViewModelTests {
         setupServices()
         let mockCoordinator = MockTabCoordinator()
         let viewModel = ItemsViewModel(coordinator: mockCoordinator)
+        await viewModel.loadItems()
 
         let item = try #require(viewModel.items.first)
 
@@ -227,6 +233,7 @@ struct ItemsViewModelTests {
     func testCategoryFilterReducesItems() async {
         setupServices()
         let viewModel = ItemsViewModel(coordinator: nil)
+        await viewModel.loadItems()
 
         let allItemsCount = viewModel.items.count
 
@@ -251,6 +258,7 @@ struct ItemsViewModelTests {
     func testFilteredItemsMatchCategory() async {
         setupServices()
         let viewModel = ItemsViewModel(coordinator: nil)
+        await viewModel.loadItems()
 
         let categories = viewModel.categories.filter { $0 != "All" }
         guard let testCategory = categories.first else {

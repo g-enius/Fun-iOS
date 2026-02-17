@@ -21,6 +21,7 @@ public class ItemsViewModel: ObservableObject {
     // MARK: - Services
 
     @Service(.logger) private var logger: LoggerService
+    @Service(.network) private var networkService: NetworkService
     @Service(.favorites) private var favoritesService: FavoritesServiceProtocol
     @Service(.toast) private var toastService: ToastServiceProtocol
     @Service(.featureToggles) private var featureToggleService: FeatureToggleServiceProtocol
@@ -46,18 +47,23 @@ public class ItemsViewModel: ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
     private var allItems: [FeaturedItem] = []
+    private var loadTask: Task<Void, Never>?
     private var searchTask: Task<Void, Never>?
 
     // MARK: - Initialization
 
     public init(coordinator: ItemsCoordinator?) {
         self.coordinator = coordinator
-        loadItems()
         observeFavoritesChanges()
         setupSearchBinding()
+
+        loadTask = Task { [weak self] in
+            await self?.loadItems()
+        }
     }
 
     deinit {
+        loadTask?.cancel()
         searchTask?.cancel()
     }
 
@@ -107,9 +113,8 @@ public class ItemsViewModel: ObservableObject {
 
     // MARK: - Data Loading
 
-    public func loadItems() {
-        // Use the same items as the carousel for consistency
-        allItems = FeaturedItem.allCarouselSets.flatMap { $0 }
+    public func loadItems() async {
+        allItems = (try? await networkService.fetchAllItems()) ?? []
         let cats = Set(allItems.map { $0.category })
         categories = [L10n.Items.categoryAll] + cats.sorted()
 

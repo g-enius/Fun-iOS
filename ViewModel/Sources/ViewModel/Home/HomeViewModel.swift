@@ -21,6 +21,7 @@ public class HomeViewModel: ObservableObject {
     // MARK: - Services
 
     @Service(.logger) private var logger: LoggerService
+    @Service(.network) private var networkService: NetworkService
     @Service(.favorites) private var favoritesService: FavoritesServiceProtocol
     @Service(.toast) private var toastService: ToastServiceProtocol
 
@@ -113,14 +114,9 @@ public class HomeViewModel: ObservableObject {
         hasError = false
         logger.log("Loading featured items...")
 
-        // Simulate network delay (1-2s); try? ignores cancellation so
-        // SwiftUI's .refreshable always completes the load even if the
-        // user releases the drag early.
-        let delay = UInt64.random(in: 1_000_000_000...2_000_000_000)
-        try? await Task.sleep(nanoseconds: delay)
-
-        // Shuffle carousel sets and items within each set to simulate fresh API data
-        featuredItems = FeaturedItem.allCarouselSets.shuffled().map { $0.shuffled() }
+        // try? ignores cancellation so SwiftUI's .refreshable always
+        // completes the load even if the user releases the drag early.
+        featuredItems = (try? await networkService.fetchFeaturedItems()) ?? []
         isLoading = false
         hasLoadedInitialData = true
 

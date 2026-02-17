@@ -15,7 +15,7 @@ public final class LoginSession: Session {
     public func activate() {
         let locator = ServiceLocator.shared
         locator.register(DefaultLoggerService(), for: .logger)
-        locator.register(DefaultNetworkService(), for: .network)
+        locator.register(NetworkServiceImpl(), for: .network)
         locator.register(DefaultFeatureToggleService(), for: .featureToggles)
     }
 

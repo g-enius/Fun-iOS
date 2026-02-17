@@ -21,6 +21,7 @@ final class ItemsViewSnapshotTests: XCTestCase {
     override func setUp() async throws {
         ServiceLocator.shared.reset()
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
+        ServiceLocator.shared.register(MockNetworkService(), for: .network)
         ServiceLocator.shared.register(MockFavoritesService(), for: .favorites)
         ServiceLocator.shared.register(MockFeatureToggleService(), for: .featureToggles)
         ServiceLocator.shared.register(MockToastService(), for: .toast)
@@ -29,8 +30,9 @@ final class ItemsViewSnapshotTests: XCTestCase {
     // Set to true to regenerate snapshots, then set back to false
     private var recording: Bool { false }
 
-    func testItemsView_defaultState() {
+    func testItemsView_defaultState() async {
         let viewModel = ItemsViewModel(coordinator: nil)
+        await viewModel.loadItems()
 
         let view = ItemsView(viewModel: viewModel)
         let hostingController = UIHostingController(rootView: view)
@@ -39,8 +41,9 @@ final class ItemsViewSnapshotTests: XCTestCase {
         assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro), record: recording)
     }
 
-    func testItemsView_withSearchText() {
+    func testItemsView_withSearchText() async {
         let viewModel = ItemsViewModel(coordinator: nil)
+        await viewModel.loadItems()
         viewModel.searchText = "swift"
 
         let view = ItemsView(viewModel: viewModel)
@@ -50,8 +53,9 @@ final class ItemsViewSnapshotTests: XCTestCase {
         assertSnapshot(of: hostingController, as: .image(on: .iPhone13Pro), record: recording)
     }
 
-    func testItemsView_darkMode() {
+    func testItemsView_darkMode() async {
         let viewModel = ItemsViewModel(coordinator: nil)
+        await viewModel.loadItems()
 
         let view = ItemsView(viewModel: viewModel)
         let hostingController = UIHostingController(rootView: view)

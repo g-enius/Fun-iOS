@@ -48,6 +48,7 @@ struct HomeViewModelTests {
     ) {
         ServiceLocator.shared.reset()
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
+        ServiceLocator.shared.register(MockNetworkService(), for: .network)
         ServiceLocator.shared.register(MockFavoritesService(initialFavorites: initialFavorites), for: .favorites)
         ServiceLocator.shared.register(MockFeatureToggleService(featuredCarousel: featuredCarousel, simulateErrors: simulateErrors), for: .featureToggles)
         ServiceLocator.shared.register(MockToastService(), for: .toast)
@@ -100,6 +101,7 @@ struct HomeViewModelTests {
         let mockToast = MockToastService()
         ServiceLocator.shared.reset()
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
+        ServiceLocator.shared.register(MockNetworkService(), for: .network)
         ServiceLocator.shared.register(MockFavoritesService(), for: .favorites)
         ServiceLocator.shared.register(MockFeatureToggleService(featuredCarousel: true, simulateErrors: true), for: .featureToggles)
         ServiceLocator.shared.register(mockToast, for: .toast)
@@ -208,6 +210,7 @@ struct HomeViewModelTests {
     func testMockFeatureToggleAppearanceMode() async {
         ServiceLocator.shared.reset()
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
+        ServiceLocator.shared.register(MockNetworkService(), for: .network)
         ServiceLocator.shared.register(MockFavoritesService(), for: .favorites)
         ServiceLocator.shared.register(MockFeatureToggleService(appearanceMode: .dark), for: .featureToggles)
         ServiceLocator.shared.register(MockToastService(), for: .toast)

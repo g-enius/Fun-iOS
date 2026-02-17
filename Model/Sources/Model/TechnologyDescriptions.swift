@@ -172,7 +172,7 @@ public enum TechnologyDescriptions {
         Registration (in SceneDelegate):
         ```swift
         ServiceLocator.shared.register(
-            DefaultNetworkService(),
+            NetworkServiceImpl(),
             for: .network
         )
         ```

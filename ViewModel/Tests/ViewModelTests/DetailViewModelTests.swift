@@ -25,6 +25,7 @@ struct DetailViewModelTests {
     ) {
         ServiceLocator.shared.reset()
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
+        ServiceLocator.shared.register(MockNetworkService(), for: .network)
         ServiceLocator.shared.register(MockFavoritesService(initialFavorites: initialFavorites), for: .favorites)
         ServiceLocator.shared.register(featureToggleService, for: .featureToggles)
         ServiceLocator.shared.register(MockToastService(), for: .toast)

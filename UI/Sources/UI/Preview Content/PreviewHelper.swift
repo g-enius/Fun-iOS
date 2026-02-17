@@ -31,6 +31,7 @@ public enum PreviewHelper {
 
         let toggles = PreviewFeatureToggleService()
         locator.register(toggles as FeatureToggleServiceProtocol, for: .featureToggles)
+        locator.register(PreviewNetworkService() as NetworkService, for: .network)
         locator.register(PreviewToastService() as ToastServiceProtocol, for: .toast)
         locator.register(PreviewAIService() as AIServiceProtocol, for: .ai)
 
@@ -122,6 +123,12 @@ private final class PreviewAIService: AIServiceProtocol {
     func summarize(_ text: String) async throws -> String {
         "This is a preview summary of the technology feature."
     }
+}
+
+@MainActor
+private final class PreviewNetworkService: NetworkService {
+    func fetchFeaturedItems() async throws -> [[FeaturedItem]] { FeaturedItem.allCarouselSets }
+    func fetchAllItems() async throws -> [FeaturedItem] { FeaturedItem.all }
 }
 
 @MainActor

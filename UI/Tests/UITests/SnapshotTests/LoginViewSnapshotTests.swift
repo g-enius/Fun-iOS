@@ -20,6 +20,7 @@ final class LoginViewSnapshotTests: XCTestCase {
     override func setUp() async throws {
         ServiceLocator.shared.reset()
         ServiceLocator.shared.register(MockLoggerService(), for: .logger)
+        ServiceLocator.shared.register(MockNetworkService(), for: .network)
     }
 
     // Set to true to regenerate snapshots, then set back to false
