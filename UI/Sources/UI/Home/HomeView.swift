@@ -216,7 +216,7 @@ private struct FeaturedCardView: View {
                 .cornerRadius(12)
                 .contentShape(Rectangle())
             }
-            .buttonStyle(.plain)
+            .buttonStyle(PressableButtonStyle())
 
             Button(action: onFavoriteTap) {
                 Image(systemName: isFavorited ? "star.fill" : "star")
@@ -225,7 +225,7 @@ private struct FeaturedCardView: View {
                     .symbolReplaceTransition()
                     .padding(12)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(PressableButtonStyle(.scale(0.85)))
             .symbolBounceEffect(value: isFavorited)
             .selectionFeedback(trigger: isFavorited)
             .accessibilityIdentifier("favorite_button_\(item.id)")

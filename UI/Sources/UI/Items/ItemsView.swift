@@ -175,7 +175,7 @@ private struct ItemRowView: View {
                         .foregroundColor(isFavorited ? .yellow : .gray)
                         .symbolReplaceTransition()
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(PressableButtonStyle(.scale(0.85)))
                 .symbolBounceEffect(value: isFavorited)
                 .selectionFeedback(trigger: isFavorited)
                 .accessibilityIdentifier("favorite_button_\(item.id)")
