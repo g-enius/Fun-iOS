@@ -23,6 +23,8 @@ public actor NetworkServiceImpl: NetworkService {
     }
 
     public func fetchAllItems() async throws -> [FeaturedItem] {
-        FeaturedItem.all
+        let delay = UInt64.random(in: 500_000_000...1_000_000_000)
+        try await Task.sleep(nanoseconds: delay)
+        return FeaturedItem.all
     }
 }
